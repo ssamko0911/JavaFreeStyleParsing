@@ -2,7 +2,7 @@ package enums;
 
 public enum FrameLabel {
     CHOOSE_FILE("Load file"),
-    CLEAN_CONTENT("Removed content from textarea"),
+    CLEAN_CONTENT("Remove"),
     APP_TITLE("FileChooser App");
 
     private final String label;
