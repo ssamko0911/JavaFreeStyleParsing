@@ -13,6 +13,7 @@ public class FileChooserApp extends JFrame {
     private JPanel contentPane;
     private JTextArea textArea;
     private JButton chooseFileButton;
+    private JButton clearTextButton;
     private JScrollPane scrollPane;
 
     private static AppLogger logger = AppLogger.getInstance();
@@ -37,6 +38,7 @@ public class FileChooserApp extends JFrame {
     private void initComponents() {
         this.contentPane = new JPanel();
         this.chooseFileButton = new JButton(FrameLabel.CHOOSE_FILE.getLabel());
+        this.clearTextButton = new JButton(FrameLabel.CLEAN_CONTENT.getLabel());
         this.textArea = new JTextArea(
                 FileChooserAppConfig.getInt("app.textAreaRows", 30),
                 FileChooserAppConfig.getInt("app.textAreaCols", 30)
@@ -52,12 +54,19 @@ public class FileChooserApp extends JFrame {
     private void layoutComponents() {
         this.setResizable(false);
         this.contentPane.add(this.chooseFileButton);
+        this.contentPane.add(this.clearTextButton);
         this.contentPane.add(this.scrollPane);
         this.setContentPane(this.contentPane);
     }
 
     private void attachListeners() {
         this.chooseFileButton.addActionListener(_ -> this.handleFileSelection());
+        this.clearTextButton.addActionListener(_ -> this.handleCleanContent());
+    }
+
+    private void handleCleanContent() {
+        this.textArea.setText("");
+        logger.info(FrameLabel.CLEAN_CONTENT.getLabel());
     }
 
     private void handleFileSelection() {
