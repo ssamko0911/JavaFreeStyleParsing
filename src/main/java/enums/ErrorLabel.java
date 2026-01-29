@@ -1,6 +1,7 @@
 package enums;
 
 public enum ErrorLabel {
+    ERROR("Error"),
     APP_ERROR("An error occurred. Try again later."),
     FILE_NOT_FOUND("File Not Found."),
     CONFIG_FILE("application.properties"),

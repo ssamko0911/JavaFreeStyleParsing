@@ -2,16 +2,12 @@ import config.FileChooserAppConfig;
 import enums.ErrorLabel;
 import enums.FrameLabel;
 import enums.LogLabel;
+import util.AppLogger;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class FileChooserApp extends JFrame {
     private JPanel contentPane;
@@ -19,7 +15,7 @@ public class FileChooserApp extends JFrame {
     private JButton chooseFileButton;
     private JScrollPane scrollPane;
 
-    private Logger appLogger;
+    private static AppLogger logger = AppLogger.getInstance();
 
     public FileChooserApp() {
         this.setTitle(FrameLabel.APP_TITLE.getLabel());
@@ -29,22 +25,7 @@ public class FileChooserApp extends JFrame {
                 FileChooserAppConfig.getInt("app.height", 600)
         );
         this.initAppComponents();
-        this.initLogger();
-    }
-
-    private void initLogger() {
-        this.appLogger = Logger.getLogger(FileChooserAppConfig.class.getName());
-        this.appLogger.setLevel(Level.INFO);
-        try {
-            FileHandler fileHandler = new FileHandler(FileChooserAppConfig.getString("app.logFile"));
-            SimpleFormatter formatter = new SimpleFormatter();
-            fileHandler.setFormatter(formatter);
-            this.appLogger.addHandler(fileHandler);
-        } catch (SecurityException | IOException e) {
-            // TODO: Label for error
-            this.appLogger.log(Level.SEVERE, ErrorLabel.APP_ERROR.getLabel(), e);
-        }
-
+        logger.info(LogLabel.APP_INIT.getLabel());
     }
 
     private void initAppComponents() {
@@ -83,14 +64,14 @@ public class FileChooserApp extends JFrame {
         JFileChooser fileChooser = new JFileChooser();
 
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            this.appLogger.log(Level.INFO, LogLabel.SELECT_FILE.getLabel() + fileChooser.getSelectedFile().getAbsolutePath());
+            logger.info(LogLabel.SELECT_FILE.getLabel() + fileChooser.getSelectedFile().getAbsolutePath());
             File file = fileChooser.getSelectedFile();
             this.loadFile(file);
         }
     }
 
     private void loadFile(File file) {
-        this.appLogger.log(Level.INFO, LogLabel.LOAD_FILE.getLabel() + file.getAbsolutePath());
+        logger.info(LogLabel.LOAD_FILE.getLabel() + file.getAbsolutePath());
         try (Scanner fileReader = new Scanner(file)) {
             StringBuilder content = new StringBuilder();
 
@@ -100,9 +81,14 @@ public class FileChooserApp extends JFrame {
 
             this.textArea.setText(content.toString());
         } catch (FileNotFoundException e) {
-            this.appLogger.log(Level.SEVERE, ErrorLabel.FILE_NOT_FOUND.getLabel(), e);
+            logger.severe(ErrorLabel.FILE_NOT_FOUND.getLabel(), e);
             this.textArea.setText(ErrorLabel.FILE_NOT_FOUND.getLabel());
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(
+                    this,
+                    ErrorLabel.FILE_NOT_FOUND.getLabel(),
+                    ErrorLabel.ERROR.getLabel(),
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 }
