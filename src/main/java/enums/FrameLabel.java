@@ -3,7 +3,11 @@ package enums;
 public enum FrameLabel {
     CHOOSE_FILE("Load file"),
     CLEAN_CONTENT("Remove"),
-    APP_TITLE("FileChooser App");
+    APP_TITLE("FileChooser App"),
+    READY("Ready"),
+    LOADING("Loading "),
+    LOADED("Loaded: "),
+    FILE_INFO("%s (%s  bytes)");
 
     private final String label;
 

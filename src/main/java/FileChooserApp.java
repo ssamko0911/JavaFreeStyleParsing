@@ -5,6 +5,7 @@ import enums.LogLabel;
 import util.AppLogger;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -15,8 +16,9 @@ public class FileChooserApp extends JFrame {
     private JButton chooseFileButton;
     private JButton clearTextButton;
     private JScrollPane scrollPane;
+    private JLabel statusBar;
 
-    private static AppLogger logger = AppLogger.getInstance();
+    private static final AppLogger logger = AppLogger.getInstance();
 
     public FileChooserApp() {
         this.setTitle(FrameLabel.APP_TITLE.getLabel());
@@ -49,6 +51,8 @@ public class FileChooserApp extends JFrame {
         this.scrollPane = new JScrollPane(this.textArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.statusBar = new JLabel(FrameLabel.READY.getLabel());
+        this.statusBar.setBorder((BorderFactory.createEtchedBorder()));
     }
 
     private void layoutComponents() {
@@ -57,6 +61,7 @@ public class FileChooserApp extends JFrame {
         this.contentPane.add(this.clearTextButton);
         this.contentPane.add(this.scrollPane);
         this.setContentPane(this.contentPane);
+        this.add(this.statusBar, BorderLayout.SOUTH);
     }
 
     private void attachListeners() {
@@ -66,6 +71,7 @@ public class FileChooserApp extends JFrame {
 
     private void handleCleanContent() {
         this.textArea.setText("");
+        this.statusBar.setText(FrameLabel.READY.getLabel());
         logger.info(FrameLabel.CLEAN_CONTENT.getLabel());
     }
 
@@ -80,7 +86,9 @@ public class FileChooserApp extends JFrame {
     }
 
     private void loadFile(File file) {
+        this.statusBar.setText(FrameLabel.LOADING.getLabel() + file.getName());
         logger.info(LogLabel.LOAD_FILE.getLabel() + file.getAbsolutePath());
+
         try (Scanner fileReader = new Scanner(file)) {
             StringBuilder content = new StringBuilder();
 
@@ -89,9 +97,10 @@ public class FileChooserApp extends JFrame {
             }
 
             this.textArea.setText(content.toString());
+            this.statusBar.setText(FrameLabel.LOADED.getLabel() + String.format(FrameLabel.FILE_INFO.getLabel(), file.getName(), file.length()));
         } catch (FileNotFoundException e) {
+            this.statusBar.setText(ErrorLabel.FILE_NOT_FOUND.getLabel());
             logger.severe(ErrorLabel.FILE_NOT_FOUND.getLabel(), e);
-            this.textArea.setText(ErrorLabel.FILE_NOT_FOUND.getLabel());
             JOptionPane.showMessageDialog(
                     this,
                     ErrorLabel.FILE_NOT_FOUND.getLabel(),
