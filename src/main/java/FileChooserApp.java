@@ -5,13 +5,20 @@ import enums.FrameLabels;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class FileChooserApp extends JFrame {
     private JPanel contentPane;
     private JTextArea textArea;
     private JButton chooseFileButton;
     private JScrollPane scrollPane;
+
+    private Logger appLogger;
 
     public FileChooserApp() {
         this.setTitle(FrameLabels.APP_TITLE.getLabel());
@@ -21,6 +28,23 @@ public class FileChooserApp extends JFrame {
                 FileChooserAppConfig.getInt("app.height", 600)
         );
         this.initAppComponents();
+        this.initLogger();
+    }
+
+    private void initLogger() {
+        this.appLogger = Logger.getLogger(FileChooserAppConfig.class.getName());
+        this.appLogger.setLevel(Level.INFO);
+        try {
+            FileHandler fileHandler = new FileHandler(FileChooserAppConfig.getString("app.logFile"));
+            SimpleFormatter formatter = new SimpleFormatter();
+            fileHandler.setFormatter(formatter);
+            this.appLogger.addHandler(fileHandler);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initAppComponents() {
@@ -59,12 +83,14 @@ public class FileChooserApp extends JFrame {
         JFileChooser fileChooser = new JFileChooser();
 
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            this.appLogger.log(Level.INFO, "Selected file: " + fileChooser.getSelectedFile().getAbsolutePath());
             File file = fileChooser.getSelectedFile();
             this.loadFile(file);
         }
     }
 
     private void loadFile(File file) {
+        this.appLogger.log(Level.INFO, "Loading file: " + file.getAbsolutePath());
         try (Scanner fileReader = new Scanner(file)) {
             StringBuilder content = new StringBuilder();
 
@@ -74,6 +100,7 @@ public class FileChooserApp extends JFrame {
 
             this.textArea.setText(content.toString());
         } catch (FileNotFoundException e) {
+            this.appLogger.log(Level.SEVERE, ErrorLabels.FILE_NOT_FOUND.getLabel(), e);
             this.textArea.setText(ErrorLabels.FILE_NOT_FOUND.getLabel());
             throw new RuntimeException(e);
         }
