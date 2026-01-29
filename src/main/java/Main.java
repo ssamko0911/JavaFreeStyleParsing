@@ -7,6 +7,7 @@ import javax.swing.*;
 
 void main() {
     FlatDarkLaf.setup();
+
     AppLogger logger = AppLogger.getInstance();
     logger.info(LogLabel.APP_START.getLabel());
 
@@ -17,7 +18,6 @@ void main() {
         });
     } catch (Exception e) {
         System.err.println(ErrorLabel.APP_ERROR.getLabel());
-        // TODO:add global logging
         e.printStackTrace();
     }
 }
