@@ -52,7 +52,7 @@ public class FileChooserApp extends JFrame {
     }
 
     private void attachListeners() {
-        this.chooseFileButton.addActionListener(e -> this.handleFileSelection());
+        this.chooseFileButton.addActionListener(_ -> this.handleFileSelection());
     }
 
     private void handleFileSelection() {
