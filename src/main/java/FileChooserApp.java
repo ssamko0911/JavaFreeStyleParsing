@@ -1,6 +1,7 @@
 import config.FileChooserAppConfig;
-import enums.ErrorLabels;
-import enums.FrameLabels;
+import enums.ErrorLabel;
+import enums.FrameLabel;
+import enums.LogLabel;
 
 import javax.swing.*;
 import java.io.File;
@@ -21,7 +22,7 @@ public class FileChooserApp extends JFrame {
     private Logger appLogger;
 
     public FileChooserApp() {
-        this.setTitle(FrameLabels.APP_TITLE.getLabel());
+        this.setTitle(FrameLabel.APP_TITLE.getLabel());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(
                 FileChooserAppConfig.getInt("app.width", 500),
@@ -55,7 +56,7 @@ public class FileChooserApp extends JFrame {
 
     private void initComponents() {
         this.contentPane = new JPanel();
-        this.chooseFileButton = new JButton(FrameLabels.CHOOSE_FILE.getLabel());
+        this.chooseFileButton = new JButton(FrameLabel.CHOOSE_FILE.getLabel());
         this.textArea = new JTextArea(
                 FileChooserAppConfig.getInt("app.textAreaRows", 30),
                 FileChooserAppConfig.getInt("app.textAreaCols", 30)
@@ -83,14 +84,14 @@ public class FileChooserApp extends JFrame {
         JFileChooser fileChooser = new JFileChooser();
 
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            this.appLogger.log(Level.INFO, "Selected file: " + fileChooser.getSelectedFile().getAbsolutePath());
+            this.appLogger.log(Level.INFO, LogLabel.SELECT_FILE.getLabel() + fileChooser.getSelectedFile().getAbsolutePath());
             File file = fileChooser.getSelectedFile();
             this.loadFile(file);
         }
     }
 
     private void loadFile(File file) {
-        this.appLogger.log(Level.INFO, "Loading file: " + file.getAbsolutePath());
+        this.appLogger.log(Level.INFO, LogLabel.LOAD_FILE.getLabel() + file.getAbsolutePath());
         try (Scanner fileReader = new Scanner(file)) {
             StringBuilder content = new StringBuilder();
 
@@ -100,8 +101,8 @@ public class FileChooserApp extends JFrame {
 
             this.textArea.setText(content.toString());
         } catch (FileNotFoundException e) {
-            this.appLogger.log(Level.SEVERE, ErrorLabels.FILE_NOT_FOUND.getLabel(), e);
-            this.textArea.setText(ErrorLabels.FILE_NOT_FOUND.getLabel());
+            this.appLogger.log(Level.SEVERE, ErrorLabel.FILE_NOT_FOUND.getLabel(), e);
+            this.textArea.setText(ErrorLabel.FILE_NOT_FOUND.getLabel());
             throw new RuntimeException(e);
         }
     }

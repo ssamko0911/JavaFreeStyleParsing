@@ -1,12 +1,12 @@
 package enums;
 
-public enum FrameLabels {
+public enum FrameLabel {
     CHOOSE_FILE("Load file"),
     APP_TITLE("FileChooser App");
 
     private final String label;
 
-    FrameLabels(String label) {
+    FrameLabel(String label) {
         this.label = label;
     }
 

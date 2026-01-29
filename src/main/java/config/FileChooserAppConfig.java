@@ -1,6 +1,6 @@
 package config;
 
-import enums.ErrorLabels;
+import enums.ErrorLabel;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,14 +10,14 @@ public class FileChooserAppConfig {
     private static final Properties props = new Properties();
 
     static {
-        try (InputStream input = FileChooserAppConfig.class.getClassLoader().getResourceAsStream(ErrorLabels.CONFIG_FILE.getLabel())) {
+        try (InputStream input = FileChooserAppConfig.class.getClassLoader().getResourceAsStream(ErrorLabel.CONFIG_FILE.getLabel())) {
             if (input == null) {
-                throw new RuntimeException(ErrorLabels.CONFIG_FILE_ERROR.getLabel());
+                throw new RuntimeException(ErrorLabel.CONFIG_FILE_ERROR.getLabel());
             }
 
             props.load(input);
         } catch (IOException e) {
-            throw new RuntimeException(ErrorLabels.CONFIG_ERROR.getLabel());
+            throw new RuntimeException(ErrorLabel.CONFIG_ERROR.getLabel());
         }
     }
 

@@ -1,6 +1,6 @@
 package enums;
 
-public enum ErrorLabels {
+public enum ErrorLabel {
     APP_ERROR("An error occurred. Try again later."),
     FILE_NOT_FOUND("File Not Found."),
     CONFIG_FILE("application.properties"),
@@ -9,7 +9,7 @@ public enum ErrorLabels {
 
     private final String label;
 
-    ErrorLabels(String label) {
+    ErrorLabel(String label) {
         this.label = label;
     }
 
