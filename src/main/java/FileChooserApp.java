@@ -40,10 +40,9 @@ public class FileChooserApp extends JFrame {
             SimpleFormatter formatter = new SimpleFormatter();
             fileHandler.setFormatter(formatter);
             this.appLogger.addHandler(fileHandler);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (SecurityException | IOException e) {
+            // TODO: Label for error
+            this.appLogger.log(Level.SEVERE, ErrorLabel.APP_ERROR.getLabel(), e);
         }
 
     }
