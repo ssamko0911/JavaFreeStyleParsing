@@ -30,7 +30,7 @@ public class FileChooseController {
         JFileChooser fileChooser = new JFileChooser();
 
         if (fileChooser.showOpenDialog(this.parentFrame) == JFileChooser.APPROVE_OPTION) {
-            this.logger.info(LogLabel.SELECT_FILE.getLabel() + fileChooser.getSelectedFile().getAbsolutePath());
+            this.logger.info(String.format(LogLabel.SELECT_FILE.getLabel(), fileChooser.getSelectedFile().getAbsolutePath()));
             File file = fileChooser.getSelectedFile();
             this.loadFile(file);
         }
@@ -44,7 +44,7 @@ public class FileChooseController {
 
     private void loadFile(File file) {
         this.statusBarManager.setLoading(file.getName());
-        this.logger.info(LogLabel.LOAD_FILE.getLabel() + file.getAbsolutePath());
+        this.logger.info(String.format(LogLabel.LOAD_FILE.getLabel(), file.getAbsolutePath()));
 
         try {
             String content = this.fileLoadService.loadFile(file);

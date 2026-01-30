@@ -14,7 +14,7 @@ public class FileChooserApp extends JFrame {
     private static final int APP_HEIGHT = FileChooserAppConfig.getInt("app.height", 600);
     private static final int TEXT_AREA_ROWS = FileChooserAppConfig.getInt("app.textAreaRows", 30);
     private static final int TEXT_AREA_COLUMNS = FileChooserAppConfig.getInt("app.textAreaCols", 30);
-    private static final boolean RESIZABLE = FileChooserAppConfig.getBooleanProperty("app.resizable", false);
+    private static final boolean TEXT_AREA_EDITABLE = FileChooserAppConfig.getBooleanProperty("app.resizable", false);
 
     private JPanel contentPane;
     private JTextArea textArea;
@@ -55,12 +55,12 @@ public class FileChooserApp extends JFrame {
         this.chooseFileButton = new JButton(FrameLabel.CHOOSE_FILE.getLabel());
         this.clearTextButton = new JButton(FrameLabel.CLEAN_CONTENT.getLabel());
         this.textArea = new JTextArea(FileChooserApp.TEXT_AREA_ROWS, FileChooserApp.TEXT_AREA_COLUMNS);
-        this.textArea.setEditable(FileChooserApp.RESIZABLE);
+        this.textArea.setEditable(FileChooserApp.TEXT_AREA_EDITABLE);
         this.scrollPane = new JScrollPane(this.textArea);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        this.scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.statusBar = new JLabel(FrameLabel.READY.getLabel());
-        this.statusBar.setBorder((BorderFactory.createEtchedBorder()));
+        this.statusBar.setBorder(BorderFactory.createEtchedBorder());
     }
 
     private void layoutComponents() {
