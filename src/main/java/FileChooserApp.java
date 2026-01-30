@@ -3,6 +3,7 @@ import enums.ErrorLabel;
 import enums.FrameLabel;
 import enums.LogLabel;
 import managers.StatusBarManager;
+import services.FileLoadService;
 import util.AppLogger;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class FileChooserApp extends JFrame {
     private JLabel statusBar;
 
     private StatusBarManager statusBarManager;
-
+    private final FileLoadService fileLoadService =  new FileLoadService();
     private static final AppLogger logger = AppLogger.getInstance();
 
     public FileChooserApp() {
@@ -91,14 +92,9 @@ public class FileChooserApp extends JFrame {
         this.statusBarManager.setLoading(file.getName());
         logger.info(LogLabel.LOAD_FILE.getLabel() + file.getAbsolutePath());
 
-        try (Scanner fileReader = new Scanner(file)) {
-            StringBuilder content = new StringBuilder();
-
-            while (fileReader.hasNextLine()) {
-                content.append(fileReader.nextLine()).append("\n");
-            }
-
-            this.textArea.setText(content.toString());
+        try {
+            String content = this.fileLoadService.loadFile(file);
+            this.textArea.setText(content);
             this.statusBarManager.setLoaded(file);
         } catch (FileNotFoundException e) {
             this.statusBarManager.setError(ErrorLabel.FILE_NOT_FOUND);
