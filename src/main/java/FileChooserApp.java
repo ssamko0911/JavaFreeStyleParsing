@@ -11,6 +11,12 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class FileChooserApp extends JFrame {
+    private static final int APP_WIDTH = FileChooserAppConfig.getInt("app.width", 500);
+    private static final int APP_HEIGHT = FileChooserAppConfig.getInt("app.height", 600);
+    private static final int TEXT_AREA_ROWS = FileChooserAppConfig.getInt("app.textAreaRows", 30);
+    private static final int TEXT_AREA_COLUMNS = FileChooserAppConfig.getInt("app.textAreaCols", 30);
+    private static final boolean RESIZABLE = FileChooserAppConfig.getBooleanProperty("app.resizable", false);
+
     private JPanel contentPane;
     private JTextArea textArea;
     private JButton chooseFileButton;
@@ -23,10 +29,7 @@ public class FileChooserApp extends JFrame {
     public FileChooserApp() {
         this.setTitle(FrameLabel.APP_TITLE.getLabel());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(
-                FileChooserAppConfig.getInt("app.width", 500),
-                FileChooserAppConfig.getInt("app.height", 600)
-        );
+        this.setSize(FileChooserApp.APP_WIDTH, FileChooserApp.APP_HEIGHT);
         this.initAppComponents();
         logger.info(LogLabel.APP_INIT.getLabel());
     }
@@ -41,13 +44,8 @@ public class FileChooserApp extends JFrame {
         this.contentPane = new JPanel();
         this.chooseFileButton = new JButton(FrameLabel.CHOOSE_FILE.getLabel());
         this.clearTextButton = new JButton(FrameLabel.CLEAN_CONTENT.getLabel());
-        this.textArea = new JTextArea(
-                FileChooserAppConfig.getInt("app.textAreaRows", 30),
-                FileChooserAppConfig.getInt("app.textAreaCols", 30)
-        );
-        this.textArea.setEditable(
-                FileChooserAppConfig.getBooleanProperty("app.resizable", false)
-        );
+        this.textArea = new JTextArea(FileChooserApp.TEXT_AREA_ROWS, FileChooserApp.TEXT_AREA_COLUMNS);
+        this.textArea.setEditable(FileChooserApp.RESIZABLE);
         this.scrollPane = new JScrollPane(this.textArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
