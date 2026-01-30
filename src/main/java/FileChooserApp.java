@@ -2,6 +2,7 @@ import config.FileChooserAppConfig;
 import enums.ErrorLabel;
 import enums.FrameLabel;
 import enums.LogLabel;
+import managers.StatusBarManager;
 import util.AppLogger;
 
 import javax.swing.*;
@@ -23,6 +24,8 @@ public class FileChooserApp extends JFrame {
     private JButton clearTextButton;
     private JScrollPane scrollPane;
     private JLabel statusBar;
+
+    private StatusBarManager statusBarManager;
 
     private static final AppLogger logger = AppLogger.getInstance();
 
@@ -51,6 +54,7 @@ public class FileChooserApp extends JFrame {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.statusBar = new JLabel(FrameLabel.READY.getLabel());
         this.statusBar.setBorder((BorderFactory.createEtchedBorder()));
+        this.statusBarManager = new StatusBarManager(this.statusBar);
     }
 
     private void layoutComponents() {
@@ -69,7 +73,7 @@ public class FileChooserApp extends JFrame {
 
     private void handleCleanContent() {
         this.textArea.setText("");
-        this.statusBar.setText(FrameLabel.READY.getLabel());
+        this.statusBarManager.setReady();
         logger.info(FrameLabel.CLEAN_CONTENT.getLabel());
     }
 
@@ -84,7 +88,7 @@ public class FileChooserApp extends JFrame {
     }
 
     private void loadFile(File file) {
-        this.statusBar.setText(FrameLabel.LOADING.getLabel() + file.getName());
+        this.statusBarManager.setLoading(file.getName());
         logger.info(LogLabel.LOAD_FILE.getLabel() + file.getAbsolutePath());
 
         try (Scanner fileReader = new Scanner(file)) {
@@ -95,9 +99,9 @@ public class FileChooserApp extends JFrame {
             }
 
             this.textArea.setText(content.toString());
-            this.statusBar.setText(FrameLabel.LOADED.getLabel() + String.format(FrameLabel.FILE_INFO.getLabel(), file.getName(), file.length()));
+            this.statusBarManager.setLoaded(file);
         } catch (FileNotFoundException e) {
-            this.statusBar.setText(ErrorLabel.FILE_NOT_FOUND.getLabel());
+            this.statusBarManager.setError(ErrorLabel.FILE_NOT_FOUND);
             logger.severe(ErrorLabel.FILE_NOT_FOUND.getLabel(), e);
             JOptionPane.showMessageDialog(
                     this,
