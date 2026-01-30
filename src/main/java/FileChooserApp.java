@@ -1,5 +1,5 @@
 import config.FileChooserAppConfig;
-import enums.ErrorLabel;
+import controllers.FileChooseController;
 import enums.FrameLabel;
 import enums.LogLabel;
 import managers.StatusBarManager;
@@ -8,9 +8,6 @@ import util.AppLogger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class FileChooserApp extends JFrame {
     private static final int APP_WIDTH = FileChooserAppConfig.getInt("app.width", 500);
@@ -26,8 +23,7 @@ public class FileChooserApp extends JFrame {
     private JScrollPane scrollPane;
     private JLabel statusBar;
 
-    private StatusBarManager statusBarManager;
-    private final FileLoadService fileLoadService =  new FileLoadService();
+    private FileChooseController fileChooseController;
     private static final AppLogger logger = AppLogger.getInstance();
 
     public FileChooserApp() {
@@ -40,8 +36,18 @@ public class FileChooserApp extends JFrame {
 
     private void initAppComponents() {
         this.initComponents();
+        this.initController();
         this.layoutComponents();
         this.attachListeners();
+    }
+
+    private void initController() {
+        StatusBarManager statusBarManager = new StatusBarManager(this.statusBar);
+        FileLoadService fileLoadService = new FileLoadService();
+        this.fileChooseController = new FileChooseController(
+                this, statusBarManager, fileLoadService, logger, this.textArea
+        );
+
     }
 
     private void initComponents() {
@@ -55,7 +61,6 @@ public class FileChooserApp extends JFrame {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.statusBar = new JLabel(FrameLabel.READY.getLabel());
         this.statusBar.setBorder((BorderFactory.createEtchedBorder()));
-        this.statusBarManager = new StatusBarManager(this.statusBar);
     }
 
     private void layoutComponents() {
@@ -68,43 +73,7 @@ public class FileChooserApp extends JFrame {
     }
 
     private void attachListeners() {
-        this.chooseFileButton.addActionListener(_ -> this.handleFileSelection());
-        this.clearTextButton.addActionListener(_ -> this.handleCleanContent());
-    }
-
-    private void handleCleanContent() {
-        this.textArea.setText("");
-        this.statusBarManager.setReady();
-        logger.info(FrameLabel.CLEAN_CONTENT.getLabel());
-    }
-
-    private void handleFileSelection() {
-        JFileChooser fileChooser = new JFileChooser();
-
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            logger.info(LogLabel.SELECT_FILE.getLabel() + fileChooser.getSelectedFile().getAbsolutePath());
-            File file = fileChooser.getSelectedFile();
-            this.loadFile(file);
-        }
-    }
-
-    private void loadFile(File file) {
-        this.statusBarManager.setLoading(file.getName());
-        logger.info(LogLabel.LOAD_FILE.getLabel() + file.getAbsolutePath());
-
-        try {
-            String content = this.fileLoadService.loadFile(file);
-            this.textArea.setText(content);
-            this.statusBarManager.setLoaded(file);
-        } catch (FileNotFoundException e) {
-            this.statusBarManager.setError(ErrorLabel.FILE_NOT_FOUND);
-            logger.severe(ErrorLabel.FILE_NOT_FOUND.getLabel(), e);
-            JOptionPane.showMessageDialog(
-                    this,
-                    ErrorLabel.FILE_NOT_FOUND.getLabel(),
-                    ErrorLabel.ERROR.getLabel(),
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
+        this.chooseFileButton.addActionListener(_ -> this.fileChooseController.handleFileSelection());
+        this.clearTextButton.addActionListener(_ -> this.fileChooseController.handleCleanContent());
     }
 }
