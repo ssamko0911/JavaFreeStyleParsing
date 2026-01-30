@@ -6,7 +6,8 @@ public enum ErrorLabel {
     FILE_NOT_FOUND("File Not Found"),
     CONFIG_FILE("application.properties"),
     CONFIG_FILE_ERROR("Unable to find application.properties"),
-    CONFIG_ERROR("Failed to load configuration");
+    CONFIG_ERROR("Failed to load configuration"),
+    FILE_HANDLER_ERROR("Cannot create file handler: ");
 
     private final String label;
 

@@ -17,7 +17,6 @@ void main() {
             logger.info(LogLabel.APP_DISPLAY.getLabel());
         });
     } catch (Exception e) {
-        System.err.println(ErrorLabel.APP_ERROR.getLabel());
-        e.printStackTrace();
+        logger.severe(ErrorLabel.APP_ERROR.getLabel(), e);
     }
 }

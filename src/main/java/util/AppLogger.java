@@ -4,12 +4,10 @@ import config.FileChooserAppConfig;
 import enums.ErrorLabel;
 
 import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import java.util.logging.*;
 
 public class AppLogger {
+    private static final String LOG_FILE = FileChooserAppConfig.getString("app.logFile");
     private static Logger logger;
     private static AppLogger instance;
 
@@ -23,13 +21,15 @@ public class AppLogger {
         AppLogger.logger.setUseParentHandlers(false);
 
         try {
-            FileHandler fileHandler = new FileHandler(FileChooserAppConfig.getString("app.logFile"), true);
+            FileHandler fileHandler = new FileHandler(AppLogger.LOG_FILE, true);
             SimpleFormatter formatter = new SimpleFormatter();
             fileHandler.setFormatter(formatter);
             AppLogger.logger.addHandler(fileHandler);
         } catch (SecurityException | IOException e) {
-            System.err.println(ErrorLabel.APP_ERROR.getLabel() + e.getMessage());
-            e.printStackTrace();
+            ConsoleHandler consoleHandler = new ConsoleHandler();
+            consoleHandler.setFormatter(new SimpleFormatter());
+            AppLogger.logger.addHandler(consoleHandler);
+            AppLogger.logger.severe(ErrorLabel.FILE_HANDLER_ERROR.getLabel() + e.getMessage());
         }
     }
 
