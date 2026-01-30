@@ -17,7 +17,7 @@ public class FileChooserAppConfig {
 
             props.load(input);
         } catch (IOException e) {
-            throw new RuntimeException(ErrorLabel.CONFIG_ERROR.getLabel());
+            throw new RuntimeException(ErrorLabel.CONFIG_ERROR.getLabel(), e);
         }
     }
 
