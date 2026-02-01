@@ -1,6 +1,7 @@
 package config;
 
 import enums.ErrorLabel;
+import util.AppLogger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,7 @@ import java.util.Properties;
 
 public class FileChooserAppConfig {
     private static final Properties props = new Properties();
+    private static final AppLogger logger = AppLogger.getInstance();
 
     static {
         try (InputStream input = FileChooserAppConfig.class.getClassLoader().getResourceAsStream(ErrorLabel.CONFIG_FILE.getLabel())) {
@@ -35,6 +37,8 @@ public class FileChooserAppConfig {
         try {
             return value != null ? Integer.parseInt(value) : defaultValue;
         } catch (NumberFormatException e) {
+            logger.warn(String.format(ErrorLabel.CONFIG_PARSE_WARNING.getLabel(), value, defaultValue));
+
             return defaultValue;
         }
     }
