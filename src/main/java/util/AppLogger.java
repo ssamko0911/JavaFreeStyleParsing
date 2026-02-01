@@ -8,7 +8,7 @@ import java.util.logging.*;
 
 public class AppLogger {
     private static final String LOG_FILE = FileChooserAppConfig.getString("app.logFile");
-    private static Logger logger;
+    private static volatile Logger logger;
     private static AppLogger instance;
 
     private AppLogger() {
