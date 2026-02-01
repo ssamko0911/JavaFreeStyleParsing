@@ -49,7 +49,7 @@ public class FileChooseController {
         try {
             String content = this.fileLoadService.loadFile(file);
             this.textArea.setText(content);
-            this.statusBarManager.setLoaded(file);
+            this.statusBarManager.setLoaded(file, content);
         } catch (FileNotFoundException e) {
             this.statusBarManager.setError(ErrorLabel.FILE_NOT_FOUND);
             this.logger.severe(ErrorLabel.FILE_NOT_FOUND.getLabel(), e);

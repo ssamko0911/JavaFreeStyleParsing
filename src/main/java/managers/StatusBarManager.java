@@ -21,8 +21,12 @@ public class StatusBarManager {
         this.statusBar.setText(FrameLabel.LOADING.getLabel() + fileName);
     }
 
-    public void setLoaded(File file) {
-        this.statusBar.setText(String.format(FrameLabel.LOADED.getLabel(), file.getName(), file.length()));
+    public void setLoaded(File file, String content) {
+        long words = content.isBlank() ? 0 : content.split("\\s+").length;
+        long chars = content.length();
+
+        this.statusBar.setText(String.format(
+                String.format(FrameLabel.LOADED.getLabel(), file.getName(), file.length(), words, chars)));
     }
 
     public void setError(ErrorLabel error) {
