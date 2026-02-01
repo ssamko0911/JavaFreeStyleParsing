@@ -16,7 +16,7 @@ public class FileChooserApp extends JFrame {
     private static final int APP_HEIGHT = FileChooserAppConfig.getInt("app.height", 600);
     private static final int TEXT_AREA_ROWS = FileChooserAppConfig.getInt("app.textAreaRows", 30);
     private static final int TEXT_AREA_COLUMNS = FileChooserAppConfig.getInt("app.textAreaCols", 30);
-    private static final boolean TEXT_AREA_EDITABLE = FileChooserAppConfig.getBooleanProperty("app.resizable", false);
+    private static final boolean TEXT_AREA_EDITABLE = FileChooserAppConfig.getBooleanProperty("app.text_area_editable", false);
 
     private JPanel contentPane;
     private JTextArea textArea;
