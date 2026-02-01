@@ -1,3 +1,5 @@
+package app;
+
 import config.FileChooserAppConfig;
 import controllers.FileChooseController;
 import enums.FrameLabel;
