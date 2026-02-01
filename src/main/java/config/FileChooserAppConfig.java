@@ -1,5 +1,6 @@
 package config;
 
+import enums.AppConfig;
 import enums.ErrorLabel;
 import util.AppLogger;
 
@@ -23,30 +24,30 @@ public class FileChooserAppConfig {
         }
     }
 
-    public static String getString(String key) {
-        return props.getProperty(key);
+    public static String getString(AppConfig config) {
+        return props.getProperty(config.getKey());
     }
 
-    public static String getProperty(String key, String defaultValue) {
-        return props.getProperty(key, defaultValue);
+    public static String getProperty(AppConfig config) {
+        return props.getProperty(config.getKey(), config.getDefaultValue());
     }
 
-    public static int getInt(String key, int defaultValue) {
-        String value = props.getProperty(key);
+    public static int getInt(AppConfig config) {
+        String value = props.getProperty(config.getKey());
 
         try {
-            return value != null ? Integer.parseInt(value) : defaultValue;
+            return value != null ? Integer.parseInt(value) : config.getDefaultInt();
         } catch (NumberFormatException e) {
             // TODO: bug, circular dependency; hardcode log_file path;
             //logger.warn(String.format(ErrorLabel.CONFIG_PARSE_WARNING.getLabel(), value, defaultValue));
 
-            return defaultValue;
+            return config.getDefaultInt();
         }
     }
 
-    public static boolean getBooleanProperty(String key, boolean defaultValue) {
-        String value = props.getProperty(key);
+    public static boolean getBooleanProperty(AppConfig config) {
+        String value = props.getProperty(config.getKey());
 
-        return value != null ? Boolean.parseBoolean(value) : defaultValue;
+        return value != null ? Boolean.parseBoolean(value) : config.getDefaultBoolean();
     }
 }

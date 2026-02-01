@@ -2,6 +2,7 @@ package app;
 
 import config.FileChooserAppConfig;
 import controllers.FileChooseController;
+import enums.AppConfig;
 import enums.FrameLabel;
 import enums.LogLabel;
 import managers.StatusBarManager;
@@ -12,11 +13,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FileChooserApp extends JFrame {
-    private static final int APP_WIDTH = FileChooserAppConfig.getInt("app.width", 500);
-    private static final int APP_HEIGHT = FileChooserAppConfig.getInt("app.height", 600);
-    private static final int TEXT_AREA_ROWS = FileChooserAppConfig.getInt("app.textAreaRows", 30);
-    private static final int TEXT_AREA_COLUMNS = FileChooserAppConfig.getInt("app.textAreaCols", 30);
-    private static final boolean TEXT_AREA_EDITABLE = FileChooserAppConfig.getBooleanProperty("app.text_area_editable", false);
+    private static final int APP_WIDTH = FileChooserAppConfig.getInt(AppConfig.APP_WIDTH);
+    private static final int APP_HEIGHT = FileChooserAppConfig.getInt(AppConfig.APP_HEIGHT);
+    private static final int TEXT_AREA_ROWS = FileChooserAppConfig.getInt(AppConfig.APP_TEXT_AREA_ROWS);
+    private static final int TEXT_AREA_COLUMNS = FileChooserAppConfig.getInt(AppConfig.APP_TEXT_AREA_COLS);
+    private static final boolean TEXT_AREA_EDITABLE = FileChooserAppConfig.getBooleanProperty(AppConfig.APP_TEXT_AREA_EDITABLE);
 
     private JPanel contentPane;
     private JTextArea textArea;

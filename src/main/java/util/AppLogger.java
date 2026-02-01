@@ -1,13 +1,14 @@
 package util;
 
 import config.FileChooserAppConfig;
+import enums.AppConfig;
 import enums.ErrorLabel;
 
 import java.io.IOException;
 import java.util.logging.*;
 
 public class AppLogger {
-    private static final String LOG_FILE = FileChooserAppConfig.getString("app.logFile");
+    private static final String LOG_FILE = FileChooserAppConfig.getString(AppConfig.APP_LOG_FILE);
     private static volatile Logger logger;
     private static AppLogger instance;
 
