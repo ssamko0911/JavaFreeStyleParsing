@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class FileChooserAppConfig {
     private static final Properties props = new Properties();
-    private static final AppLogger logger = AppLogger.getInstance();
+    // private static final AppLogger logger = AppLogger.getInstance();
 
     static {
         try (InputStream input = FileChooserAppConfig.class.getClassLoader().getResourceAsStream(ErrorLabel.CONFIG_FILE.getLabel())) {
@@ -37,7 +37,8 @@ public class FileChooserAppConfig {
         try {
             return value != null ? Integer.parseInt(value) : defaultValue;
         } catch (NumberFormatException e) {
-            logger.warn(String.format(ErrorLabel.CONFIG_PARSE_WARNING.getLabel(), value, defaultValue));
+            // TODO: bug, circular dependency; hardcode log_file path;
+            //logger.warn(String.format(ErrorLabel.CONFIG_PARSE_WARNING.getLabel(), value, defaultValue));
 
             return defaultValue;
         }
