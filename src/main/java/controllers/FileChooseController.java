@@ -30,9 +30,12 @@ public class FileChooseController {
         JFileChooser fileChooser = new JFileChooser();
 
         if (fileChooser.showOpenDialog(this.parentFrame) == JFileChooser.APPROVE_OPTION) {
-            this.logger.info(String.format(LogLabel.SELECT_FILE.getLabel(), fileChooser.getSelectedFile().getAbsolutePath()));
             File file = fileChooser.getSelectedFile();
-            this.loadFile(file);
+
+            if (file != null) {
+                this.logger.info(String.format(LogLabel.SELECT_FILE.getLabel(), fileChooser.getSelectedFile().getAbsolutePath()));
+                this.loadFile(file);
+            }
         }
     }
 
