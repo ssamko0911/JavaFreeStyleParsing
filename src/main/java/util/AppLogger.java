@@ -9,12 +9,25 @@ import java.io.IOException;
 import java.util.logging.*;
 
 public class AppLogger {
-    private static final String LOG_FILE = FileChooserAppConfig.getString(AppConfig.APP_LOG_FILE);
+    private static String logfile;
     private static volatile Logger logger;
     private static AppLogger instance;
 
-    private AppLogger() {
+    private AppLogger(String logFile) {
+        AppLogger.logfile = logFile;
         this.initLogger();
+    }
+
+    public static AppLogger init(String logFile) {
+        if (AppLogger.instance == null) {
+            synchronized (AppLogger.class) {
+                if (AppLogger.instance == null) {
+                    AppLogger.instance = new AppLogger(logFile);
+                }
+            }
+        }
+
+        return AppLogger.instance;
     }
 
     private void initLogger() {
@@ -23,7 +36,7 @@ public class AppLogger {
         AppLogger.logger.setUseParentHandlers(false);
 
         try {
-            File logFile = new File(AppLogger.LOG_FILE);
+            File logFile = new File(AppLogger.logfile);
             File parentDir = logFile.getParentFile();
 
             if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
@@ -44,11 +57,7 @@ public class AppLogger {
 
     public static AppLogger getInstance() {
         if (AppLogger.instance == null) {
-            synchronized (AppLogger.class) {
-                if (AppLogger.instance == null) {
-                    AppLogger.instance = new AppLogger();
-                }
-            }
+            throw new IllegalArgumentException(ErrorLabel.ERROR_LOGGER_INIT.getLabel());
         }
 
         return AppLogger.instance;

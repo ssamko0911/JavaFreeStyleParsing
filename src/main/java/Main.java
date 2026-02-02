@@ -1,5 +1,7 @@
 import app.FileChooserApp;
 import com.formdev.flatlaf.FlatDarkLaf;
+import config.FileChooserAppConfig;
+import enums.AppConfig;
 import enums.ErrorLabel;
 import enums.LogLabel;
 import util.AppLogger;
@@ -9,7 +11,9 @@ import javax.swing.*;
 void main() {
     FlatDarkLaf.setup();
 
-    AppLogger logger = AppLogger.getInstance();
+    String logFile = FileChooserAppConfig.getString(AppConfig.APP_LOG_FILE);
+
+    AppLogger logger = AppLogger.init(logFile);
     logger.info(LogLabel.APP_START.getLabel());
 
     // TODO: refactor to catch Ex

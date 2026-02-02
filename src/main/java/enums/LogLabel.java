@@ -3,6 +3,7 @@ package enums;
 public enum LogLabel {
     SELECT_FILE("Selected file: %s"),
     LOAD_FILE("Loading file: %s"),
+    LOADED_FILE("Loaded file: %s"),
     CLEAN_CONTENT("Removed content"),
     APP_START("Application Started"),
     APP_DISPLAY("Application window displayed"),
