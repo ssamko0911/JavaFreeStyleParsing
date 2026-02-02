@@ -6,7 +6,7 @@ public enum AppConfig {
     APP_TEXT_AREA_EDITABLE("app.text_area_editable", "false"),
     APP_TEXT_AREA_ROWS("app.textAreaRows", "30"),
     APP_TEXT_AREA_COLS("app.textAreaCols", "30"),
-    APP_LOG_FILE("app.logFile", "src/log/appLog.log");
+    APP_LOG_FILE("app.logFile", "logs/appLog.log"),;
 
     private final String key;
     private final String defaultValue;

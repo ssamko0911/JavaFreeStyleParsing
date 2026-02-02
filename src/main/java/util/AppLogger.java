@@ -4,6 +4,7 @@ import config.FileChooserAppConfig;
 import enums.AppConfig;
 import enums.ErrorLabel;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.*;
 
@@ -22,7 +23,14 @@ public class AppLogger {
         AppLogger.logger.setUseParentHandlers(false);
 
         try {
-            FileHandler fileHandler = new FileHandler(AppLogger.LOG_FILE, true);
+            File logFile = new File(AppLogger.LOG_FILE);
+            File parentDir = logFile.getParentFile();
+
+            if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
+                throw new IOException(ErrorLabel.ERROR_CREATE_LOG_DIR.getLabel() + parentDir);
+            }
+
+            FileHandler fileHandler = new FileHandler(logFile.getPath(), true);
             SimpleFormatter formatter = new SimpleFormatter();
             fileHandler.setFormatter(formatter);
             AppLogger.logger.addHandler(fileHandler);

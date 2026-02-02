@@ -8,7 +8,8 @@ public enum ErrorLabel {
     CONFIG_FILE_ERROR("Unable to find application.properties"),
     CONFIG_ERROR("Failed to load configuration"),
     FILE_HANDLER_ERROR("Cannot create file handler: "),
-    CONFIG_PARSE_WARNING("Invalid config value for key %s. Using default: %s.");
+    CONFIG_PARSE_WARNING("Invalid config value for key %s. Using default: %s."),
+    ERROR_CREATE_LOG_DIR("Failed to create log directory: "),;
 
     private final String label;
 
