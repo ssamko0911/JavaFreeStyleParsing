@@ -1,7 +1,5 @@
 package util;
 
-import config.FileChooserAppConfig;
-import enums.AppConfig;
 import enums.ErrorLabel;
 
 import java.io.File;

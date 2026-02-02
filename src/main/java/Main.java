@@ -16,7 +16,6 @@ void main() {
     AppLogger logger = AppLogger.init(logFile);
     logger.info(LogLabel.APP_START.getLabel());
 
-    // TODO: refactor to catch Ex
     try {
         SwingUtilities.invokeLater(() -> {
             new FileChooserApp().setVisible(true);

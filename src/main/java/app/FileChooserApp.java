@@ -50,7 +50,6 @@ public class FileChooserApp extends JFrame {
         this.fileChooseController = new FileChooseController(
                 this, statusBarManager, fileLoadService, logger, this.textArea
         );
-
     }
 
     private void initComponents() {
