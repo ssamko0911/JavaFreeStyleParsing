@@ -23,6 +23,7 @@ public class FileLoadService {
                 content.append(line).append(System.lineSeparator());
 
                 if (line.startsWith(BookRecordLabel.OBJECT_SEPARATOR.getLabel())) {
+                    // TODO: change the logic - OCLC + IBAN
                     if (currentRecord.getOclcNumber() != null || currentRecord.getTitle() != null) {
                         libraryBookRecordManager.addRecord(currentRecord);
                         FileLoadService.logger.info(BookRecordLabel.NEW_RECORD_LOG.getLabel() + currentRecord);
