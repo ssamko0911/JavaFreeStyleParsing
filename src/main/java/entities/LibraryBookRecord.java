@@ -3,6 +3,7 @@ package entities;
 public class LibraryBookRecord {
     private String oclcNumber;
     private String title;
+    private String genre;
 
     public LibraryBookRecord() {
     }
@@ -30,11 +31,21 @@ public class LibraryBookRecord {
         return this;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public LibraryBookRecord setGenre(String genre) {
+        this.genre = genre;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "LibraryBookRecord{" +
                 "oclcNumber='" + oclcNumber + '\'' +
                 ", title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
                 '}';
     }
 }
