@@ -39,13 +39,4 @@ public class LibraryBookRecord {
         this.genre = genre;
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "LibraryBookRecord{" +
-                "oclcNumber='" + oclcNumber + '\'' +
-                ", title='" + title + '\'' +
-                ", genre='" + genre + '\'' +
-                '}';
-    }
 }
