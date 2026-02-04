@@ -4,12 +4,15 @@ import entities.LibraryBookRecord;
 
 
 public class LibraryBookRecordParser {
+    public final static String OCLC = "OCLC Number:";
+    public final static String TITLE = "Title:";
+
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
         switch (field.trim()) {
-            case "OCLC Number:":
+            case LibraryBookRecordParser.OCLC:
                 libraryBookRecord.setOclcNumber(value);
                 break;
-            case "Title:":
+            case LibraryBookRecordParser.TITLE:
                 libraryBookRecord.setTitle(value);
                 break;
         }
