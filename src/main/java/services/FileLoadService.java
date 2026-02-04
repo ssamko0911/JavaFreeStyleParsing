@@ -26,10 +26,9 @@ public class FileLoadService {
 
                     currentRecord = new LibraryBookRecord();
                 } else if (parser.isFieldLabel(line.trim())) {
-                    String fieldLabel = line;
                     String value = fileReader.readLine();
                     if (value != null) {
-                        parser.setField(currentRecord, fieldLabel, value);
+                        parser.setField(currentRecord, line, value);
                         content.append(value).append(System.lineSeparator());
                     }
                 }

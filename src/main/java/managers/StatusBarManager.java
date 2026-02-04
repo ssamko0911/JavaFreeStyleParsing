@@ -2,11 +2,15 @@ package managers;
 
 import enums.ErrorLabel;
 import enums.FrameLabel;
+import services.FileLoadResult;
 
 import javax.swing.*;
 import java.io.File;
 
 public class StatusBarManager {
+    public static final int FILENAME_LENGTH = 15;
+    public static final String ELLIPSIS = "... ";
+
     private final JLabel statusBar;
 
     public StatusBarManager(JLabel statusBar) {
@@ -21,15 +25,24 @@ public class StatusBarManager {
         this.statusBar.setText(FrameLabel.LOADING.getLabel() + fileName);
     }
 
-    public void setLoaded(File file, String content) {
-        long words = content.isBlank() ? 0 : content.split("\\s+").length;
-        long chars = content.length();
+    public void setLoaded(File file, FileLoadResult result) {
+        long words = result.getContent().isBlank() ? 0 : result.getContent().split("\\s+").length;
+        long chars = result.getContent().length();
+        long bookRecordsLoaded = result.getLibraryBookRecordManager().getBookRecordsCount();
 
         this.statusBar.setText(String.format(
-                String.format(FrameLabel.LOADED.getLabel(), file.getName(), file.length(), words, chars)));
+                String.format(FrameLabel.LOADED.getLabel(), this.trimFileName(file.getName()), file.length(), words, chars, bookRecordsLoaded)));
     }
 
     public void setError(ErrorLabel error) {
         this.statusBar.setText(error.getLabel());
+    }
+
+    public String trimFileName(String fileName) {
+        if (fileName.length() > StatusBarManager.FILENAME_LENGTH) {
+            return fileName.substring(0, StatusBarManager.FILENAME_LENGTH) + StatusBarManager.ELLIPSIS;
+        }
+
+        return fileName;
     }
 }
