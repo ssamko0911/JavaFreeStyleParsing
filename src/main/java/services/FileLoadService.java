@@ -1,6 +1,7 @@
 package services;
 
 import entities.LibraryBookRecord;
+import enums.BookRecordLabel;
 import managers.LibraryBookRecordManager;
 
 import java.io.*;
@@ -18,7 +19,7 @@ public class FileLoadService {
             while ((line = fileReader.readLine()) != null) {
                 content.append(line).append(System.lineSeparator());
 
-                if (line.startsWith("---------")) {
+                if (line.startsWith(BookRecordLabel.OBJECT_SEPARATOR.getLabel())) {
                     if (currentRecord.getOclcNumber() != null || currentRecord.getTitle() != null) {
                         libraryBookRecordManager.addRecord(currentRecord);
                     }
