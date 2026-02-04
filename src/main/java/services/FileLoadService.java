@@ -3,11 +3,14 @@ package services;
 import entities.LibraryBookRecord;
 import enums.BookRecordLabel;
 import managers.LibraryBookRecordManager;
+import util.AppLogger;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 public class FileLoadService {
+    private static final AppLogger logger = AppLogger.getInstance();
+
     public FileLoadResult loadFile(File file) throws FileNotFoundException {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             StringBuilder content = new StringBuilder();
@@ -22,6 +25,7 @@ public class FileLoadService {
                 if (line.startsWith(BookRecordLabel.OBJECT_SEPARATOR.getLabel())) {
                     if (currentRecord.getOclcNumber() != null || currentRecord.getTitle() != null) {
                         libraryBookRecordManager.addRecord(currentRecord);
+                        FileLoadService.logger.info(BookRecordLabel.NEW_RECORD_LOG.getLabel() + currentRecord);
                     }
 
                     currentRecord = new LibraryBookRecord();
@@ -36,9 +40,13 @@ public class FileLoadService {
 
             if (currentRecord.getOclcNumber() != null || currentRecord.getTitle() != null) {
                 libraryBookRecordManager.addRecord(currentRecord);
+                FileLoadService.logger.info(BookRecordLabel.NEW_RECORD_LOG.getLabel() + currentRecord);
             }
 
-            return new FileLoadResult(content.toString(), libraryBookRecordManager);
+            FileLoadResult result = new FileLoadResult(content.toString(), libraryBookRecordManager);
+            FileLoadService.logger.info(String.format(BookRecordLabel.TOTAL_RECORDS_LOG.getLabel(), result.getLibraryBookRecordManager().getBookRecordsCount()));
+
+            return result;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
