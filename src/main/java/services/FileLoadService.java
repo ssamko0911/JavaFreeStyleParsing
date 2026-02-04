@@ -3,36 +3,44 @@ package services;
 import entities.LibraryBookRecord;
 import managers.LibraryBookRecordManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class FileLoadService {
     public FileLoadResult loadFile(File file) throws FileNotFoundException {
-        try (Scanner fileReader = new Scanner(file)) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             StringBuilder content = new StringBuilder();
             LibraryBookRecordManager libraryBookRecordManager = new LibraryBookRecordManager();
             LibraryBookRecord currentRecord = new LibraryBookRecord();
             LibraryBookRecordParser parser = new LibraryBookRecordParser();
 
-            while (fileReader.hasNextLine()) {
-                // TODO: fix populating objects
-                String line = fileReader.nextLine();
+            String line;
+            while ((line = fileReader.readLine()) != null) {
                 content.append(line).append(System.lineSeparator());
 
-                if (line.startsWith("-")) {
-                    libraryBookRecordManager.addRecord(currentRecord);
+                if (line.startsWith("---------")) {
+                    if (currentRecord.getOclcNumber() != null || currentRecord.getTitle() != null) {
+                        libraryBookRecordManager.addRecord(currentRecord);
+                    }
+
                     currentRecord = new LibraryBookRecord();
-                } else if (parser.isFieldLabel(line.trim()) && fileReader.hasNextLine()) {
-                    String value = fileReader.nextLine();
-                    parser.setField(currentRecord, line, value);
-                    content.append(value).append(System.lineSeparator());
+                } else if (parser.isFieldLabel(line.trim())) {
+                    String fieldLabel = line;
+                    String value = fileReader.readLine();
+                    if (value != null) {
+                        parser.setField(currentRecord, fieldLabel, value);
+                        content.append(value).append(System.lineSeparator());
+                    }
                 }
             }
 
-            libraryBookRecordManager.addRecord(currentRecord);
+            if (currentRecord.getOclcNumber() != null || currentRecord.getTitle() != null) {
+                libraryBookRecordManager.addRecord(currentRecord);
+            }
 
             return new FileLoadResult(content.toString(), libraryBookRecordManager);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
