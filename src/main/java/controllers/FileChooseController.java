@@ -4,6 +4,7 @@ import enums.ErrorLabel;
 import enums.FrameLabel;
 import enums.LogLabel;
 import managers.StatusBarManager;
+import services.FileLoadResult;
 import services.FileLoadService;
 import util.AppLogger;
 
@@ -50,9 +51,9 @@ public class FileChooseController {
         this.logger.info(String.format(LogLabel.LOAD_FILE.getLabel(), file.getAbsolutePath()));
 
         try {
-            String content = this.fileLoadService.loadFile(file);
-            this.textArea.setText(content);
-            this.statusBarManager.setLoaded(file, content);
+            FileLoadResult result = this.fileLoadService.loadFile(file);
+            this.textArea.setText(result.getContent());
+            this.statusBarManager.setLoaded(file, result.getContent());
             this.logger.info(String.format(LogLabel.LOADED_FILE.getLabel(), file.getName()));
         } catch (FileNotFoundException e) {
             this.statusBarManager.setError(ErrorLabel.FILE_NOT_FOUND);
