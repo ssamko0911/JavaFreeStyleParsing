@@ -6,7 +6,7 @@ public class LibraryBookRecord {
     private String genre;
     private String author;
     private String summary;
-    private String publicationYear;
+    private int publicationYear;
     private String publisher;
     private String physicalDescription;
     private String isbn;
@@ -64,11 +64,11 @@ public class LibraryBookRecord {
         return this;
     }
 
-    public String getPublicationYear() {
+    public int getPublicationYear() {
         return publicationYear;
     }
 
-    public LibraryBookRecord setPublicationYear(String publicationYear) {
+    public LibraryBookRecord setPublicationYear(int publicationYear) {
         this.publicationYear = publicationYear;
         return this;
     }

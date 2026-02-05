@@ -30,7 +30,7 @@ public class LibraryBookRecordParser {
                 libraryBookRecord.setSummary(value);
                 break;
             case LibraryBookRecordParser.PUBLICATION_YEAR:
-                libraryBookRecord.setPublicationYear(value);
+                libraryBookRecord.setPublicationYear(Integer.parseInt(value));
                 break;
             case LibraryBookRecordParser.PUBLISHER:
                 libraryBookRecord.setPublisher(value);
