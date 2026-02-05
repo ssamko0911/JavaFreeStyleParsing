@@ -7,6 +7,7 @@ public class LibraryBookRecord {
     private String author;
     private String summary;
     private String publicationYear;
+    private String publisher;
 
     public LibraryBookRecord() {
     }
@@ -70,13 +71,22 @@ public class LibraryBookRecord {
         return this;
     }
 
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public LibraryBookRecord setPublisher(String publisher) {
+        this.publisher = publisher;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "LibraryBookRecord{" +
-                "oclcNumber='" + oclcNumber + '\'' +
-                ", title='" + title + '\'' +
-                ", summary='" + summary + '\'' +
-                ", publicationYear=" + publicationYear +
+                "oclcNumber='" + oclcNumber + '\'' + System.lineSeparator() +
+                ", title='" + title + '\'' + System.lineSeparator() +
+                ", publisher='" + publisher + '\'' + System.lineSeparator() +
+                ", publicationYear='" + publicationYear + '\'' + System.lineSeparator() +
                 '}';
     }
 }
