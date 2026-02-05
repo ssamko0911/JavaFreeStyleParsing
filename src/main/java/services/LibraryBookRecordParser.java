@@ -2,7 +2,6 @@ package services;
 
 import entities.LibraryBookRecord;
 
-
 public class LibraryBookRecordParser {
     public final static String OCLC = "OCLC Number:";
     public final static String TITLE = "Title:";
@@ -13,6 +12,7 @@ public class LibraryBookRecordParser {
     public final static String PUBLISHER = "Publisher:";
     public final static String PHYSICAL_DESCRIPTION = "Physical Description:";
     public final static String GENRE = "Genre:";
+    public final static String ISBN = "ISBN:";
 
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
         switch (field.trim()) {
@@ -40,6 +40,8 @@ public class LibraryBookRecordParser {
             case LibraryBookRecordParser.GENRE:
                 libraryBookRecord.setGenre(value);
                 break;
+            case LibraryBookRecordParser.ISBN:
+                libraryBookRecord.setIsbn(value);
         }
     }
 
@@ -54,6 +56,7 @@ public class LibraryBookRecordParser {
                 trimmedLine.equals(LibraryBookRecordParser.PUBLICATION_YEAR) ||
                 trimmedLine.equals(LibraryBookRecordParser.PUBLISHER) ||
                 trimmedLine.equals(LibraryBookRecordParser.PHYSICAL_DESCRIPTION) ||
-                trimmedLine.equals(LibraryBookRecordParser.GENRE);
+                trimmedLine.equals(LibraryBookRecordParser.GENRE) ||
+                trimmedLine.equals(LibraryBookRecordParser.ISBN);
     }
 }

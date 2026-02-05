@@ -9,6 +9,7 @@ public class LibraryBookRecord {
     private String publicationYear;
     private String publisher;
     private String physicalDescription;
+    private String isbn;
 
     public LibraryBookRecord() {
     }
@@ -90,13 +91,27 @@ public class LibraryBookRecord {
         return this;
     }
 
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public LibraryBookRecord setIsbn(String isbn) {
+        this.isbn = isbn;
+        return this;
+    }
+
     @Override
     public String toString() {
-        return "LibraryBookRecord{" +
+        return "LibraryBookRecord{" + System.lineSeparator() +
                 "oclcNumber='" + oclcNumber + '\'' + System.lineSeparator() +
-                ", title='" + title + '\'' + System.lineSeparator() +
-                ", ph_desc='" + physicalDescription + '\'' + System.lineSeparator() +
-                ", publicationYear='" + publicationYear + '\'' + System.lineSeparator() +
+                "title='" + title + '\'' + System.lineSeparator() +
+                "genre='" + genre + '\'' + System.lineSeparator() +
+                "author='" + author + '\'' + System.lineSeparator() +
+                "summary='" + summary + '\'' + System.lineSeparator() +
+                "publicationYear='" + publicationYear + '\'' + System.lineSeparator() +
+                "publisher='" + publisher + '\'' + System.lineSeparator() +
+                "physicalDescription='" + physicalDescription + '\'' + System.lineSeparator() +
+                "isbn='" + isbn + '\'' + System.lineSeparator() +
                 '}';
     }
 }
