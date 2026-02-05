@@ -100,6 +100,7 @@ public class LibraryBookRecord {
         return this;
     }
 
+    //TODO: re-write into readable version;
     @Override
     public String toString() {
         return "LibraryBookRecord{" + System.lineSeparator() +
