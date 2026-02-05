@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 public class FileLoadService {
     private static final AppLogger logger = AppLogger.getInstance();
 
+    // TODO: fix catching FileNotFound e;
     public FileLoadResult loadFile(File file) throws FileNotFoundException {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             StringBuilder content = new StringBuilder();
