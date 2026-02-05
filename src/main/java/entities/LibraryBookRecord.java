@@ -8,6 +8,7 @@ public class LibraryBookRecord {
     private String summary;
     private String publicationYear;
     private String publisher;
+    private String physicalDescription;
 
     public LibraryBookRecord() {
     }
@@ -80,12 +81,21 @@ public class LibraryBookRecord {
         return this;
     }
 
+    public String getPhysicalDescription() {
+        return physicalDescription;
+    }
+
+    public LibraryBookRecord setPhysicalDescription(String physicalDescription) {
+        this.physicalDescription = physicalDescription;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "LibraryBookRecord{" +
                 "oclcNumber='" + oclcNumber + '\'' + System.lineSeparator() +
                 ", title='" + title + '\'' + System.lineSeparator() +
-                ", publisher='" + publisher + '\'' + System.lineSeparator() +
+                ", ph_desc='" + physicalDescription + '\'' + System.lineSeparator() +
                 ", publicationYear='" + publicationYear + '\'' + System.lineSeparator() +
                 '}';
     }

@@ -11,6 +11,7 @@ public class LibraryBookRecordParser {
     public final static String SUMMARY = "Summary:";
     public final static String PUBLICATION_YEAR = "Year of publication:";
     public final static String PUBLISHER = "Publisher:";
+    public final static String PHYSICAL_DESCRIPTION = "Physical Description:";
     public final static String GENRE = "Genre:";
 
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
@@ -34,6 +35,8 @@ public class LibraryBookRecordParser {
             case LibraryBookRecordParser.PUBLISHER:
                 libraryBookRecord.setPublisher(value);
                 break;
+            case LibraryBookRecordParser.PHYSICAL_DESCRIPTION:
+                libraryBookRecord.setPhysicalDescription(value);
             case LibraryBookRecordParser.GENRE:
                 libraryBookRecord.setGenre(value);
                 break;
@@ -50,6 +53,7 @@ public class LibraryBookRecordParser {
                 trimmedLine.equals(LibraryBookRecordParser.SUMMARY) ||
                 trimmedLine.equals(LibraryBookRecordParser.PUBLICATION_YEAR) ||
                 trimmedLine.equals(LibraryBookRecordParser.PUBLISHER) ||
+                trimmedLine.equals(LibraryBookRecordParser.PHYSICAL_DESCRIPTION) ||
                 trimmedLine.equals(LibraryBookRecordParser.GENRE);
     }
 }
