@@ -8,6 +8,7 @@ public class LibraryBookRecordParser {
     public final static String TITLE = "Title:";
     public final static String AUTHOR_PLURAL = "Authors:";
     public final static String AUTHOR_SINGULAR = "Author:";
+    public final static String SUMMARY = "Summary:";
     public final static String GENRE = "Genre:";
 
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
@@ -22,6 +23,8 @@ public class LibraryBookRecordParser {
             case LibraryBookRecordParser.AUTHOR_SINGULAR:
                 libraryBookRecord.setAuthor(value);
                 break;
+            case LibraryBookRecordParser.SUMMARY:
+                libraryBookRecord.setSummary(value);
             case LibraryBookRecordParser.GENRE:
                 libraryBookRecord.setGenre(value);
                 break;
@@ -35,6 +38,7 @@ public class LibraryBookRecordParser {
                 trimmedLine.equals(LibraryBookRecordParser.TITLE) ||
                 trimmedLine.equals(LibraryBookRecordParser.AUTHOR_PLURAL) ||
                 trimmedLine.equals(LibraryBookRecordParser.AUTHOR_SINGULAR) ||
+                trimmedLine.equals(LibraryBookRecordParser.SUMMARY) ||
                 trimmedLine.equals(LibraryBookRecordParser.GENRE);
     }
 }

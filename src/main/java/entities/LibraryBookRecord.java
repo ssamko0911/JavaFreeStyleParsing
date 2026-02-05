@@ -5,6 +5,7 @@ public class LibraryBookRecord {
     private String title;
     private String genre;
     private String author;
+    private String summary;
 
     public LibraryBookRecord() {
     }
@@ -50,12 +51,21 @@ public class LibraryBookRecord {
         return this;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public LibraryBookRecord setSummary(String summary) {
+        this.summary = summary;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "LibraryBookRecord{" +
-                "oclcNumber='" + oclcNumber + '\'' +
+                "summary='" + summary + '\'' +
                 ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
+                ", oclcNumber='" + oclcNumber + '\'' +
                 '}';
     }
 }
