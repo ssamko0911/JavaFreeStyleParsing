@@ -4,6 +4,7 @@ public class LibraryBookRecord {
     private String oclcNumber;
     private String title;
     private String genre;
+    private String author;
 
     public LibraryBookRecord() {
     }
@@ -40,12 +41,21 @@ public class LibraryBookRecord {
         return this;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public LibraryBookRecord setAuthor(String author) {
+        this.author = author;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "LibraryBookRecord{" +
                 "oclcNumber='" + oclcNumber + '\'' +
                 ", title='" + title + '\'' +
-                ", genre='" + genre + '\'' +
+                ", author='" + author + '\'' +
                 '}';
     }
 }

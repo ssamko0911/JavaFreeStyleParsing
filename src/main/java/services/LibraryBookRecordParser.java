@@ -6,6 +6,8 @@ import entities.LibraryBookRecord;
 public class LibraryBookRecordParser {
     public final static String OCLC = "OCLC Number:";
     public final static String TITLE = "Title:";
+    public final static String AUTHOR_PLURAL = "Authors:";
+    public final static String AUTHOR_SINGULAR = "Author:";
     public final static String GENRE = "Genre:";
 
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
@@ -15,6 +17,10 @@ public class LibraryBookRecordParser {
                 break;
             case LibraryBookRecordParser.TITLE:
                 libraryBookRecord.setTitle(value);
+                break;
+            case LibraryBookRecordParser.AUTHOR_PLURAL:
+            case LibraryBookRecordParser.AUTHOR_SINGULAR:
+                libraryBookRecord.setAuthor(value);
                 break;
             case LibraryBookRecordParser.GENRE:
                 libraryBookRecord.setGenre(value);
@@ -27,6 +33,8 @@ public class LibraryBookRecordParser {
 
         return trimmedLine.equals(LibraryBookRecordParser.OCLC) ||
                 trimmedLine.equals(LibraryBookRecordParser.TITLE) ||
+                trimmedLine.equals(LibraryBookRecordParser.AUTHOR_PLURAL) ||
+                trimmedLine.equals(LibraryBookRecordParser.AUTHOR_SINGULAR) ||
                 trimmedLine.equals(LibraryBookRecordParser.GENRE);
     }
 }
