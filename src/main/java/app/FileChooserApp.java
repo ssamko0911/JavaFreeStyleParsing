@@ -5,8 +5,10 @@ import controllers.FileChooseController;
 import enums.AppConfig;
 import enums.FrameLabel;
 import enums.LogLabel;
+import managers.LibraryBookRecordManager;
 import managers.StatusBarManager;
 import services.FileLoadService;
+import services.LibraryBookRecordParser;
 import util.AppLogger;
 
 import javax.swing.*;
@@ -46,7 +48,7 @@ public class FileChooserApp extends JFrame {
 
     private void initController() {
         StatusBarManager statusBarManager = new StatusBarManager(this.statusBar);
-        FileLoadService fileLoadService = new FileLoadService();
+        FileLoadService fileLoadService = new FileLoadService(new LibraryBookRecordManager(), new LibraryBookRecordParser());
         this.fileChooseController = new FileChooseController(
                 this, statusBarManager, fileLoadService, logger, this.textArea
         );
