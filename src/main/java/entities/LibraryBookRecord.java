@@ -1,5 +1,7 @@
 package entities;
 
+import enums.BookRecordLabel;
+
 public class LibraryBookRecord {
     private String oclcNumber;
     private String title;
@@ -100,19 +102,18 @@ public class LibraryBookRecord {
         return this;
     }
 
-    //TODO: re-write into readable version;
     @Override
     public String toString() {
-        return "LibraryBookRecord{" + System.lineSeparator() +
-                "oclcNumber='" + oclcNumber + '\'' + System.lineSeparator() +
-                "title='" + title + '\'' + System.lineSeparator() +
-                "genre='" + genre + '\'' + System.lineSeparator() +
-                "author='" + author + '\'' + System.lineSeparator() +
-                "summary='" + summary + '\'' + System.lineSeparator() +
-                "publicationYear='" + publicationYear + '\'' + System.lineSeparator() +
-                "publisher='" + publisher + '\'' + System.lineSeparator() +
-                "physicalDescription='" + physicalDescription + '\'' + System.lineSeparator() +
-                "isbn='" + isbn + '\'' + System.lineSeparator() +
-                '}';
+        return BookRecordLabel.TO_STRING.getLabel().formatted(
+                this.oclcNumber,
+                this.title,
+                this.author,
+                this.summary,
+                this.publicationYear,
+                this.publisher,
+                this.genre,
+                this.physicalDescription,
+                this.isbn
+        );
     }
 }
