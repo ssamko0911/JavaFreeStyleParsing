@@ -134,4 +134,8 @@ public class LibraryBookRecord {
                 this.isbn
         );
     }
+
+    public boolean isValid() {
+        return this.oclcNumber != null || this.isbn != null;
+    }
 }

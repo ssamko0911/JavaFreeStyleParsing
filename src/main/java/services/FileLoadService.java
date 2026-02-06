@@ -48,7 +48,7 @@ public class FileLoadService {
     }
 
     private void addValidLibraryBookRecord(LibraryBookRecord libraryBookRecord, LibraryBookRecordManager libraryBookRecordManager) {
-        if (libraryBookRecord.getOclcNumber() != null || libraryBookRecord.getIsbn() != null) {
+        if (libraryBookRecord.isValid()) {
             libraryBookRecordManager.addRecord(libraryBookRecord);
             FileLoadService.logger.info(BookRecordLabel.NEW_RECORD_LOG.getLabel() + libraryBookRecord);
         }
