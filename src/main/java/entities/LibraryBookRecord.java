@@ -107,15 +107,19 @@ public class LibraryBookRecord {
     //TODO: Rewrite when the OCLC Number updated to be unique;
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         LibraryBookRecord that = (LibraryBookRecord) o;
-        return Objects.equals(isbn, that.isbn);
+
+        return Objects.equals(this.isbn, that.isbn);
     }
 
     @Override
     public int hashCode() {
         // method hash() for multiple params;
-        return Objects.hashCode(isbn);
+        return Objects.hashCode(this.isbn);
     }
 
     @Override
