@@ -9,7 +9,7 @@ import java.util.logging.*;
 public class AppLogger {
     private static String logfile;
     private static volatile Logger logger;
-    private static AppLogger instance;
+    private static volatile AppLogger instance;
 
     private AppLogger(String logFile) {
         AppLogger.logfile = logFile;
