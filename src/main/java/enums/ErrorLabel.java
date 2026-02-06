@@ -10,7 +10,8 @@ public enum ErrorLabel {
     FILE_HANDLER_ERROR("Cannot create file handler: "),
     CONFIG_PARSE_WARNING("Invalid config value for key %s. Using default: %s."),
     ERROR_CREATE_LOG_DIR("Failed to create log directory: "),
-    ERROR_LOGGER_INIT("AppLogger not initialized. Call init(logFile) first.");
+    ERROR_LOGGER_INIT("AppLogger not initialized. Call init(logFile) first."),
+    PUBLICATION_YEAR_INVALID_VALUE("Invalid value for %s: %s");
 
     private final String label;
 

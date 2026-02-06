@@ -62,6 +62,8 @@ public class FileLoadService {
             }
 
             return records;
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 

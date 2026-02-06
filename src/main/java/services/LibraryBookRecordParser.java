@@ -1,6 +1,7 @@
 package services;
 
 import entities.LibraryBookRecord;
+import enums.ErrorLabel;
 
 public class LibraryBookRecordParser {
     public final static String OCLC = "OCLC Number:";
@@ -35,7 +36,12 @@ public class LibraryBookRecordParser {
                 libraryBookRecord.setSummary(value);
                 break;
             case LibraryBookRecordParser.PUBLICATION_YEAR:
-                libraryBookRecord.setPublicationYear(Integer.parseInt(value));
+                try {
+                    libraryBookRecord.setPublicationYear(Integer.parseInt(value));
+                }  catch (NumberFormatException e) {
+                    throw new IllegalArgumentException(String.format(ErrorLabel.PUBLICATION_YEAR_INVALID_VALUE.getLabel(), LibraryBookRecordParser.PUBLICATION_YEAR, value));
+                }
+
                 break;
             case LibraryBookRecordParser.PUBLISHER:
                 libraryBookRecord.setPublisher(value);
@@ -48,6 +54,7 @@ public class LibraryBookRecordParser {
                 break;
             case LibraryBookRecordParser.ISBN:
                 libraryBookRecord.setIsbn(value);
+                break;
         }
     }
 
