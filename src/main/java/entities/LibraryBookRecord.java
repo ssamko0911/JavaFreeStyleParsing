@@ -2,6 +2,8 @@ package entities;
 
 import enums.BookRecordLabel;
 
+import java.util.Objects;
+
 public class LibraryBookRecord {
     private String oclcNumber;
     private String title;
@@ -100,6 +102,20 @@ public class LibraryBookRecord {
     public LibraryBookRecord setIsbn(String isbn) {
         this.isbn = isbn;
         return this;
+    }
+
+    //TODO: Rewrite when the OCLC Number updated to be unique;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        LibraryBookRecord that = (LibraryBookRecord) o;
+        return Objects.equals(isbn, that.isbn);
+    }
+
+    @Override
+    public int hashCode() {
+        // method hash() for multiple params;
+        return Objects.hashCode(isbn);
     }
 
     @Override
