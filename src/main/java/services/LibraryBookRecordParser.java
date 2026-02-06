@@ -37,6 +37,7 @@ public class LibraryBookRecordParser {
                 break;
             case LibraryBookRecordParser.PHYSICAL_DESCRIPTION:
                 libraryBookRecord.setPhysicalDescription(value);
+                break;
             case LibraryBookRecordParser.GENRE:
                 libraryBookRecord.setGenre(value);
                 break;
