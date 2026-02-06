@@ -36,11 +36,7 @@ public class FileChooseController {
 
             if (file != null) {
                 this.logger.info(String.format(LogLabel.SELECT_FILE.getLabel(), fileChooser.getSelectedFile().getAbsolutePath()));
-                try {
-                    this.loadFile(file);
-                } catch (RuntimeException e) {
-                    throw new RuntimeException(e);
-                }
+                this.loadFile(file);
             }
         }
     }
@@ -63,16 +59,18 @@ public class FileChooseController {
         } catch (FileNotFoundException e) {
             this.statusBarManager.setError(ErrorLabel.FILE_NOT_FOUND);
             this.logger.severe(ErrorLabel.FILE_NOT_FOUND.getLabel(), e);
-            this.showErrorDialog();
+            this.showErrorDialog(ErrorLabel.FILE_NOT_FOUND);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            this.statusBarManager.setError(ErrorLabel.IO_ERROR);
+            this.logger.severe(ErrorLabel.IO_ERROR.getLabel(), e);
+            this.showErrorDialog(ErrorLabel.IO_ERROR);
         }
     }
 
-    private void showErrorDialog() {
+    private void showErrorDialog(ErrorLabel errorLabel) {
         JOptionPane.showMessageDialog(
                 this.parentFrame,
-                ErrorLabel.FILE_NOT_FOUND.getLabel(),
+                errorLabel.getLabel(),
                 ErrorLabel.ERROR.getLabel(),
                 JOptionPane.ERROR_MESSAGE
         );

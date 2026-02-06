@@ -51,7 +51,11 @@ public class FileLoadService {
                     String value = fileReader.readLine();
 
                     if (value != null) {
-                        this.parser.setField(currentRecord, line, value);
+                        try {
+                            this.parser.setField(currentRecord, line, value);
+                        } catch (IllegalArgumentException e) {
+                            FileLoadService.logger.warn(e.getMessage());
+                        }
                         content.append(value).append(System.lineSeparator());
                     }
                 }
@@ -62,8 +66,6 @@ public class FileLoadService {
             }
 
             return records;
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e.getMessage());
         }
     }
 

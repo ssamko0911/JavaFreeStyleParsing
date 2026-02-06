@@ -16,12 +16,12 @@ void main() {
     AppLogger logger = AppLogger.init(logFile);
     logger.info(LogLabel.APP_START.getLabel());
 
-    try {
-        SwingUtilities.invokeLater(() -> {
-            new FileChooserApp().setVisible(true);
-            logger.info(LogLabel.APP_DISPLAY.getLabel());
-        });
-    } catch (Exception e) {
-        logger.severe(ErrorLabel.APP_ERROR.getLabel(), e);
-    }
+    Thread.setDefaultUncaughtExceptionHandler((thread, throwable) ->
+            logger.severe(ErrorLabel.APP_ERROR.getLabel(), throwable)
+    );
+
+    SwingUtilities.invokeLater(() -> {
+        new FileChooserApp().setVisible(true);
+        logger.info(LogLabel.APP_DISPLAY.getLabel());
+    });
 }
