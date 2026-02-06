@@ -13,6 +13,11 @@ public class LibraryBookRecordParser {
     public final static String PHYSICAL_DESCRIPTION = "Physical Description:";
     public final static String GENRE = "Genre:";
     public final static String ISBN = "ISBN:";
+    private final AuthorParser authorParser;
+
+    public LibraryBookRecordParser(AuthorParser authorParser) {
+        this.authorParser = authorParser;
+    }
 
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
         switch (field.trim()) {
@@ -24,7 +29,7 @@ public class LibraryBookRecordParser {
                 break;
             case LibraryBookRecordParser.AUTHOR_PLURAL:
             case LibraryBookRecordParser.AUTHOR_SINGULAR:
-                libraryBookRecord.setAuthor(value);
+                libraryBookRecord.setAuthors(this.authorParser.parseAuthor(value));
                 break;
             case LibraryBookRecordParser.SUMMARY:
                 libraryBookRecord.setSummary(value);

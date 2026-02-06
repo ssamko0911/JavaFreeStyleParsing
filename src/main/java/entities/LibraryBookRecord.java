@@ -2,13 +2,15 @@ package entities;
 
 import enums.BookRecordLabel;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class LibraryBookRecord {
     private String oclcNumber;
     private String title;
     private String genre;
-    private String author;
+    private List<Author> authors;
     private String summary;
     private int publicationYear;
     private String publisher;
@@ -50,13 +52,23 @@ public class LibraryBookRecord {
         return this;
     }
 
-    public String getAuthor() {
-        return author;
+    public List<Author> getAuthors() {
+        return authors;
     }
 
-    public LibraryBookRecord setAuthor(String author) {
-        this.author = author;
+    public LibraryBookRecord setAuthors(List<Author> authors) {
+        this.authors = authors;
         return this;
+    }
+
+    public String getAuthorsAsString() {
+        if (this.authors.isEmpty()) {
+            return "";
+        }
+
+        return this.authors.stream()
+                .map(Author::toString)
+                .collect(Collectors.joining(", "));
     }
 
     public String getSummary() {
@@ -125,7 +137,7 @@ public class LibraryBookRecord {
         return BookRecordLabel.TO_STRING.getLabel().formatted(
                 this.oclcNumber,
                 this.title,
-                this.author,
+                this.getAuthorsAsString(),
                 this.summary,
                 this.publicationYear,
                 this.publisher,
