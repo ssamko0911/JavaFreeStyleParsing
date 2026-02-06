@@ -11,6 +11,7 @@ import util.AppLogger;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class FileChooseController {
     private final JFrame parentFrame;
@@ -35,7 +36,11 @@ public class FileChooseController {
 
             if (file != null) {
                 this.logger.info(String.format(LogLabel.SELECT_FILE.getLabel(), fileChooser.getSelectedFile().getAbsolutePath()));
-                this.loadFile(file);
+                try {
+                    this.loadFile(file);
+                } catch (RuntimeException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
@@ -59,6 +64,8 @@ public class FileChooseController {
             this.statusBarManager.setError(ErrorLabel.FILE_NOT_FOUND);
             this.logger.severe(ErrorLabel.FILE_NOT_FOUND.getLabel(), e);
             this.showErrorDialog();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
