@@ -8,8 +8,8 @@ import javax.swing.*;
 import java.io.File;
 
 public class StatusBarManager {
-    public static final int FILENAME_LENGTH = 15;
-    public static final String ELLIPSIS = "... ";
+    private static final int FILENAME_LENGTH = 15;
+    private static final String ELLIPSIS = "... ";
 
     private final JLabel statusBar;
 
@@ -30,15 +30,16 @@ public class StatusBarManager {
         long chars = result.getContent().length();
         long bookRecordsLoaded = result.getLibraryBookRecordManager().getBookRecordsCount();
 
-        this.statusBar.setText(String.format(
-                String.format(FrameLabel.LOADED.getLabel(), this.trimFileName(file.getName()), file.length(), words, chars, bookRecordsLoaded)));
+        this.statusBar.setText(
+                String.format(FrameLabel.LOADED.getLabel(), this.trimFileName(file.getName()), file.length(), words, chars, bookRecordsLoaded)
+        );
     }
 
     public void setError(ErrorLabel error) {
         this.statusBar.setText(error.getLabel());
     }
 
-    public String trimFileName(String fileName) {
+    private String trimFileName(String fileName) {
         if (fileName.length() > StatusBarManager.FILENAME_LENGTH) {
             return fileName.substring(0, StatusBarManager.FILENAME_LENGTH) + StatusBarManager.ELLIPSIS;
         }
