@@ -7,10 +7,7 @@ import enums.FrameLabel;
 import enums.LogLabel;
 import managers.LibraryBookRecordManager;
 import managers.StatusBarManager;
-import services.AuthorParser;
-import services.FileLoadService;
-import services.LibraryBookRecordParser;
-import services.PhysicalDescriptionParser;
+import services.*;
 import util.AppLogger;
 
 import javax.swing.*;
@@ -28,6 +25,7 @@ public class FileChooserApp extends JFrame {
     private JButton chooseFileButton;
     private JButton clearTextButton;
     private JButton validationReportButton;
+    private JButton searchButton;
     private JScrollPane scrollPane;
     private JLabel statusBar;
 
@@ -58,8 +56,9 @@ public class FileChooserApp extends JFrame {
                         new PhysicalDescriptionParser()
                 )
         );
+        BookSearchService bookSearchService = new BookSearchService();
         this.fileChooseController = new FileChooseController(
-                this, statusBarManager, fileLoadService, logger, this.textArea
+                this, statusBarManager, fileLoadService, logger, this.textArea, bookSearchService
         );
     }
 
@@ -68,6 +67,7 @@ public class FileChooserApp extends JFrame {
         this.chooseFileButton = new JButton(FrameLabel.CHOOSE_FILE.getLabel());
         this.clearTextButton = new JButton(FrameLabel.CLEAN_CONTENT.getLabel());
         this.validationReportButton = new JButton(FrameLabel.REPORT.getLabel());
+        this.searchButton = new JButton(FrameLabel.SEARCH.getLabel());
         this.textArea = new JTextArea(FileChooserApp.TEXT_AREA_ROWS, FileChooserApp.TEXT_AREA_COLUMNS);
         this.textArea.setEditable(FileChooserApp.TEXT_AREA_EDITABLE);
         this.scrollPane = new JScrollPane(this.textArea);
@@ -82,6 +82,7 @@ public class FileChooserApp extends JFrame {
         this.contentPane.add(this.chooseFileButton);
         this.contentPane.add(this.clearTextButton);
         this.contentPane.add(this.validationReportButton);
+        this.contentPane.add(this.searchButton);
         this.contentPane.add(this.scrollPane);
         this.setContentPane(this.contentPane);
         this.add(this.statusBar, BorderLayout.SOUTH);
@@ -91,5 +92,6 @@ public class FileChooserApp extends JFrame {
         this.chooseFileButton.addActionListener(_ -> this.fileChooseController.handleFileSelection());
         this.clearTextButton.addActionListener(_ -> this.fileChooseController.handleCleanContent());
         this.validationReportButton.addActionListener(_ -> this.fileChooseController.handleValidationReport());
+        this.searchButton.addActionListener(_ -> this.fileChooseController.handleSearch());
     }
 }

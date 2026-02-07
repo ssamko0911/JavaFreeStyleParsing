@@ -4,6 +4,7 @@ public enum FrameLabel {
     CHOOSE_FILE("Load file"),
     CLEAN_CONTENT("Remove"),
     REPORT("Report"),
+    SEARCH("Search"),
     APP_TITLE("FileChooser App"),
     READY("Ready"),
     LOADING("Loading "),

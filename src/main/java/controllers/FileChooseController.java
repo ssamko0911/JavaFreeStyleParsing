@@ -1,14 +1,13 @@
 package controllers;
 
 import entities.LibraryBookRecord;
+import entities.SearchCriteria;
 import entities.ValidationIssue;
 import entities.ValidationResult;
-import enums.ErrorLabel;
-import enums.FrameLabel;
-import enums.LogLabel;
-import enums.Severity;
+import enums.*;
 import managers.StatusBarManager;
 import services.BookRecordValidator;
+import services.BookSearchService;
 import services.FileLoadResult;
 import services.FileLoadService;
 import util.AppLogger;
@@ -26,13 +25,15 @@ public class FileChooseController {
     private final FileLoadService fileLoadService;
     private final AppLogger logger;
     private final JTextArea textArea;
+    private final BookSearchService bookSearchService;
 
-    public FileChooseController(JFrame parentFrame, StatusBarManager statusBarManager, FileLoadService fileLoadService, AppLogger logger, JTextArea textArea) {
+    public FileChooseController(JFrame parentFrame, StatusBarManager statusBarManager, FileLoadService fileLoadService, AppLogger logger, JTextArea textArea, BookSearchService bookSearchService) {
         this.parentFrame = parentFrame;
         this.statusBarManager = statusBarManager;
         this.fileLoadService = fileLoadService;
         this.logger = logger;
         this.textArea = textArea;
+        this.bookSearchService = bookSearchService;
     }
 
     public void handleFileSelection() {
@@ -125,5 +126,59 @@ public class FileChooseController {
         jScrollPane.setPreferredSize(new Dimension(500, 400));
 
         JOptionPane.showMessageDialog(parentFrame, jScrollPane, "Validation Report", JOptionPane.WARNING_MESSAGE);
+    }
+
+    public void handleSearch() {
+        JPanel panel = new JPanel(new GridLayout(3, 2, 5, 5));
+
+        JComboBox<SearchField> fieldJComboBox = new JComboBox<>(SearchField.values());
+        JTextField queryField = new JTextField(20);
+        JCheckBox caseSensitiveJCheckBox = new JCheckBox("Case-Sensitive");
+
+        panel.add(new JLabel("Field:"));
+        panel.add(fieldJComboBox);
+        panel.add(new JLabel("Search:"));
+        panel.add(queryField);
+        panel.add(new JLabel(""));
+        panel.add(caseSensitiveJCheckBox);
+
+        int result = JOptionPane.showConfirmDialog(this.parentFrame, panel, "Search", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION && !queryField.getText().isEmpty()) {
+            SearchCriteria criteria = new SearchCriteria(
+                    (SearchField) fieldJComboBox.getSelectedItem(),
+                    queryField.getText(),
+                    caseSensitiveJCheckBox.isSelected()
+            );
+
+            List<LibraryBookRecord> results = this.bookSearchService.searchBooks(
+                    this.fileLoadService.getManager().getBookRecords(),
+                    criteria
+            );
+
+            this.showSearchResults(results);
+        } else {
+            JOptionPane.showMessageDialog(parentFrame, "Empty search field.", "Invalid search", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void showSearchResults(List<LibraryBookRecord> results) {
+        if(results.isEmpty()) {
+            JOptionPane.showMessageDialog(parentFrame, "No records found.", "No search results", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (LibraryBookRecord result : results) {
+                stringBuilder.append(result).append(System.lineSeparator());
+            }
+
+            JTextArea jTextArea = new JTextArea(stringBuilder.toString());
+            textArea.setEditable(false);
+            JScrollPane jScrollPane = new JScrollPane(jTextArea);
+            jScrollPane.setPreferredSize(new Dimension(500, 400));
+
+            JOptionPane.showMessageDialog(parentFrame, jScrollPane, "Search Results", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }
 }
