@@ -1,17 +1,24 @@
 package controllers;
 
+import entities.LibraryBookRecord;
+import entities.ValidationIssue;
+import entities.ValidationResult;
 import enums.ErrorLabel;
 import enums.FrameLabel;
 import enums.LogLabel;
+import enums.Severity;
 import managers.StatusBarManager;
+import services.BookRecordValidator;
 import services.FileLoadResult;
 import services.FileLoadService;
 import util.AppLogger;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 public class FileChooseController {
     private final JFrame parentFrame;
@@ -75,5 +82,44 @@ public class FileChooseController {
                 ErrorLabel.ERROR.getLabel(),
                 JOptionPane.ERROR_MESSAGE
         );
+    }
+
+    public void handleValidationReport() {
+        List<LibraryBookRecord> records = this.fileLoadService.getManager().getBookRecords();
+        BookRecordValidator validator = new BookRecordValidator();
+        List<ValidationResult> issues = validator.validate(records);
+
+        if (!issues.isEmpty()) {
+            JOptionPane.showMessageDialog(this.parentFrame, "All records are valid!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            this.showValidationDialog(issues);
+        }
+    }
+
+    private void showValidationDialog(List<ValidationResult> results) {
+        StringBuilder report = new StringBuilder();
+        int errors = 0;
+        int warnings = 0;
+
+        for (ValidationResult result : results) {
+            report.append("Book: ").append(result.getRecord().getTitle()).append(System.lineSeparator());
+            for (ValidationIssue issue : result.getIssues()) {
+                report.append(" ").append(issue).append(System.lineSeparator());
+                if (issue.getSeverity() == Severity.ERROR) {
+                    errors++;
+                } else {
+                    warnings++;
+                }
+            }
+            report.append(System.lineSeparator());
+        }
+
+        String summary = String.format("Found %d errors, %d warnings in %d records.\n\n", errors, warnings, results.size());
+        JTextArea jTextArea = new JTextArea(summary + report);
+        textArea.setEditable(false);
+        JScrollPane jScrollPane = new JScrollPane(jTextArea);
+        jScrollPane.setPreferredSize(new Dimension(500, 400));
+
+        JOptionPane.showMessageDialog(parentFrame, jScrollPane, "Validation Report", JOptionPane.WARNING_MESSAGE);
     }
 }
