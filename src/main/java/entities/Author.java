@@ -13,7 +13,7 @@ public class Author {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Author setName(String name) {
@@ -22,7 +22,7 @@ public class Author {
     }
 
     public List<String> getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public Author setRoles(List<String> roles) {
@@ -37,20 +37,20 @@ public class Author {
         }
         Author author = (Author) o;
 
-        return Objects.equals(name, author.name);
+        return Objects.equals(this.name, author.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name);
+        return Objects.hashCode(this.name);
     }
 
     @Override
     public String toString() {
-        if (roles.isEmpty()) {
-            return name;
+        if (this.roles.isEmpty()) {
+            return this.name;
         }
 
-        return name + " (" + String.join(", ", roles) + ")";
+        return this.name + " (" + String.join(", ", this.roles) + ")";
     }
 }
