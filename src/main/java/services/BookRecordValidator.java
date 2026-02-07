@@ -66,7 +66,7 @@ public class BookRecordValidator {
             result.addIssue(new ValidationIssue("genre", "No genre", Severity.WARNING));
         }
 
-        if (record.getPhysicalDescription() == null || record.getPhysicalDescription().isEmpty()) {
+        if (record.getPhysicalDescriptionAsString() == null || record.getPhysicalDescriptionAsString().isEmpty()) {
             result.addIssue(new ValidationIssue("physicalDescription", "No physicalDescription", Severity.WARNING));
         }
 
