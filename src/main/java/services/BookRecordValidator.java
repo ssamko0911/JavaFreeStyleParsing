@@ -28,6 +28,7 @@ public class BookRecordValidator {
         return value == null || value.isBlank();
     }
 
+    //TODO: move labels to enums;
     private ValidationResult validateRecord(LibraryBookRecord record) {
         ValidationResult result = new ValidationResult(record);
 
