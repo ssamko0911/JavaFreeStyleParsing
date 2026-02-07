@@ -16,6 +16,8 @@ public class LibraryBookRecordParser {
     private final static String ISBN = "ISBN:";
     private final AuthorParser authorParser;
 
+    //TODO: add PhysicalDescriptionParser;
+    //TODO: add PublisherParser;
     public LibraryBookRecordParser(AuthorParser authorParser) {
         this.authorParser = authorParser;
     }
