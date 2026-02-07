@@ -56,6 +56,7 @@ public class FileChooseController {
     }
 
     private void loadFile(File file) {
+        this.handleCleanContent();
         this.statusBarManager.setLoading(file.getName());
         this.logger.info(String.format(LogLabel.LOAD_FILE.getLabel(), file.getAbsolutePath()));
 
@@ -89,20 +90,22 @@ public class FileChooseController {
         BookRecordValidator validator = new BookRecordValidator();
         List<ValidationResult> issues = validator.validate(records);
 
-        if (!issues.isEmpty()) {
-            JOptionPane.showMessageDialog(this.parentFrame, "All records are valid!", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        if (records.isEmpty()) {
+            JOptionPane.showMessageDialog(this.parentFrame, "No records to validate.", "No validation", JOptionPane.WARNING_MESSAGE);
+        } else if (issues.isEmpty()) {
+            JOptionPane.showMessageDialog(this.parentFrame, "All records are valid!", "Validation Report", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            this.showValidationDialog(issues);
+            this.showValidationDialog(issues, records.size());
         }
     }
 
-    private void showValidationDialog(List<ValidationResult> results) {
+    private void showValidationDialog(List<ValidationResult> results, int recordsChecked) {
         StringBuilder report = new StringBuilder();
         int errors = 0;
         int warnings = 0;
 
         for (ValidationResult result : results) {
-            report.append("Book: ").append(result.getRecord().getTitle()).append(System.lineSeparator());
+            report.append("Book: ").append(result.getRecord().getTitle()).append(System.lineSeparator()).append("[ISBN:").append(result.getRecord().getIsbn()).append("]");
             for (ValidationIssue issue : result.getIssues()) {
                 report.append(" ").append(issue).append(System.lineSeparator());
                 if (issue.getSeverity() == Severity.ERROR) {
@@ -114,7 +117,7 @@ public class FileChooseController {
             report.append(System.lineSeparator());
         }
 
-        String summary = String.format("Found %d errors, %d warnings in %d records.\n\n", errors, warnings, results.size());
+        String summary = String.format("Found %d errors, %d warnings in %d records.\n\n", errors, warnings, recordsChecked);
         JTextArea jTextArea = new JTextArea(summary + report);
         textArea.setEditable(false);
         JScrollPane jScrollPane = new JScrollPane(jTextArea);
