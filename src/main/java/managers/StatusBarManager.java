@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.io.File;
 
 public class StatusBarManager {
+    private static final String WHITESPACE_PATTERN = "\\s+";
     private static final int FILENAME_LENGTH = 15;
     private static final String ELLIPSIS = "... ";
 
@@ -26,8 +27,9 @@ public class StatusBarManager {
     }
 
     public void setLoaded(File file, FileLoadResult result) {
-        long words = result.getContent().isBlank() ? 0 : result.getContent().split("\\s+").length;
-        long chars = result.getContent().length();
+        String content = result.getContent();
+        long words = (content == null || content.isBlank()) ? 0 : content.split(StatusBarManager.WHITESPACE_PATTERN).length;
+        long chars = content == null ? 0 : content.length();
         long bookRecordsLoaded = result.getLibraryBookRecordManager().getBookRecordsCount();
 
         this.statusBar.setText(
