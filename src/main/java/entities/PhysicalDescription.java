@@ -47,7 +47,7 @@ public class PhysicalDescription {
 
     @Override
     public String toString() {
-        if (this.dimensions.isEmpty()) {
+        if (this.dimensions == null || this.dimensions.isEmpty()) {
             return pagesInfo;
         }
 
