@@ -85,6 +85,7 @@ public class FileChooseController {
         );
     }
 
+    //TODO: move labels to Enums;
     public void handleValidationReport() {
         List<LibraryBookRecord> records = this.fileLoadService.getManager().getBookRecords();
         BookRecordValidator validator = new BookRecordValidator();
