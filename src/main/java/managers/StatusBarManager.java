@@ -42,7 +42,7 @@ public class StatusBarManager {
                         words,
                         chars,
                         bookRecordsLoaded,
-                        bookRecordsLoaded > 1 ? StatusBarManager.PLURAL_ITEMS_SENTENCE_END : StatusBarManager.SINGULAR_ITEM_SENTENCE_END
+                        bookRecordsLoaded != 1 ? StatusBarManager.PLURAL_ITEMS_SENTENCE_END : StatusBarManager.SINGULAR_ITEM_SENTENCE_END
                 )
         );
     }

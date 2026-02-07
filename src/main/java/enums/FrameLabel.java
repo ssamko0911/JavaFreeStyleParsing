@@ -1,11 +1,11 @@
 package enums;
 
 public enum FrameLabel {
-    CHOOSE_FILE("Load file"),
-    CLEAN_CONTENT("Remove"),
-    REPORT("Report"),
+    CHOOSE_FILE("Load File"),
+    CLEAN_CONTENT("Remove Data"),
+    REPORT("Validation Report"),
     SEARCH("Search"),
-    APP_TITLE("FileChooser App"),
+    APP_TITLE("LibraryBookService App"),
     READY("Ready"),
     LOADING("Loading "),
     LOADED("Loaded: %s (%d bytes) | %d words | %d chars | %d book%s");
