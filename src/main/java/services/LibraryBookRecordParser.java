@@ -4,16 +4,16 @@ import entities.LibraryBookRecord;
 import enums.ErrorLabel;
 
 public class LibraryBookRecordParser {
-    public final static String OCLC = "OCLC Number:";
-    public final static String TITLE = "Title:";
-    public final static String AUTHOR_PLURAL = "Authors:";
-    public final static String AUTHOR_SINGULAR = "Author:";
-    public final static String SUMMARY = "Summary:";
-    public final static String PUBLICATION_YEAR = "Year of publication:";
-    public final static String PUBLISHER = "Publisher:";
-    public final static String PHYSICAL_DESCRIPTION = "Physical Description:";
-    public final static String GENRE = "Genre:";
-    public final static String ISBN = "ISBN:";
+    private final static String OCLC = "OCLC Number:";
+    private final static String TITLE = "Title:";
+    private final static String AUTHOR_PLURAL = "Authors:";
+    private final static String AUTHOR_SINGULAR = "Author:";
+    private final static String SUMMARY = "Summary:";
+    private final static String PUBLICATION_YEAR = "Year of publication:";
+    private final static String PUBLISHER = "Publisher:";
+    private final static String PHYSICAL_DESCRIPTION = "Physical Description:";
+    private final static String GENRE = "Genre:";
+    private final static String ISBN = "ISBN:";
     private final AuthorParser authorParser;
 
     public LibraryBookRecordParser(AuthorParser authorParser) {

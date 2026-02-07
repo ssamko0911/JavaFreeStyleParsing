@@ -3,9 +3,9 @@ package entities;
 import enums.Severity;
 
 public class ValidationIssue {
-    private String field;
-    private String message;
-    private Severity severity;
+    private final String field;
+    private final String message;
+    private final Severity severity;
 
     public ValidationIssue(String field, String message, Severity severity) {
         this.field = field;

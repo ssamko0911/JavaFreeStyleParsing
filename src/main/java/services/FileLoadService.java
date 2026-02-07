@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileLoadService {
-    private LibraryBookRecordManager manager;
-    private LibraryBookRecordParser parser;
+    private final LibraryBookRecordManager manager;
+    private final LibraryBookRecordParser parser;
 
     private static final AppLogger logger = AppLogger.getInstance();
 

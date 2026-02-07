@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryBookRecordManager {
-    //TODO: clean book records on reload;
     private final List<LibraryBookRecord> bookRecords = new ArrayList<>();
 
     public void addRecord(LibraryBookRecord libraryBookRecord) {

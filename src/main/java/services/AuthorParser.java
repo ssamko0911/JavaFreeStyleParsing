@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AuthorParser {
-    public final static String PATTERN = ",\\s*(?![^()]*\\))";
+    private final static String PATTERN = ",\\s*(?![^()]*\\))";
     private static final AppLogger logger = AppLogger.getInstance();
 
     public List<Author> parseAuthor(String authorLine){
