@@ -163,7 +163,7 @@ public class FileChooseController {
     }
 
     private void showSearchResults(List<LibraryBookRecord> results) {
-        if(results.isEmpty()) {
+        if (results.isEmpty()) {
             JOptionPane.showMessageDialog(parentFrame, "No records found.", "No search results", JOptionPane.INFORMATION_MESSAGE);
         } else {
             StringBuilder stringBuilder = new StringBuilder();
@@ -173,12 +173,16 @@ public class FileChooseController {
             }
 
             JTextArea jTextArea = new JTextArea(stringBuilder.toString());
-            textArea.setEditable(false);
+            jTextArea.setEditable(false);
             JScrollPane jScrollPane = new JScrollPane(jTextArea);
             jScrollPane.setPreferredSize(new Dimension(500, 400));
+            JLabel searchResultLabel = new JLabel(String.format("Search Result: %d book%s", results.size(), results.size() != 1 ? "s." : "."));
+            searchResultLabel.setBorder(BorderFactory.createEtchedBorder());
+            JPanel jPanel = new JPanel(new BorderLayout());
+            jPanel.add(jScrollPane, BorderLayout.CENTER);
+            jPanel.add(searchResultLabel, BorderLayout.SOUTH);
 
-            JOptionPane.showMessageDialog(parentFrame, jScrollPane, "Search Results", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parentFrame, jPanel, "Search Results", JOptionPane.INFORMATION_MESSAGE);
         }
-
     }
 }
