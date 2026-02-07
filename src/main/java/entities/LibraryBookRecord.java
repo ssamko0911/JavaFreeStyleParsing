@@ -14,7 +14,7 @@ public class LibraryBookRecord {
     private String summary;
     private int publicationYear;
     private String publisher;
-    private String physicalDescription;
+    private PhysicalDescription physicalDescription;
     private String isbn;
 
     public LibraryBookRecord() {
@@ -98,11 +98,19 @@ public class LibraryBookRecord {
         return this;
     }
 
-    public String getPhysicalDescription() {
+    public PhysicalDescription getPhysicalDescription() {
         return physicalDescription;
     }
 
-    public LibraryBookRecord setPhysicalDescription(String physicalDescription) {
+    public String getPhysicalDescriptionAsString() {
+        if (this.physicalDescription == null) {
+            return "";
+        }
+
+        return this.physicalDescription.toString();
+    }
+
+    public LibraryBookRecord setPhysicalDescription(PhysicalDescription physicalDescription) {
         this.physicalDescription = physicalDescription;
         return this;
     }
@@ -142,7 +150,7 @@ public class LibraryBookRecord {
                 this.publicationYear,
                 this.publisher,
                 this.genre,
-                this.physicalDescription,
+                this.getPhysicalDescriptionAsString(),
                 this.isbn
         );
     }
