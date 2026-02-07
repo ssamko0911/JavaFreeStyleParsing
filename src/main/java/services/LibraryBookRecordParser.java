@@ -15,11 +15,12 @@ public class LibraryBookRecordParser {
     private final static String GENRE = "Genre:";
     private final static String ISBN = "ISBN:";
     private final AuthorParser authorParser;
+    private final PhysicalDescriptionParser physicalDescriptionParser;
 
-    //TODO: add PhysicalDescriptionParser;
     //TODO: add PublisherParser;
-    public LibraryBookRecordParser(AuthorParser authorParser) {
+    public LibraryBookRecordParser(AuthorParser authorParser, PhysicalDescriptionParser physicalDescriptionParser) {
         this.authorParser = authorParser;
+        this.physicalDescriptionParser = physicalDescriptionParser;
     }
 
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
@@ -40,16 +41,17 @@ public class LibraryBookRecordParser {
             case LibraryBookRecordParser.PUBLICATION_YEAR:
                 try {
                     libraryBookRecord.setPublicationYear(Integer.parseInt(value));
-                }  catch (NumberFormatException e) {
-                    throw new IllegalArgumentException(String.format(ErrorLabel.PUBLICATION_YEAR_INVALID_VALUE.getLabel(), LibraryBookRecordParser.PUBLICATION_YEAR, value));
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException(
+                            String.format(ErrorLabel.PUBLICATION_YEAR_INVALID_VALUE.getLabel(), LibraryBookRecordParser.PUBLICATION_YEAR, value)
+                    );
                 }
-
                 break;
             case LibraryBookRecordParser.PUBLISHER:
                 libraryBookRecord.setPublisher(value);
                 break;
             case LibraryBookRecordParser.PHYSICAL_DESCRIPTION:
-                libraryBookRecord.setPhysicalDescription(value);
+                libraryBookRecord.setPhysicalDescription(this.physicalDescriptionParser.parsePhysicalDescription(value));
                 break;
             case LibraryBookRecordParser.GENRE:
                 libraryBookRecord.setGenre(value);
