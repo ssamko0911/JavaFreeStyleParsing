@@ -10,6 +10,7 @@ import managers.StatusBarManager;
 import services.AuthorParser;
 import services.FileLoadService;
 import services.LibraryBookRecordParser;
+import services.PhysicalDescriptionParser;
 import util.AppLogger;
 
 import javax.swing.*;
@@ -50,7 +51,13 @@ public class FileChooserApp extends JFrame {
 
     private void initController() {
         StatusBarManager statusBarManager = new StatusBarManager(this.statusBar);
-        FileLoadService fileLoadService = new FileLoadService(new LibraryBookRecordManager(), new LibraryBookRecordParser(new AuthorParser()));
+        FileLoadService fileLoadService = new FileLoadService(
+                new LibraryBookRecordManager(),
+                new LibraryBookRecordParser(
+                        new AuthorParser(),
+                        new PhysicalDescriptionParser()
+                )
+        );
         this.fileChooseController = new FileChooseController(
                 this, statusBarManager, fileLoadService, logger, this.textArea
         );
