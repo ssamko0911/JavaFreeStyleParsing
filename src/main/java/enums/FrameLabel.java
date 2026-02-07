@@ -6,7 +6,7 @@ public enum FrameLabel {
     APP_TITLE("FileChooser App"),
     READY("Ready"),
     LOADING("Loading "),
-    LOADED("Loaded: %s (%d bytes) | %d words | %d chars | %d books.");
+    LOADED("Loaded: %s (%d bytes) | %d words | %d chars | %d book%s");
 
     private final String label;
 

@@ -43,6 +43,7 @@ public class FileChooseController {
 
     public void handleCleanContent() {
         this.textArea.setText("");
+        this.fileLoadService.getManager().clearRecords();
         this.statusBarManager.setReady();
         this.logger.info(FrameLabel.CLEAN_CONTENT.getLabel());
     }

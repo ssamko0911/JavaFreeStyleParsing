@@ -21,6 +21,10 @@ public class FileLoadService {
         this.parser = parser;
     }
 
+    public LibraryBookRecordManager getManager() {
+        return manager;
+    }
+
     public FileLoadResult loadFile(File file) throws IOException {
         StringBuilder content = new StringBuilder();
         List<LibraryBookRecord> records = this.parseRecords(file, content);
