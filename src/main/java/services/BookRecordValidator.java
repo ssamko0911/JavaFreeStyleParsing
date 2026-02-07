@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookRecordValidator {
+    private static final int CURRENT_YEAR = java.time.LocalDate.now().getYear();
+
     public List<ValidationResult> validate(List<LibraryBookRecord> records) {
         List<ValidationResult> results = new ArrayList<>();
 
@@ -37,19 +39,37 @@ public class BookRecordValidator {
             result.addIssue(new ValidationIssue("isbn", "Missing ISBN", Severity.ERROR));
         }
 
+        if (record.getTitle() == null || record.getTitle().isEmpty()) {
+            result.addIssue(new ValidationIssue("title", "No title", Severity.WARNING));
+        }
+
         if (record.getAuthorsAsString() == null || record.getAuthorsAsString().isEmpty()) {
             result.addIssue(new ValidationIssue("authors", "No authors listed", Severity.WARNING));
         }
 
-        if (record.getTitle() == null || record.getTitle().isEmpty()) {
-            result.addIssue(new ValidationIssue("title", "No title", Severity.WARNING));
+        if (record.getSummary() == null || record.getSummary().isEmpty()) {
+            result.addIssue(new ValidationIssue("summary", "No summary", Severity.WARNING));
+        }
+
+        if (record.getPublicationYear() == 0) {
+            result.addIssue(new ValidationIssue("publicationYear", "No publication year", Severity.WARNING));
+        } else if (record.getPublicationYear() > BookRecordValidator.CURRENT_YEAR) {
+            result.addIssue(new ValidationIssue("publicationYear", "Invalid year: " + record.getPublicationYear(), Severity.WARNING));
         }
 
         if (record.getPublisher() == null || record.getPublisher().isEmpty()) {
             result.addIssue(new ValidationIssue("publisher", "No publisher", Severity.WARNING));
         }
 
-        //TODO: implement year validation or ISBN check-sum validation
+        if (record.getGenre() == null || record.getGenre().isEmpty()) {
+            result.addIssue(new ValidationIssue("genre", "No genre", Severity.WARNING));
+        }
+
+        if (record.getPhysicalDescription() == null || record.getPhysicalDescription().isEmpty()) {
+            result.addIssue(new ValidationIssue("physicalDescription", "No physicalDescription", Severity.WARNING));
+        }
+
+        //TODO: implement ISBN check-sum validation
 
         return result;
     }
