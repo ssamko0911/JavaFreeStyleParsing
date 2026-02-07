@@ -11,6 +11,8 @@ public class StatusBarManager {
     private static final String WHITESPACE_PATTERN = "\\s+";
     private static final int FILENAME_LENGTH = 15;
     private static final String ELLIPSIS = "... ";
+    private static final String PLURAL_ITEMS_SENTENCE_END = "s.";
+    private static final String SINGULAR_ITEM_SENTENCE_END = ".";
 
     private final JLabel statusBar;
 
@@ -33,7 +35,15 @@ public class StatusBarManager {
         long bookRecordsLoaded = result.getLibraryBookRecordManager().getBookRecordsCount();
 
         this.statusBar.setText(
-                String.format(FrameLabel.LOADED.getLabel(), this.trimFileName(file.getName()), file.length(), words, chars, bookRecordsLoaded)
+                String.format(
+                        FrameLabel.LOADED.getLabel(),
+                        this.trimFileName(file.getName()),
+                        file.length(),
+                        words,
+                        chars,
+                        bookRecordsLoaded,
+                        bookRecordsLoaded > 1 ? StatusBarManager.PLURAL_ITEMS_SENTENCE_END : StatusBarManager.SINGULAR_ITEM_SENTENCE_END
+                )
         );
     }
 
