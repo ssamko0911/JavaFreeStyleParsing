@@ -13,7 +13,8 @@ public enum ErrorLabel {
     ERROR_LOGGER_INIT("AppLogger not initialized. Call init(logFile) first."),
     PUBLICATION_YEAR_INVALID_VALUE("Invalid value for %s: %s"),
     IO_ERROR("Error reading file"),
-    PARSE_ERROR("Error parsing file content");
+    PARSE_ERROR("Error parsing file content"),
+    PARSE_ERROR_YEAR("Cannot parse the publisher: ");
 
     private final String label;
 

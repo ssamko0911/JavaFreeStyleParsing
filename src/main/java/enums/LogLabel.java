@@ -7,7 +7,9 @@ public enum LogLabel {
     CLEAN_CONTENT("Removed content"),
     APP_START("Application Started"),
     APP_DISPLAY("Application window displayed"),
-    APP_INIT("App initialized");
+    APP_INIT("App initialized"),
+    YEAR_LOG("year"),
+    PARSED_PUBLISHER("Parsed publisher: %s"),;
 
     private final String label;
 

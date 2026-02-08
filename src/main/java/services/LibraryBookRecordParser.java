@@ -1,7 +1,6 @@
 package services;
 
 import entities.LibraryBookRecord;
-import enums.ErrorLabel;
 
 import java.util.Set;
 

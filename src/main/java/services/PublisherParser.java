@@ -2,6 +2,7 @@ package services;
 
 import entities.Publisher;
 import enums.ErrorLabel;
+import enums.LogLabel;
 import util.AppLogger;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class PublisherParser {
 
     public Publisher parsePublisher(String publisherLine) {
         if (publisherLine == null || publisherLine.isEmpty()) {
-            PublisherParser.logger.warn("Cannot parse the publisher: " + publisherLine);
+            PublisherParser.logger.warn(ErrorLabel.PARSE_ERROR_YEAR.getLabel() + publisherLine);
             return new Publisher(null, null, 0);
         }
 
@@ -29,12 +30,12 @@ public class PublisherParser {
                     name, location, year
             );
 
-            PublisherParser.logger.info("Publisher parsed: " + publisher);
+            PublisherParser.logger.info(String.format(LogLabel.PARSED_PUBLISHER.getLabel(), publisher));
 
             return publisher;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(
-                    String.format(ErrorLabel.PUBLICATION_YEAR_INVALID_VALUE.getLabel(), "year", publisherLine)
+                    String.format(ErrorLabel.PUBLICATION_YEAR_INVALID_VALUE.getLabel(), LogLabel.YEAR_LOG.getLabel(), publisherLine)
             );
         }
     }
