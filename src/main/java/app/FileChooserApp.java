@@ -54,7 +54,8 @@ public class FileChooserApp extends JFrame {
                 new LibraryBookRecordParser(
                         new AuthorParser(),
                         new PhysicalDescriptionParser(),
-                        new PublisherParser()
+                        new PublisherParser(),
+                        new PublicationYearParser()
                 )
         );
         BookSearchService bookSearchService = new BookSearchService();

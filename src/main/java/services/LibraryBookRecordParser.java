@@ -33,18 +33,20 @@ public class LibraryBookRecordParser {
     private final AuthorParser authorParser;
     private final PhysicalDescriptionParser physicalDescriptionParser;
     private final PublisherParser publisherParser;
+    private final PublicationYearParser publicationYearParser;
 
     public LibraryBookRecordParser(
             AuthorParser authorParser,
             PhysicalDescriptionParser physicalDescriptionParser,
-            PublisherParser publisherParser
+            PublisherParser publisherParser,
+            PublicationYearParser publicationYearParser
     ) {
         this.authorParser = authorParser;
         this.physicalDescriptionParser = physicalDescriptionParser;
         this.publisherParser = publisherParser;
+        this.publicationYearParser = publicationYearParser;
     }
 
-    // TODO: refactor into consistent state;
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
         switch (field.trim()) {
             case LibraryBookRecordParser.OCLC -> libraryBookRecord.setOclcNumber(value);
@@ -52,15 +54,8 @@ public class LibraryBookRecordParser {
             case LibraryBookRecordParser.AUTHOR_PLURAL, LibraryBookRecordParser.AUTHOR_SINGULAR ->
                     libraryBookRecord.setAuthors(this.authorParser.parseAuthor(value));
             case LibraryBookRecordParser.SUMMARY -> libraryBookRecord.setSummary(value);
-            case LibraryBookRecordParser.PUBLICATION_YEAR -> {
-                try {
-                    libraryBookRecord.setPublicationYear(Integer.parseInt(value));
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException(
-                            String.format(ErrorLabel.PUBLICATION_YEAR_INVALID_VALUE.getLabel(), LibraryBookRecordParser.PUBLICATION_YEAR, value)
-                    );
-                }
-            }
+            case LibraryBookRecordParser.PUBLICATION_YEAR ->
+                    libraryBookRecord.setPublicationYear(this.publicationYearParser.parsePublicationYear(value));
             case LibraryBookRecordParser.PUBLISHER ->
                     libraryBookRecord.setPublisher(this.publisherParser.parsePublisher(value));
             case LibraryBookRecordParser.PHYSICAL_DESCRIPTION ->
