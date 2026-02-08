@@ -40,7 +40,7 @@ public class BookRecordValidator {
             result.addIssue(new ValidationIssue("isbn", "Missing ISBN", Severity.ERROR));
         }
 
-        if (record.getTitle() == null || record.getTitle().isEmpty()) {
+        if (record.getTitle() == null || record.getTitleAsString().isEmpty()) {
             result.addIssue(new ValidationIssue("title", "No title", Severity.WARNING));
         }
 

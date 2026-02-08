@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class LibraryBookRecord {
     private String oclcNumber;
-    private String title;
+    private Title title;
     private String genre;
     private List<Author> authors;
     private String summary;
@@ -20,7 +20,7 @@ public class LibraryBookRecord {
     public LibraryBookRecord() {
     }
 
-    public LibraryBookRecord(String oclcNumber, String title) {
+    public LibraryBookRecord(String oclcNumber, Title title) {
         this.oclcNumber = oclcNumber;
         this.title = title;
     }
@@ -34,11 +34,15 @@ public class LibraryBookRecord {
         return this;
     }
 
-    public String getTitle() {
+    public Title getTitle() {
         return title;
     }
 
-    public LibraryBookRecord setTitle(String title) {
+    public String getTitleAsString() {
+        return this.title.toString();
+    }
+
+    public LibraryBookRecord setTitle(Title title) {
         this.title = title;
         return this;
     }

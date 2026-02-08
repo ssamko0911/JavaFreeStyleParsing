@@ -33,23 +33,26 @@ public class LibraryBookRecordParser {
     private final PhysicalDescriptionParser physicalDescriptionParser;
     private final PublisherParser publisherParser;
     private final PublicationYearParser publicationYearParser;
+    private final TitleParser titleParser;
 
     public LibraryBookRecordParser(
             AuthorParser authorParser,
             PhysicalDescriptionParser physicalDescriptionParser,
             PublisherParser publisherParser,
-            PublicationYearParser publicationYearParser
+            PublicationYearParser publicationYearParser,
+            TitleParser titleParser
     ) {
         this.authorParser = authorParser;
         this.physicalDescriptionParser = physicalDescriptionParser;
         this.publisherParser = publisherParser;
         this.publicationYearParser = publicationYearParser;
+        this.titleParser = titleParser;
     }
 
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
         switch (field.trim()) {
             case LibraryBookRecordParser.OCLC -> libraryBookRecord.setOclcNumber(value);
-            case LibraryBookRecordParser.TITLE -> libraryBookRecord.setTitle(value);
+            case LibraryBookRecordParser.TITLE -> libraryBookRecord.setTitle(this.titleParser.parseTitle(value));
             case LibraryBookRecordParser.AUTHOR_PLURAL, LibraryBookRecordParser.AUTHOR_SINGULAR ->
                     libraryBookRecord.setAuthors(this.authorParser.parseAuthor(value));
             case LibraryBookRecordParser.SUMMARY -> libraryBookRecord.setSummary(value);

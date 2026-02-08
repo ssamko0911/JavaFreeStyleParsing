@@ -18,7 +18,7 @@ public class BookSearchService {
 
         return switch (criteria.getField()) {
             case OCLC -> this.contains(record.getOclcNumber(), query, criteria.isCaseSensitive());
-            case TITLE -> this.contains(record.getTitle(), query, criteria.isCaseSensitive());
+            case TITLE -> this.contains(record.getTitleAsString(), query, criteria.isCaseSensitive());
             case AUTHOR -> this.contains(record.getAuthorsAsString(), query, criteria.isCaseSensitive());
             case YEAR -> String.valueOf(record.getPublicationYear()).contains(query);
             case PUBLISHER -> this.contains(record.getPublisherAsString(), query, criteria.isCaseSensitive());
@@ -37,7 +37,7 @@ public class BookSearchService {
     }
 
     private boolean matchesAny(LibraryBookRecord record, String query, boolean caseSensitive) {
-        return contains(record.getTitle(), query, caseSensitive) ||
+        return contains(record.getTitleAsString(), query, caseSensitive) ||
                 contains(record.getAuthorsAsString(), query, caseSensitive) ||
                 contains(record.getIsbn(), query, caseSensitive) ||
                 contains(record.getOclcNumber(), query, caseSensitive) ||
