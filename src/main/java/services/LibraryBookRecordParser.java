@@ -35,6 +35,8 @@ public class LibraryBookRecordParser {
     private final PublicationYearParser publicationYearParser;
     private final TitleParser titleParser;
 
+    //TODO: Add IsbnParser (comma separated values: 9780062104182, 0062104187);
+    //TODO: Enhance PhysicalDescription parser;
     public LibraryBookRecordParser(
             AuthorParser authorParser,
             PhysicalDescriptionParser physicalDescriptionParser,
