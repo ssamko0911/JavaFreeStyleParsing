@@ -13,7 +13,7 @@ public class LibraryBookRecord {
     private List<Author> authors;
     private String summary;
     private int publicationYear;
-    private String publisher;
+    private Publisher publisher;
     private PhysicalDescription physicalDescription;
     private String isbn;
 
@@ -89,11 +89,19 @@ public class LibraryBookRecord {
         return this;
     }
 
-    public String getPublisher() {
+    public Publisher getPublisher() {
         return publisher;
     }
 
-    public LibraryBookRecord setPublisher(String publisher) {
+    public String getPublisherAsString() {
+        if (this.publisher == null) {
+            return "";
+        }
+
+        return  this.publisher.toString();
+    }
+
+    public LibraryBookRecord setPublisher(Publisher publisher) {
         this.publisher = publisher;
         return this;
     }
@@ -148,7 +156,7 @@ public class LibraryBookRecord {
                 this.getAuthorsAsString(),
                 this.summary,
                 this.publicationYear,
-                this.publisher,
+                this.getPublisherAsString(),
                 this.genre,
                 this.getPhysicalDescriptionAsString(),
                 this.isbn
