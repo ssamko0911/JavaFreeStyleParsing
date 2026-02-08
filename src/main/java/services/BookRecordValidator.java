@@ -58,7 +58,7 @@ public class BookRecordValidator {
             result.addIssue(new ValidationIssue("publicationYear", "Invalid year: " + record.getPublicationYear(), Severity.WARNING));
         }
 
-        if (record.getPublisher() == null || record.getPublisher().isEmpty()) {
+        if (record.getPublisherAsString() == null || record.getPublisherAsString().isEmpty()) {
             result.addIssue(new ValidationIssue("publisher", "No publisher", Severity.WARNING));
         }
 
@@ -71,7 +71,6 @@ public class BookRecordValidator {
         }
 
         //TODO: implement ISBN check-sum validation
-
         return result;
     }
 }

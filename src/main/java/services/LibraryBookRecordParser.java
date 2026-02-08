@@ -16,11 +16,16 @@ public class LibraryBookRecordParser {
     private final static String ISBN = "ISBN:";
     private final AuthorParser authorParser;
     private final PhysicalDescriptionParser physicalDescriptionParser;
+    private final PublisherParser publisherParser;
 
-    //TODO: add PublisherParser;
-    public LibraryBookRecordParser(AuthorParser authorParser, PhysicalDescriptionParser physicalDescriptionParser) {
+    public LibraryBookRecordParser(
+            AuthorParser authorParser,
+            PhysicalDescriptionParser physicalDescriptionParser,
+            PublisherParser publisherParser
+    ) {
         this.authorParser = authorParser;
         this.physicalDescriptionParser = physicalDescriptionParser;
+        this.publisherParser = publisherParser;
     }
 
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
@@ -48,7 +53,7 @@ public class LibraryBookRecordParser {
                 }
                 break;
             case LibraryBookRecordParser.PUBLISHER:
-                libraryBookRecord.setPublisher(value);
+                libraryBookRecord.setPublisher(this.publisherParser.parsePublisher(value));
                 break;
             case LibraryBookRecordParser.PHYSICAL_DESCRIPTION:
                 libraryBookRecord.setPhysicalDescription(this.physicalDescriptionParser.parsePhysicalDescription(value));
