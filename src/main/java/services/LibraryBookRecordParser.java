@@ -44,22 +44,15 @@ public class LibraryBookRecordParser {
         this.publisherParser = publisherParser;
     }
 
+    // TODO: refactor into consistent state;
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
         switch (field.trim()) {
-            case LibraryBookRecordParser.OCLC:
-                libraryBookRecord.setOclcNumber(value);
-                break;
-            case LibraryBookRecordParser.TITLE:
-                libraryBookRecord.setTitle(value);
-                break;
-            case LibraryBookRecordParser.AUTHOR_PLURAL:
-            case LibraryBookRecordParser.AUTHOR_SINGULAR:
-                libraryBookRecord.setAuthors(this.authorParser.parseAuthor(value));
-                break;
-            case LibraryBookRecordParser.SUMMARY:
-                libraryBookRecord.setSummary(value);
-                break;
-            case LibraryBookRecordParser.PUBLICATION_YEAR:
+            case LibraryBookRecordParser.OCLC -> libraryBookRecord.setOclcNumber(value);
+            case LibraryBookRecordParser.TITLE -> libraryBookRecord.setTitle(value);
+            case LibraryBookRecordParser.AUTHOR_PLURAL, LibraryBookRecordParser.AUTHOR_SINGULAR ->
+                    libraryBookRecord.setAuthors(this.authorParser.parseAuthor(value));
+            case LibraryBookRecordParser.SUMMARY -> libraryBookRecord.setSummary(value);
+            case LibraryBookRecordParser.PUBLICATION_YEAR -> {
                 try {
                     libraryBookRecord.setPublicationYear(Integer.parseInt(value));
                 } catch (NumberFormatException e) {
@@ -67,19 +60,13 @@ public class LibraryBookRecordParser {
                             String.format(ErrorLabel.PUBLICATION_YEAR_INVALID_VALUE.getLabel(), LibraryBookRecordParser.PUBLICATION_YEAR, value)
                     );
                 }
-                break;
-            case LibraryBookRecordParser.PUBLISHER:
-                libraryBookRecord.setPublisher(this.publisherParser.parsePublisher(value));
-                break;
-            case LibraryBookRecordParser.PHYSICAL_DESCRIPTION:
-                libraryBookRecord.setPhysicalDescription(this.physicalDescriptionParser.parsePhysicalDescription(value));
-                break;
-            case LibraryBookRecordParser.GENRE:
-                libraryBookRecord.setGenre(value);
-                break;
-            case LibraryBookRecordParser.ISBN:
-                libraryBookRecord.setIsbn(value);
-                break;
+            }
+            case LibraryBookRecordParser.PUBLISHER ->
+                    libraryBookRecord.setPublisher(this.publisherParser.parsePublisher(value));
+            case LibraryBookRecordParser.PHYSICAL_DESCRIPTION ->
+                    libraryBookRecord.setPhysicalDescription(this.physicalDescriptionParser.parsePhysicalDescription(value));
+            case LibraryBookRecordParser.GENRE -> libraryBookRecord.setGenre(value);
+            case LibraryBookRecordParser.ISBN -> libraryBookRecord.setIsbn(value);
         }
     }
 
