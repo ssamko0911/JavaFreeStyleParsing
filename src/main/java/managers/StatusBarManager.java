@@ -10,6 +10,7 @@ import java.io.File;
 public class StatusBarManager {
     private static final String WHITESPACE_PATTERN = "\\s+";
     private static final int FILENAME_LENGTH = 15;
+    // TODO: redundant with current layout, remove;
     private static final String ELLIPSIS = "... ";
     private static final String PLURAL_ITEMS_SENTENCE_END = "s.";
     private static final String SINGULAR_ITEM_SENTENCE_END = ".";
