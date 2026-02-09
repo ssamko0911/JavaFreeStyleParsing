@@ -70,7 +70,6 @@ public class BookRecordValidator {
             result.addIssue(new ValidationIssue("physicalDescription", "No physicalDescription", Severity.WARNING));
         }
 
-        //TODO: implement ISBN check-sum validation
         return result;
     }
 }
