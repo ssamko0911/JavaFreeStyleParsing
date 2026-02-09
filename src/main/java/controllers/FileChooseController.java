@@ -25,7 +25,6 @@ public class FileChooseController {
     private final StatusBarManager statusBarManager;
     private final FileLoadService fileLoadService;
     private final AppLogger logger;
-    //private final JTextArea textArea;
     private final BookTableModel bookTableModel;
     private final JTextArea detailTextArea;
     private final JTextArea rawTextArea;
@@ -48,7 +47,6 @@ public class FileChooseController {
         this.bookTableModel = bookTableModel;
         this.detailTextArea = detailTextArea;
         this.rawTextArea = rawTextArea;
-        //this.textArea = textArea;
         this.bookSearchService = bookSearchService;
     }
 
@@ -116,6 +114,8 @@ public class FileChooseController {
 
         this.bookTableModel.setRecords(allRecords);
         this.detailTextArea.setText("");
+        // TODO: get the stat on showAll btn hit;
+        //this.statusBarManager.setLoaded();
     }
 
     private void showErrorDialog(ErrorLabel errorLabel) {
@@ -201,6 +201,7 @@ public class FileChooseController {
                 JOptionPane.showMessageDialog(this.parentFrame, "No books found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 this.bookTableModel.setRecords(results);
+                this.statusBarManager.setFound(results.size());
             }
         } else {
             JOptionPane.showMessageDialog(parentFrame, "Empty search field.", "Invalid search", JOptionPane.WARNING_MESSAGE);

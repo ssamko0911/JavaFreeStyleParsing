@@ -58,4 +58,8 @@ public class StatusBarManager {
 
         return fileName;
     }
+
+    public void setFound(int recordsFound) {
+        this.statusBar.setText(String.format("Search Result: %d book%s", recordsFound, recordsFound != 1 ? "s." : "."));
+    }
 }

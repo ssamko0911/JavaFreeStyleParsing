@@ -19,13 +19,10 @@ import java.awt.*;
 public class FileChooserApp extends JFrame {
     private static final int APP_WIDTH = FileChooserAppConfig.getInt(AppConfig.APP_WIDTH);
     private static final int APP_HEIGHT = FileChooserAppConfig.getInt(AppConfig.APP_HEIGHT);
-    //    private static final int TEXT_AREA_ROWS = FileChooserAppConfig.getInt(AppConfig.APP_TEXT_AREA_ROWS);
-//    private static final int TEXT_AREA_COLUMNS = FileChooserAppConfig.getInt(AppConfig.APP_TEXT_AREA_COLS);
     private static final boolean TEXT_AREA_EDITABLE = FileChooserAppConfig.getBooleanProperty(AppConfig.APP_TEXT_AREA_EDITABLE);
 
     private JPanel contentPane;
     private JToolBar toolBar;
-    //private JTextArea textArea;
     private JButton chooseFileButton;
     private JButton clearTextButton;
     private JButton validationReportButton;
@@ -113,7 +110,6 @@ public class FileChooserApp extends JFrame {
 
         this.detailTabbedPane = new JTabbedPane();
 
-        //TODO: update statusbar on search;
         this.statusBar = new JLabel(FrameLabel.READY.getLabel());
         this.statusBar.setBorder(BorderFactory.createEtchedBorder());
     }
@@ -128,8 +124,6 @@ public class FileChooserApp extends JFrame {
         this.toolBar.add(this.showAllButton);
         this.toolBar.addSeparator();
         this.toolBar.add(this.validationReportButton);
-//        this.setContentPane(this.contentPane);
-//        this.add(this.statusBar, BorderLayout.SOUTH);
 
         JScrollPane tableScrollPane = new JScrollPane(this.bookTable);
         JScrollPane detailScrollPane = new JScrollPane(this.detailTextArea);
@@ -155,11 +149,11 @@ public class FileChooserApp extends JFrame {
         this.showAllButton.addActionListener(_ -> this.fileChooseController.handleShowAll());
 
         this.bookTable.getSelectionModel().addListSelectionListener(e -> {
-           if (!e.getValueIsAdjusting()) {
-               int viewRow = this.bookTable.getSelectedRow();
-               int modelRow = viewRow >= 0 ? this.bookTable.convertRowIndexToModel(viewRow) : -1;
-               this.fileChooseController.handleTableSelection(modelRow);
-           }
+            if (!e.getValueIsAdjusting()) {
+                int viewRow = this.bookTable.getSelectedRow();
+                int modelRow = viewRow >= 0 ? this.bookTable.convertRowIndexToModel(viewRow) : -1;
+                this.fileChooseController.handleTableSelection(modelRow);
+            }
         });
     }
 }
