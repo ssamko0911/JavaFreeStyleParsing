@@ -1,7 +1,7 @@
 package services;
 
-import entities.LibraryBookRecord;
-import entities.SearchCriteria;
+import entities.libraryItems.LibraryBookRecord;
+import entities.search.SearchCriteria;
 
 import java.util.List;
 import java.util.stream.Collectors;

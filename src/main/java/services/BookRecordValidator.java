@@ -1,8 +1,8 @@
 package services;
 
-import entities.LibraryBookRecord;
-import entities.ValidationIssue;
-import entities.ValidationResult;
+import entities.libraryItems.LibraryBookRecord;
+import entities.validation.ValidationIssue;
+import entities.validation.ValidationResult;
 import enums.Severity;
 
 import java.util.ArrayList;

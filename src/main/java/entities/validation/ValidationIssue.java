@@ -1,4 +1,4 @@
-package entities;
+package entities.validation;
 
 import enums.Severity;
 

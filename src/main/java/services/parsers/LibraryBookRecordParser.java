@@ -1,6 +1,6 @@
-package services;
+package services.parsers;
 
-import entities.LibraryBookRecord;
+import entities.libraryItems.LibraryBookRecord;
 
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package services;
+package services.parsers;
 
 import entities.IsbnNumber;
 import util.AppLogger;

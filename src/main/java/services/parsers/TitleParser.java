@@ -1,4 +1,4 @@
-package services;
+package services.parsers;
 
 import entities.Title;
 import util.AppLogger;

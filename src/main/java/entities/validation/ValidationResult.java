@@ -1,5 +1,6 @@
-package entities;
+package entities.validation;
 
+import entities.libraryItems.LibraryBookRecord;
 import enums.Severity;
 
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
 package controllers;
 
-import entities.LibraryBookRecord;
-import entities.SearchCriteria;
-import entities.ValidationIssue;
-import entities.ValidationResult;
+import entities.libraryItems.LibraryBookRecord;
+import entities.search.SearchCriteria;
+import entities.validation.ValidationIssue;
+import entities.validation.ValidationResult;
 import enums.*;
 import managers.StatusBarManager;
 import services.BookRecordValidator;

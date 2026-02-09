@@ -1,5 +1,6 @@
-package entities;
+package entities.libraryItems;
 
+import entities.*;
 import enums.BookRecordLabel;
 
 import java.util.List;

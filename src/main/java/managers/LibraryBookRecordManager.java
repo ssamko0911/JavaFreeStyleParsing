@@ -1,6 +1,6 @@
 package managers;
 
-import entities.LibraryBookRecord;
+import entities.libraryItems.LibraryBookRecord;
 
 import java.util.ArrayList;
 import java.util.List;

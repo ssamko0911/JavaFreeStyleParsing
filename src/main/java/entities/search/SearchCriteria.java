@@ -1,4 +1,4 @@
-package entities;
+package entities.search;
 
 import enums.SearchField;
 

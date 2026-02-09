@@ -1,4 +1,6 @@
-package entities;
+package entities.libraryItems;
+
+import entities.Title;
 
 public abstract class LibraryItem {
     private String oclcNumber;
