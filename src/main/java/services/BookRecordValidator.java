@@ -36,7 +36,7 @@ public class BookRecordValidator {
             result.addIssue(new ValidationIssue("oclcNumber", "Missing OCLC Number", Severity.ERROR));
         }
 
-        if (this.isBlanc(record.getIsbn())) {
+        if (this.isBlanc(record.getIsbnAsString())) {
             result.addIssue(new ValidationIssue("isbn", "Missing ISBN", Severity.ERROR));
         }
 

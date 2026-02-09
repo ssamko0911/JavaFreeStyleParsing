@@ -15,7 +15,7 @@ public class LibraryBookRecord {
     private int publicationYear;
     private Publisher publisher;
     private PhysicalDescription physicalDescription;
-    private String isbn;
+    private IsbnNumber isbn;
 
     public LibraryBookRecord() {
     }
@@ -127,11 +127,19 @@ public class LibraryBookRecord {
         return this;
     }
 
-    public String getIsbn() {
+    public IsbnNumber getIsbn() {
         return isbn;
     }
 
-    public LibraryBookRecord setIsbn(String isbn) {
+    public String getIsbnAsString() {
+        if (this.isbn == null) {
+            return "";
+        }
+
+        return this.isbn.toString();
+    }
+
+    public LibraryBookRecord setIsbn(IsbnNumber isbn) {
         this.isbn = isbn;
         return this;
     }
@@ -163,7 +171,7 @@ public class LibraryBookRecord {
                 this.getPublisherAsString(),
                 this.genre,
                 this.getPhysicalDescriptionAsString(),
-                this.isbn
+                this.getIsbnAsString()
         );
     }
 

@@ -34,21 +34,24 @@ public class LibraryBookRecordParser {
     private final PublisherParser publisherParser;
     private final PublicationYearParser publicationYearParser;
     private final TitleParser titleParser;
+    private final IsbnParser isbnParser;
 
-    //TODO: Add IsbnParser (comma separated values: 9780062104182, 0062104187);
     //TODO: Enhance PhysicalDescription parser;
     public LibraryBookRecordParser(
             AuthorParser authorParser,
             PhysicalDescriptionParser physicalDescriptionParser,
             PublisherParser publisherParser,
             PublicationYearParser publicationYearParser,
-            TitleParser titleParser
+            TitleParser titleParser,
+            IsbnParser isbnParser
+
     ) {
         this.authorParser = authorParser;
         this.physicalDescriptionParser = physicalDescriptionParser;
         this.publisherParser = publisherParser;
         this.publicationYearParser = publicationYearParser;
         this.titleParser = titleParser;
+        this.isbnParser = isbnParser;
     }
 
     public void setField(LibraryBookRecord libraryBookRecord, String field, String value) {
@@ -65,7 +68,7 @@ public class LibraryBookRecordParser {
             case LibraryBookRecordParser.PHYSICAL_DESCRIPTION ->
                     libraryBookRecord.setPhysicalDescription(this.physicalDescriptionParser.parsePhysicalDescription(value));
             case LibraryBookRecordParser.GENRE -> libraryBookRecord.setGenre(value);
-            case LibraryBookRecordParser.ISBN -> libraryBookRecord.setIsbn(value);
+            case LibraryBookRecordParser.ISBN -> libraryBookRecord.setIsbn(this.isbnParser.parseIsbn(value));
         }
     }
 
