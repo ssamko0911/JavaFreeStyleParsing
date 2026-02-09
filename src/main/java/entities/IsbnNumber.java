@@ -24,6 +24,10 @@ public class IsbnNumber {
             return this.isbn13;
         }
 
+        if (this.isbn13 == null || this.isbn13.isEmpty()) {
+            return this.isbn10;
+        }
+
         return String.format("%s, %s", this.isbn13, this.isbn10);
     }
 }
