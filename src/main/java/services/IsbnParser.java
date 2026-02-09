@@ -10,7 +10,7 @@ public class IsbnParser {
     private static final AppLogger logger = AppLogger.getInstance();
 
     public IsbnNumber parseIsbn(String isbnLine) {
-        if (isbnLine != null || !isbnLine.isEmpty()) {
+        if (isbnLine == null || isbnLine.isEmpty()) {
             IsbnParser.logger.warn("Failed to parse isbn: " + isbnLine);
 
             return new IsbnNumber(null, null);
