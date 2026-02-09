@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.BookTableModel;
 import entities.libraryItems.LibraryBookRecord;
 import entities.search.SearchCriteria;
 import entities.validation.ValidationIssue;
@@ -24,15 +25,30 @@ public class FileChooseController {
     private final StatusBarManager statusBarManager;
     private final FileLoadService fileLoadService;
     private final AppLogger logger;
-    private final JTextArea textArea;
+    //private final JTextArea textArea;
+    private final BookTableModel bookTableModel;
+    private final JTextArea detailTextArea;
+    private final JTextArea rawTextArea;
+
     private final BookSearchService bookSearchService;
 
-    public FileChooseController(JFrame parentFrame, StatusBarManager statusBarManager, FileLoadService fileLoadService, AppLogger logger, JTextArea textArea, BookSearchService bookSearchService) {
+    public FileChooseController(
+            JFrame parentFrame,
+            StatusBarManager statusBarManager,
+            FileLoadService fileLoadService,
+            AppLogger logger,
+            BookTableModel bookTableModel,
+            JTextArea detailTextArea,
+            JTextArea rawTextArea,
+            BookSearchService bookSearchService) {
         this.parentFrame = parentFrame;
         this.statusBarManager = statusBarManager;
         this.fileLoadService = fileLoadService;
         this.logger = logger;
-        this.textArea = textArea;
+        this.bookTableModel = bookTableModel;
+        this.detailTextArea = detailTextArea;
+        this.rawTextArea = rawTextArea;
+        //this.textArea = textArea;
         this.bookSearchService = bookSearchService;
     }
 
@@ -50,7 +66,9 @@ public class FileChooseController {
     }
 
     public void handleCleanContent() {
-        this.textArea.setText("");
+        this.rawTextArea.setText("");
+        this.detailTextArea.setText("");
+        this.bookTableModel.clearRecords();
         this.fileLoadService.getManager().clearRecords();
         this.statusBarManager.setReady();
         this.logger.info(FrameLabel.CLEAN_CONTENT.getLabel());
@@ -63,7 +81,8 @@ public class FileChooseController {
 
         try {
             FileLoadResult result = this.fileLoadService.loadFile(file);
-            this.textArea.setText(result.getContent());
+            this.rawTextArea.setText(result.getContent());
+            this.bookTableModel.setRecords(this.fileLoadService.getManager().getBookRecords());
             this.statusBarManager.setLoaded(file, result);
             this.logger.info(String.format(LogLabel.LOADED_FILE.getLabel(), file.getName()));
         } catch (FileNotFoundException e) {
@@ -75,6 +94,28 @@ public class FileChooseController {
             this.logger.severe(ErrorLabel.IO_ERROR.getLabel(), e);
             this.showErrorDialog(ErrorLabel.IO_ERROR);
         }
+    }
+
+    public void handleTableSelection(int modelRow) {
+        if (modelRow < 0) {
+            this.detailTextArea.setText("");
+            return;
+        }
+
+        LibraryBookRecord record = this.bookTableModel.getRecordAt(modelRow);
+        this.detailTextArea.setText(record.toString());
+        this.detailTextArea.setCaretPosition(0);
+    }
+
+    public void handleShowAll() {
+        List<LibraryBookRecord> allRecords = this.fileLoadService.getManager().getBookRecords();
+
+        if (allRecords.isEmpty()) {
+            return;
+        }
+
+        this.bookTableModel.setRecords(allRecords);
+        this.detailTextArea.setText("");
     }
 
     private void showErrorDialog(ErrorLabel errorLabel) {
@@ -121,7 +162,7 @@ public class FileChooseController {
 
         String summary = String.format("Found %d errors, %d warnings in %d records.\n\n", errors, warnings, recordsChecked);
         JTextArea jTextArea = new JTextArea(summary + report);
-        textArea.setEditable(false);
+        jTextArea.setEditable(false);
         JScrollPane jScrollPane = new JScrollPane(jTextArea);
         jScrollPane.setPreferredSize(new Dimension(500, 400));
 
@@ -156,7 +197,11 @@ public class FileChooseController {
                     criteria
             );
 
-            this.showSearchResults(results);
+            if (results.isEmpty()) {
+                JOptionPane.showMessageDialog(this.parentFrame, "No books found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.bookTableModel.setRecords(results);
+            }
         } else {
             JOptionPane.showMessageDialog(parentFrame, "Empty search field.", "Invalid search", JOptionPane.WARNING_MESSAGE);
         }
