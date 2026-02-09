@@ -37,7 +37,7 @@ public class AuthorParser {
 
                 AuthorParser.logger.info(String.format(BookRecordLabel.NEW_AUTHOR_LOG.getLabel(), author));
             } catch (StringIndexOutOfBoundsException e) {
-                AuthorParser.logger.warn("Failed to parse author: " + author);
+                AuthorParser.logger.warn("Failed to parse author: " + authorLine);
                 authors.add(new Author(author, List.of()));
             }
         }
