@@ -9,7 +9,7 @@ public enum AppConfig {
     APP_LOG_FILE("app.logFile", "logs/appLog.log"),
     APP_TABLE_ROW("app.tableRowHeight", "24"),
     APP_SPLIT_DIVIDER("app.splitDividerLocation", "450"),
-    ;
+    CONFIG_FILE("application.properties", "application.properties");
 
     private final String key;
     private final String defaultValue;

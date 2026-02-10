@@ -2,7 +2,6 @@ package config;
 
 import enums.AppConfig;
 import enums.ErrorLabel;
-//import util.AppLogger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +12,7 @@ public class FileChooserAppConfig {
     // private static final AppLogger logger = AppLogger.getInstance();
 
     static {
-        try (InputStream input = FileChooserAppConfig.class.getClassLoader().getResourceAsStream(ErrorLabel.CONFIG_FILE.getLabel())) {
+        try (InputStream input = FileChooserAppConfig.class.getClassLoader().getResourceAsStream(AppConfig.CONFIG_FILE.getDefaultValue())) {
             if (input == null) {
                 throw new RuntimeException(ErrorLabel.CONFIG_FILE_ERROR.getLabel());
             }
