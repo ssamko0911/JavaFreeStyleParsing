@@ -14,7 +14,12 @@ import util.AppLogger;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class FileChooserApp extends JFrame {
     private static final int APP_WIDTH = FileChooserAppConfig.getInt(AppConfig.APP_WIDTH);
@@ -155,5 +160,56 @@ public class FileChooserApp extends JFrame {
                 this.fileChooseController.handleTableSelection(modelRow);
             }
         });
+
+        this.bookTable.getTableHeader().addMouseListener(new  MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    int col = bookTable.columnAtPoint(e.getPoint());
+                    showColumnFilterPopUp(col, e.getX(), e.getY());
+                }
+            }
+        });
+
+        this.bookTable.getRowSorter().addRowSorterListener(_ -> {
+            int visible = this.bookTable.getRowCount();
+            int total = this.tableModel.getRowCount();
+            this.fileChooseController.handleFilterChange(visible, total);
+        });
+    }
+
+
+
+    private void showColumnFilterPopUp(int colIndex, int x, int y) {
+        TableRowSorter<?> sorter = (TableRowSorter<?>) this.bookTable.getRowSorter();
+        JPopupMenu popup = new JPopupMenu();
+
+        Set<String> values = new TreeSet<>();
+
+        for (int i = 0; i < this.bookTable.getRowCount(); i++) {
+            Object value = this.bookTable.getValueAt(i, colIndex);
+            if (value != null) {
+                values.add(value.toString());
+            }
+        }
+
+        JMenuItem showAllMenuItem = new JMenuItem("Show All");
+        showAllMenuItem.addActionListener(_ -> {
+            sorter.setRowFilter(null);
+        });
+        popup.add(showAllMenuItem);
+        popup.addSeparator();
+
+        for (String value : values) {
+            JMenuItem item = new JMenuItem(value);
+            item.addActionListener(_ -> {
+                sorter.setRowFilter(RowFilter.regexFilter(
+                        "^" + java.util.regex.Pattern.quote(value) + "$", colIndex
+                ));
+            });
+            popup.add(item);
+        }
+
+        popup.show(this.bookTable.getTableHeader(), x, y);
     }
 }

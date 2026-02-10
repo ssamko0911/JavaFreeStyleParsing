@@ -204,8 +204,6 @@ public class FileChooseController {
                 this.bookTableModel.setRecords(results);
                 this.statusBarManager.setFound(results.size());
             }
-        } else {
-            JOptionPane.showMessageDialog(parentFrame, "Empty search field.", "Invalid search", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -230,6 +228,18 @@ public class FileChooseController {
             jPanel.add(searchResultLabel, BorderLayout.SOUTH);
 
             JOptionPane.showMessageDialog(parentFrame, jPanel, "Search Results", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void handleFilterChange(int visible, int total) {
+        if (total == 0) {
+            return;
+        }
+
+        if (visible == total) {
+            this.statusBarManager.setFound(total);
+        } else {
+            this.statusBarManager.setFiltered(visible, total);
         }
     }
 }
