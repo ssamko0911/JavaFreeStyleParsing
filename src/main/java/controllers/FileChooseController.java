@@ -196,7 +196,6 @@ public class FileChooseController {
                     criteria
             );
 
-            // TODO: fix dialog showing logic - when user closes the search dialog, it shows a warning: empty search field;
             if (results.isEmpty()) {
                 JOptionPane.showMessageDialog(this.parentFrame, FrameLabel.DIALOG_NO_BOOKS_FOUND.getLabel(), FrameLabel.DIALOG_SEARCH_RESULT.getLabel(), JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -206,6 +205,7 @@ public class FileChooseController {
         }
     }
 
+    // TODO: add labels;
     private void showSearchResults(List<LibraryBookRecord> results) {
         if (results.isEmpty()) {
             JOptionPane.showMessageDialog(parentFrame, "No records found.", "No search results", JOptionPane.INFORMATION_MESSAGE);
