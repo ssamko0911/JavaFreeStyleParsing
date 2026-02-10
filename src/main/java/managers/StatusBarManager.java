@@ -38,7 +38,7 @@ public class StatusBarManager {
         this.statusBar.setText(
                 String.format(
                         FrameLabel.LOADED.getLabel(),
-                        this.trimFileName(file.getName()),
+                        file.getName(),
                         file.length(),
                         words,
                         chars,
@@ -52,6 +52,7 @@ public class StatusBarManager {
         this.statusBar.setText(error.getLabel());
     }
 
+    // TODO: have a check on resizing;
     private String trimFileName(String fileName) {
         if (fileName.length() > StatusBarManager.FILENAME_LENGTH) {
             return fileName.substring(0, StatusBarManager.FILENAME_LENGTH) + StatusBarManager.ELLIPSIS;
