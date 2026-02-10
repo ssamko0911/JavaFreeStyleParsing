@@ -127,16 +127,15 @@ public class FileChooseController {
         );
     }
 
-    //TODO: move labels to Enums;
     public void handleValidationReport() {
         List<LibraryBookRecord> records = this.fileLoadService.getManager().getBookRecords();
         BookRecordValidator validator = new BookRecordValidator();
         List<ValidationResult> issues = validator.validate(records);
 
         if (records.isEmpty()) {
-            JOptionPane.showMessageDialog(this.parentFrame, "No records to validate.", "No validation", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this.parentFrame, FrameLabel.DIALOG_NO_RECORDS.getLabel(), FrameLabel.DIALOG_NO_VALIDATION.getLabel(), JOptionPane.WARNING_MESSAGE);
         } else if (issues.isEmpty()) {
-            JOptionPane.showMessageDialog(this.parentFrame, "All records are valid!", "Validation Report", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this.parentFrame, FrameLabel.DIALOG_ALL_VALID.getLabel(), FrameLabel.DIALOG_VALIDATION_REPORT.getLabel(), JOptionPane.INFORMATION_MESSAGE);
         } else {
             this.showValidationDialog(issues, records.size());
         }
@@ -160,13 +159,13 @@ public class FileChooseController {
             report.append(System.lineSeparator());
         }
 
-        String summary = String.format("Found %d errors, %d warnings in %d records.\n\n", errors, warnings, recordsChecked);
+        String summary = String.format(FrameLabel.DIALOG_VALIDATION_SUMMARY.getLabel(), errors, warnings, recordsChecked);
         JTextArea jTextArea = new JTextArea(summary + report);
         jTextArea.setEditable(false);
         JScrollPane jScrollPane = new JScrollPane(jTextArea);
         jScrollPane.setPreferredSize(new Dimension(500, 400));
 
-        JOptionPane.showMessageDialog(parentFrame, jScrollPane, "Validation Report", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(parentFrame, jScrollPane, FrameLabel.DIALOG_VALIDATION_REPORT.getLabel(), JOptionPane.WARNING_MESSAGE);
     }
 
     public void handleSearch() {
@@ -174,16 +173,16 @@ public class FileChooseController {
 
         JComboBox<SearchField> fieldJComboBox = new JComboBox<>(SearchField.values());
         JTextField queryField = new JTextField(20);
-        JCheckBox caseSensitiveJCheckBox = new JCheckBox("Case-Sensitive");
+        JCheckBox caseSensitiveJCheckBox = new JCheckBox(FrameLabel.DIALOG_CASE_SENSITIVE.getLabel());
 
-        panel.add(new JLabel("Field:"));
+        panel.add(new JLabel(FrameLabel.DIALOG_FIELD.getLabel()));
         panel.add(fieldJComboBox);
-        panel.add(new JLabel("Search:"));
+        panel.add(new JLabel(FrameLabel.DIALOG_SEARCH_QUERY.getLabel()));
         panel.add(queryField);
         panel.add(new JLabel(""));
         panel.add(caseSensitiveJCheckBox);
 
-        int result = JOptionPane.showConfirmDialog(this.parentFrame, panel, "Search", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(this.parentFrame, panel, FrameLabel.DIALOG_SEARCH.getLabel(), JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION && !queryField.getText().isEmpty()) {
             SearchCriteria criteria = new SearchCriteria(
@@ -199,7 +198,7 @@ public class FileChooseController {
 
             // TODO: fix dialog showing logic - when user closes the search dialog, it shows a warning: empty search field;
             if (results.isEmpty()) {
-                JOptionPane.showMessageDialog(this.parentFrame, "No books found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this.parentFrame, FrameLabel.DIALOG_NO_BOOKS_FOUND.getLabel(), FrameLabel.DIALOG_SEARCH_RESULT.getLabel(), JOptionPane.INFORMATION_MESSAGE);
             } else {
                 this.bookTableModel.setRecords(results);
                 this.statusBarManager.setFound(results.size());
