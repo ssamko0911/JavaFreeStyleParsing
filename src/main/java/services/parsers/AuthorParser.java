@@ -1,7 +1,7 @@
 package services.parsers;
 
 import entities.Author;
-import enums.BookRecordLabel;
+import enums.LogLabel;
 import util.AppLogger;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class AuthorParser {
                     authors.add(new Author(author, List.of()));
                 }
 
-                AuthorParser.logger.info(String.format(BookRecordLabel.NEW_AUTHOR_LOG.getLabel(), author));
+                AuthorParser.logger.info(String.format(LogLabel.NEW_AUTHOR_LOG.getLabel(), author));
             } catch (StringIndexOutOfBoundsException e) {
                 AuthorParser.logger.warn("Failed to parse author: " + authorLine);
                 authors.add(new Author(author, List.of()));

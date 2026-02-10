@@ -1,7 +1,7 @@
 package services;
 
 import entities.libraryItems.LibraryBookRecord;
-import enums.BookRecordLabel;
+import enums.LogLabel;
 import managers.LibraryBookRecordManager;
 import services.parsers.LibraryBookRecordParser;
 import util.AppLogger;
@@ -31,7 +31,7 @@ public class FileLoadService {
         List<LibraryBookRecord> records = this.parseRecords(file, content);
 
         records.forEach(this::addValidLibraryBookRecord);
-        FileLoadService.logger.info(String.format(BookRecordLabel.TOTAL_RECORDS_LOG.getLabel(), this.manager.getBookRecordsCount()));
+        FileLoadService.logger.info(String.format(LogLabel.TOTAL_RECORDS_LOG.getLabel(), this.manager.getBookRecordsCount()));
 
         return new FileLoadResult(content.toString(), this.manager);
     }
@@ -76,6 +76,6 @@ public class FileLoadService {
 
     private void addValidLibraryBookRecord(LibraryBookRecord libraryBookRecord) {
         this.manager.addRecord(libraryBookRecord);
-        FileLoadService.logger.info(BookRecordLabel.NEW_RECORD_LOG.getLabel() + libraryBookRecord);
+        FileLoadService.logger.info(LogLabel.NEW_RECORD_LOG.getLabel() + libraryBookRecord);
     }
 }
