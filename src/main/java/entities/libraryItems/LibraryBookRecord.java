@@ -1,7 +1,7 @@
 package entities.libraryItems;
 
 import entities.*;
-import enums.BookRecordLabel;
+import enums.BookRecordFormat;
 
 import java.util.List;
 import java.util.Objects;
@@ -163,7 +163,7 @@ public class LibraryBookRecord {
 
     @Override
     public String toString() {
-        return BookRecordLabel.TO_STRING.getLabel().formatted(
+        return BookRecordFormat.TO_STRING.getLabel().formatted(
                 this.oclcNumber,
                 this.title,
                 this.getAuthorsAsString(),
