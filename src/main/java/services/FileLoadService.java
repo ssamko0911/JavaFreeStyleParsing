@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileLoadService {
+    private static final String OBJECT_SEPARATOR = "---------";
     private final LibraryBookRecordManager manager;
     private final LibraryBookRecordParser parser;
 
@@ -46,7 +47,7 @@ public class FileLoadService {
             while ((line = fileReader.readLine()) != null) {
                 content.append(line).append(System.lineSeparator());
 
-                if (line.startsWith(BookRecordLabel.OBJECT_SEPARATOR.getLabel())) {
+                if (line.startsWith(OBJECT_SEPARATOR)) {
                     if (currentRecord.isValid()) {
                         records.add(currentRecord);
                     }

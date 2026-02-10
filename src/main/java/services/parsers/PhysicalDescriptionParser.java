@@ -1,7 +1,7 @@
 package services.parsers;
 
 import entities.PhysicalDescription;
-import enums.BookRecordLabel;
+import enums.LogLabel;
 import util.AppLogger;
 
 public class PhysicalDescriptionParser {
@@ -20,7 +20,7 @@ public class PhysicalDescriptionParser {
         );
 
         PhysicalDescriptionParser.logger.info(
-                String.format(BookRecordLabel.PHYSICAL_DESCRIPTION_PARSED.getLabel(), physicalDescription));
+                String.format(LogLabel.PHYSICAL_DESCRIPTION_PARSED.getLabel(), physicalDescription));
 
         return physicalDescription;
     }
