@@ -46,7 +46,7 @@ public class FileChooserApp extends JFrame {
     private static final AppLogger logger = AppLogger.getInstance();
 
     public FileChooserApp() {
-        this.getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.GREEN);
+        this.getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.decode("#81C784"));
         this.setTitle(FrameLabel.APP_TITLE.getLabel());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(FileChooserApp.APP_WIDTH, FileChooserApp.APP_HEIGHT);
@@ -94,15 +94,10 @@ public class FileChooserApp extends JFrame {
         this.toolBar.setFloatable(false);
 
         this.chooseFileButton = new JButton(FrameLabel.CHOOSE_FILE.getLabel());
-        this.chooseFileButton.setForeground(Color.decode("#81C784"));
         this.clearTextButton = new JButton(FrameLabel.CLEAN_CONTENT.getLabel());
-        this.clearTextButton.setForeground(Color.decode("#81C784"));
         this.validationReportButton = new JButton(FrameLabel.REPORT.getLabel());
-        this.validationReportButton.setForeground(Color.decode("#81C784"));
         this.searchButton = new JButton(FrameLabel.SEARCH.getLabel());
-        this.searchButton.setForeground(Color.decode("#81C784"));
         this.showAllButton = new JButton(FrameLabel.SHOW_ALL.getLabel());
-        this.showAllButton.setForeground(Color.decode("#81C784"));
 
         this.tableModel = new BookTableModel();
         this.bookTable = new JTable(this.tableModel);
