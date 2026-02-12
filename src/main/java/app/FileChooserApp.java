@@ -6,8 +6,9 @@ import entities.BookTableModel;
 import enums.AppConfig;
 import enums.FrameLabel;
 import enums.LogLabel;
-import managers.LibraryBookRecordManager;
+import managers.bookRecordManager.impl.LibraryBookRecordManager;
 import managers.StatusBarManager;
+import managers.bookRecordManager.impl.LibraryBookRecordManagerMapBased;
 import services.*;
 import services.parsers.*;
 import util.AppLogger;
@@ -33,6 +34,7 @@ public class FileChooserApp extends JFrame {
     private JButton validationReportButton;
     private JButton searchButton;
     private JButton showAllButton;
+    private JButton findBuOclcButton;
     private JTable bookTable;
     private BookTableModel tableModel;
     private JTabbedPane detailTabbedPane;
@@ -64,7 +66,8 @@ public class FileChooserApp extends JFrame {
     private void initController() {
         StatusBarManager statusBarManager = new StatusBarManager(this.statusBar);
         FileLoadService fileLoadService = new FileLoadService(
-                new LibraryBookRecordManager(),
+                //new LibraryBookRecordManager(),
+                new LibraryBookRecordManagerMapBased(),
                 new LibraryBookRecordParser(
                         new AuthorParser(),
                         new PhysicalDescriptionParser(),
@@ -85,6 +88,11 @@ public class FileChooserApp extends JFrame {
                 this.rawTextArea,
                 bookSearchService
         );
+
+        if (fileLoadService.getManager().supportsLookupByKey()) {
+            this.findBuOclcButton = new JButton("Find by OCLC");
+            this.findBuOclcButton.addActionListener(_ -> this.fileChooseController.handleFindByOclc());
+        }
     }
 
     private void initComponents() {
@@ -133,6 +141,7 @@ public class FileChooserApp extends JFrame {
         this.toolBar.add(this.showAllButton);
         this.toolBar.addSeparator();
         this.toolBar.add(this.validationReportButton);
+        this.toolBar.add(this.findBuOclcButton);
 
         JScrollPane tableScrollPane = new JScrollPane(this.bookTable);
         JScrollPane detailScrollPane = new JScrollPane(this.detailTextArea);
@@ -165,7 +174,7 @@ public class FileChooserApp extends JFrame {
             }
         });
 
-        this.bookTable.getTableHeader().addMouseListener(new  MouseAdapter() {
+        this.bookTable.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (SwingUtilities.isRightMouseButton(e)) {
@@ -181,7 +190,6 @@ public class FileChooserApp extends JFrame {
             this.fileChooseController.handleFilterChange(visible, total);
         });
     }
-
 
 
     private void showColumnFilterPopUp(int colIndex, int x, int y) {

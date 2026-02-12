@@ -2,7 +2,8 @@ package services;
 
 import entities.libraryItems.LibraryBookRecord;
 import enums.LogLabel;
-import managers.LibraryBookRecordManager;
+import managers.bookRecordManager.LibraryBookRecordManageable;
+import managers.bookRecordManager.impl.LibraryBookRecordManager;
 import services.parsers.LibraryBookRecordParser;
 import util.AppLogger;
 
@@ -13,17 +14,17 @@ import java.util.List;
 
 public class FileLoadService {
     private static final String OBJECT_SEPARATOR = "---------";
-    private final LibraryBookRecordManager manager;
+    private final LibraryBookRecordManageable manager;
     private final LibraryBookRecordParser parser;
 
     private static final AppLogger logger = AppLogger.getInstance();
 
-    public FileLoadService(LibraryBookRecordManager manager, LibraryBookRecordParser parser) {
+    public FileLoadService(LibraryBookRecordManageable manager, LibraryBookRecordParser parser) {
         this.manager = manager;
         this.parser = parser;
     }
 
-    public LibraryBookRecordManager getManager() {
+    public LibraryBookRecordManageable getManager() {
         return manager;
     }
 

@@ -80,7 +80,7 @@ public class FileChooseController {
         try {
             FileLoadResult result = this.fileLoadService.loadFile(file);
             this.rawTextArea.setText(result.getContent());
-            this.bookTableModel.setRecords(this.fileLoadService.getManager().getBookRecords());
+            this.bookTableModel.setRecords(this.fileLoadService.getManager().getBookRecords().stream().toList());
             this.statusBarManager.setLoaded(file, result);
             this.logger.info(String.format(LogLabel.LOADED_FILE.getLabel(), file.getName()));
         } catch (FileNotFoundException e) {
@@ -106,7 +106,7 @@ public class FileChooseController {
     }
 
     public void handleShowAll() {
-        List<LibraryBookRecord> allRecords = this.fileLoadService.getManager().getBookRecords();
+        List<LibraryBookRecord> allRecords = this.fileLoadService.getManager().getBookRecords().stream().toList();
 
         if (allRecords.isEmpty()) {
             return;
@@ -128,7 +128,7 @@ public class FileChooseController {
     }
 
     public void handleValidationReport() {
-        List<LibraryBookRecord> records = this.fileLoadService.getManager().getBookRecords();
+        List<LibraryBookRecord> records = this.fileLoadService.getManager().getBookRecords().stream().toList();
         BookRecordValidator validator = new BookRecordValidator();
         List<ValidationResult> issues = validator.validate(records);
 
@@ -192,7 +192,7 @@ public class FileChooseController {
             );
 
             List<LibraryBookRecord> results = this.bookSearchService.searchBooks(
-                    this.fileLoadService.getManager().getBookRecords(),
+                    this.fileLoadService.getManager().getBookRecords().stream().toList(),
                     criteria
             );
 
@@ -239,6 +239,28 @@ public class FileChooseController {
             this.statusBarManager.setFound(total);
         } else {
             this.statusBarManager.setFiltered(visible, total);
+        }
+    }
+
+    public void handleFindByOclc() {
+        JPanel panel = new JPanel(new GridLayout(3, 2, 5, 5));
+        JTextField queryField = new JTextField(20);
+
+        panel.add(new JLabel("OCLC:"));
+        panel.add(queryField);
+        panel.add(new JLabel(""));
+
+        int result = JOptionPane.showConfirmDialog(this.parentFrame, panel, FrameLabel.DIALOG_SEARCH.getLabel(), JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION && !queryField.getText().isEmpty()) {
+            LibraryBookRecord record = this.fileLoadService.getManager().findByKey(queryField.getText());
+
+            if (record != null) {
+                this.bookTableModel.setRecords(List.of(record));
+                this.detailTextArea.setText(record.toString());
+            } else {
+                JOptionPane.showMessageDialog(this.parentFrame, "No records found", "Find by OCLC", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 }
