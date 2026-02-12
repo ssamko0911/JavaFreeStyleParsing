@@ -37,33 +37,6 @@ Caused by: java.io.FileNotFoundException: C:\Users\karap\Documents\wrwerwer (The
 	at services.FileLoadService.loadFile(FileLoadService.java:15)
 	... 29 more
 
-	 Map<String, Vector<String>> genreMap = new HashMap<>();
-
-      for (LibraryBookRecord record : manager.getBookRecords()) {
-          genreMap.computeIfAbsent(record.getGenre(), _ -> new Vector<>()).add(record.getOclcNumber());
-      }
-
-
-
-	  Vector<String> columns = new Vector<>(List.of("Genre", "OCLC Numbers", "Count"));
-
-      // Rows
-      Vector<Vector<Object>> rows = new Vector<>();
-      for (Map.Entry<String, Vector<String>> entry : genreMap.entrySet()) {
-          Vector<Object> row = new Vector<>();
-          row.add(entry.getKey());                        // "Fiction"
-          row.add(String.join(", ", entry.getValue()));    // "12345, 67890, 11111"
-          row.add(entry.getValue().size());                // 3
-          rows.add(row);
-      }
-
-      DefaultTableModel model = new DefaultTableModel(rows, columns);
-      JTable reportTable = new JTable(model);
-
-      JScrollPane scrollPane = new JScrollPane(reportTable);
-      scrollPane.setPreferredSize(new Dimension(500, 400));
-      JOptionPane.showMessageDialog(parentFrame, scrollPane, "Genre Report", JOptionPane.INFORMATION_MESSAGE);
-
       // BTN -> null
       SEVERE: An error occurred. Try again later.
       java.lang.NullPointerException: Cannot read field "parent" because "comp" is null
