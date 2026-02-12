@@ -36,3 +36,50 @@ Caused by: java.io.FileNotFoundException: C:\Users\karap\Documents\wrwerwer (The
 	at java.base/java.io.FileReader.<init>(FileReader.java:120)
 	at services.FileLoadService.loadFile(FileLoadService.java:15)
 	... 29 more
+
+	 Map<String, Vector<String>> genreMap = new HashMap<>();
+
+      for (LibraryBookRecord record : manager.getBookRecords()) {
+          genreMap.computeIfAbsent(record.getGenre(), _ -> new Vector<>()).add(record.getOclcNumber());
+      }
+
+
+
+	  Vector<String> columns = new Vector<>(List.of("Genre", "OCLC Numbers", "Count"));
+
+      // Rows
+      Vector<Vector<Object>> rows = new Vector<>();
+      for (Map.Entry<String, Vector<String>> entry : genreMap.entrySet()) {
+          Vector<Object> row = new Vector<>();
+          row.add(entry.getKey());                        // "Fiction"
+          row.add(String.join(", ", entry.getValue()));    // "12345, 67890, 11111"
+          row.add(entry.getValue().size());                // 3
+          rows.add(row);
+      }
+
+      DefaultTableModel model = new DefaultTableModel(rows, columns);
+      JTable reportTable = new JTable(model);
+
+      JScrollPane scrollPane = new JScrollPane(reportTable);
+      scrollPane.setPreferredSize(new Dimension(500, 400));
+      JOptionPane.showMessageDialog(parentFrame, scrollPane, "Genre Report", JOptionPane.INFORMATION_MESSAGE);
+
+      // BTN -> null
+      SEVERE: An error occurred. Try again later.
+      java.lang.NullPointerException: Cannot read field "parent" because "comp" is null
+      	at java.desktop/java.awt.Container.addImpl(Container.java:1117)
+      	at java.desktop/javax.swing.JToolBar.addImpl(JToolBar.java:571)
+      	at java.desktop/java.awt.Container.add(Container.java:438)
+      	at app.FileChooserApp.layoutComponents(FileChooserApp.java:144)
+      	at app.FileChooserApp.initAppComponents(FileChooserApp.java:62)
+      	at app.FileChooserApp.<init>(FileChooserApp.java:55)
+      	at Main.lambda$main$1(Main.java:24)
+      	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:323)
+      	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723)
+      	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:702)
+      	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+      	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+      	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+      	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+      	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+      	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
