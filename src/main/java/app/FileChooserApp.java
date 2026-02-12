@@ -66,8 +66,8 @@ public class FileChooserApp extends JFrame {
     private void initController() {
         StatusBarManager statusBarManager = new StatusBarManager(this.statusBar);
         FileLoadService fileLoadService = new FileLoadService(
-                //new LibraryBookRecordManager(),
-                new LibraryBookRecordManagerMapBased(),
+                new LibraryBookRecordManager(),
+                //new LibraryBookRecordManagerMapBased(),
                 new LibraryBookRecordParser(
                         new AuthorParser(),
                         new PhysicalDescriptionParser(),
@@ -141,7 +141,10 @@ public class FileChooserApp extends JFrame {
         this.toolBar.add(this.showAllButton);
         this.toolBar.addSeparator();
         this.toolBar.add(this.validationReportButton);
-        this.toolBar.add(this.findBuOclcButton);
+
+        if (this.findBuOclcButton != null) {
+            this.toolBar.add(this.findBuOclcButton);
+        }
 
         JScrollPane tableScrollPane = new JScrollPane(this.bookTable);
         JScrollPane detailScrollPane = new JScrollPane(this.detailTextArea);
