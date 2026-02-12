@@ -7,10 +7,7 @@ import entities.validation.ValidationIssue;
 import entities.validation.ValidationResult;
 import enums.*;
 import managers.StatusBarManager;
-import services.BookRecordValidator;
-import services.BookSearchService;
-import services.FileLoadResult;
-import services.FileLoadService;
+import services.*;
 import util.AppLogger;
 
 import javax.swing.*;
@@ -18,7 +15,10 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 public class FileChooseController {
     private final JFrame parentFrame;
@@ -28,6 +28,7 @@ public class FileChooseController {
     private final BookTableModel bookTableModel;
     private final JTextArea detailTextArea;
     private final JTextArea rawTextArea;
+    private final OclcReportByGenreService reportByGenreService;
 
     private final BookSearchService bookSearchService;
 
@@ -39,7 +40,9 @@ public class FileChooseController {
             BookTableModel bookTableModel,
             JTextArea detailTextArea,
             JTextArea rawTextArea,
-            BookSearchService bookSearchService) {
+            BookSearchService bookSearchService,
+            OclcReportByGenreService reportByGenreService
+    ) {
         this.parentFrame = parentFrame;
         this.statusBarManager = statusBarManager;
         this.fileLoadService = fileLoadService;
@@ -48,6 +51,7 @@ public class FileChooseController {
         this.detailTextArea = detailTextArea;
         this.rawTextArea = rawTextArea;
         this.bookSearchService = bookSearchService;
+        this.reportByGenreService = reportByGenreService;
     }
 
     public void handleFileSelection() {
@@ -261,6 +265,34 @@ public class FileChooseController {
             } else {
                 JOptionPane.showMessageDialog(this.parentFrame, "No records found", "Find by OCLC", JOptionPane.INFORMATION_MESSAGE);
             }
+        }
+    }
+
+    public void handleReportOclcByGenre() {
+        Map<String, Vector<String>> genreMap = new HashMap<>();
+
+        for (LibraryBookRecord record : this.fileLoadService.getManager().getBookRecords()) {
+            genreMap.computeIfAbsent(record.getGenre(), _ -> new Vector<>()).add(record.getOclcNumber());
+        }
+
+        JTable reportTable = this.reportByGenreService.generateReport(genreMap);
+
+        if (reportTable.getRowCount() != 0) {
+            JScrollPane scrollPane = new JScrollPane(reportTable);
+            scrollPane.setPreferredSize(new Dimension(600, 400));
+            JOptionPane.showMessageDialog(
+                    parentFrame,
+                    scrollPane,
+                    "OCLC Number by Genre Report",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        } else {
+            JOptionPane.showMessageDialog(
+                    this.parentFrame,
+                    "No records found to generate report",
+                    "No Report",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 }

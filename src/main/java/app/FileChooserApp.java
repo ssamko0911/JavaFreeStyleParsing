@@ -3,6 +3,7 @@ package app;
 import config.FileChooserAppConfig;
 import controllers.FileChooseController;
 import entities.BookTableModel;
+import entities.libraryItems.LibraryBookRecord;
 import enums.AppConfig;
 import enums.FrameLabel;
 import enums.LogLabel;
@@ -19,8 +20,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class FileChooserApp extends JFrame {
     private static final int APP_WIDTH = FileChooserAppConfig.getInt(AppConfig.APP_WIDTH);
@@ -79,6 +79,7 @@ public class FileChooserApp extends JFrame {
                 )
         );
         BookSearchService bookSearchService = new BookSearchService();
+        OclcReportByGenreService reportByGenreService = new OclcReportByGenreService();
         this.fileChooseController = new FileChooseController(
                 this,
                 statusBarManager,
@@ -87,7 +88,8 @@ public class FileChooserApp extends JFrame {
                 this.tableModel,
                 this.detailTextArea,
                 this.rawTextArea,
-                bookSearchService
+                bookSearchService,
+                reportByGenreService
         );
 
         if (fileLoadService.getManager().supportsLookupByKey()) {
@@ -97,7 +99,7 @@ public class FileChooserApp extends JFrame {
 
         if (fileLoadService.getManager().supportsReportByGenre()) {
             this.reportOclcByGenreButton = new JButton("Report by OCLC");
-            this.reportOclcByGenreButton.addActionListener(_ -> {});
+            this.reportOclcByGenreButton.addActionListener(_ -> this.fileChooseController.handleReportOclcByGenre());
         }
     }
 
