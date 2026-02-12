@@ -15,6 +15,8 @@ public interface LibraryBookRecordManageable {
 
     boolean supportsLookupByKey();
 
+    boolean supportsReportByGenre();
+
     default LibraryBookRecord findByKey(String key){
         return null;
     }

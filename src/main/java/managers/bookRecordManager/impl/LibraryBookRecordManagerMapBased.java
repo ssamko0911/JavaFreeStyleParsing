@@ -28,6 +28,11 @@ public class LibraryBookRecordManagerMapBased implements LibraryBookRecordManage
         return true;
     }
 
+    @Override
+    public boolean supportsReportByGenre() {
+        return true;
+    }
+
     public LibraryBookRecord findByKey(String key) {
         return this.bookRecords.get(key);
     }

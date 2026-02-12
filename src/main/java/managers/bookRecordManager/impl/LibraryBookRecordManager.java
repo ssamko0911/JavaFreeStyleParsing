@@ -29,4 +29,8 @@ public class LibraryBookRecordManager implements LibraryBookRecordManageable {
     public boolean supportsLookupByKey() {
         return false;
     }
+
+    public boolean supportsReportByGenre() {
+        return false;
+    }
 }
