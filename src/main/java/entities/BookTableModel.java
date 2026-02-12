@@ -58,7 +58,7 @@ public class BookTableModel extends AbstractTableModel {
     }
 
     public void clearRecords() {
-        this.records.clear();
+        this.records = new  ArrayList<>();
         fireTableDataChanged();
     }
 }
