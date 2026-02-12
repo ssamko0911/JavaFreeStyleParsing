@@ -35,6 +35,7 @@ public class FileChooserApp extends JFrame {
     private JButton searchButton;
     private JButton showAllButton;
     private JButton findBuOclcButton;
+    private JButton reportOclcByGenreButton;
     private JTable bookTable;
     private BookTableModel tableModel;
     private JTabbedPane detailTabbedPane;
@@ -66,8 +67,8 @@ public class FileChooserApp extends JFrame {
     private void initController() {
         StatusBarManager statusBarManager = new StatusBarManager(this.statusBar);
         FileLoadService fileLoadService = new FileLoadService(
-                new LibraryBookRecordManager(),
-                //new LibraryBookRecordManagerMapBased(),
+                //new LibraryBookRecordManager(),
+                new LibraryBookRecordManagerMapBased(),
                 new LibraryBookRecordParser(
                         new AuthorParser(),
                         new PhysicalDescriptionParser(),
@@ -92,6 +93,11 @@ public class FileChooserApp extends JFrame {
         if (fileLoadService.getManager().supportsLookupByKey()) {
             this.findBuOclcButton = new JButton("Find by OCLC");
             this.findBuOclcButton.addActionListener(_ -> this.fileChooseController.handleFindByOclc());
+        }
+
+        if (fileLoadService.getManager().supportsReportByGenre()) {
+            this.reportOclcByGenreButton = new JButton("Report by OCLC");
+            this.reportOclcByGenreButton.addActionListener(_ -> {});
         }
     }
 
@@ -144,6 +150,10 @@ public class FileChooserApp extends JFrame {
 
         if (this.findBuOclcButton != null) {
             this.toolBar.add(this.findBuOclcButton);
+        }
+
+        if (this.reportOclcByGenreButton != null) {
+            this.toolBar.add(this.reportOclcByGenreButton);
         }
 
         JScrollPane tableScrollPane = new JScrollPane(this.bookTable);
