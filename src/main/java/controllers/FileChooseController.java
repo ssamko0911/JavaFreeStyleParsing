@@ -11,6 +11,7 @@ import services.*;
 import util.AppLogger;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -276,10 +277,14 @@ public class FileChooseController {
         }
 
         JTable reportTable = this.reportByGenreService.generateReport(genreMap);
+        reportTable.getColumnModel().getColumn(1).setPreferredWidth(300);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        reportTable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
         if (reportTable.getRowCount() != 0) {
             JScrollPane scrollPane = new JScrollPane(reportTable);
-            scrollPane.setPreferredSize(new Dimension(600, 400));
+            scrollPane.setPreferredSize(new Dimension(700, 300));
             JOptionPane.showMessageDialog(
                     parentFrame,
                     scrollPane,
