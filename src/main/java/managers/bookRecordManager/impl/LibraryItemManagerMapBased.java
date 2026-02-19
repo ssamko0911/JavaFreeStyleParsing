@@ -1,11 +1,11 @@
 package managers.bookRecordManager.impl;
 
 import entities.libraryItems.LibraryBookRecord;
-import managers.bookRecordManager.LibraryBookRecordManageable;
+import managers.bookRecordManager.LibraryItemManageable;
 
 import java.util.*;
 
-public class LibraryBookRecordManagerMapBased implements LibraryBookRecordManageable {
+public class LibraryItemManagerMapBased implements LibraryItemManageable {
     private final Map<String, LibraryBookRecord> bookRecords = new HashMap<>();
 
     public void addRecord(LibraryBookRecord libraryBookRecord) {
@@ -35,5 +35,10 @@ public class LibraryBookRecordManagerMapBased implements LibraryBookRecordManage
 
     public LibraryBookRecord findByKey(String key) {
         return this.bookRecords.get(key);
+    }
+
+    @Override
+    public boolean hasLibraryRecord(LibraryBookRecord libraryItem) {
+        return this.bookRecords.containsValue(libraryItem);
     }
 }

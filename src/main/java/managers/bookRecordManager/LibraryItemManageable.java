@@ -1,10 +1,11 @@
 package managers.bookRecordManager;
 
 import entities.libraryItems.LibraryBookRecord;
+import entities.libraryItems.LibraryItem;
 
 import java.util.Collection;
 
-public interface LibraryBookRecordManageable {
+public interface LibraryItemManageable {
     void addRecord(LibraryBookRecord libraryBookRecord);
 
     Collection<LibraryBookRecord> getBookRecords();
@@ -20,4 +21,6 @@ public interface LibraryBookRecordManageable {
     default LibraryBookRecord findByKey(String key){
         return null;
     }
+
+    boolean hasLibraryRecord(LibraryBookRecord libraryItem);
 }

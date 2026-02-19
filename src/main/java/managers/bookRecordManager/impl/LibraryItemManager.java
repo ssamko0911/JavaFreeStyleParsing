@@ -1,13 +1,14 @@
 package managers.bookRecordManager.impl;
 
 import entities.libraryItems.LibraryBookRecord;
-import managers.bookRecordManager.LibraryBookRecordManageable;
+import entities.libraryItems.LibraryItem;
+import managers.bookRecordManager.LibraryItemManageable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class LibraryBookRecordManager implements LibraryBookRecordManageable {
+public class LibraryItemManager implements LibraryItemManageable {
     private final List<LibraryBookRecord> bookRecords = new ArrayList<>();
 
     public void addRecord(LibraryBookRecord libraryBookRecord) {
@@ -32,5 +33,9 @@ public class LibraryBookRecordManager implements LibraryBookRecordManageable {
 
     public boolean supportsReportByGenre() {
         return false;
+    }
+
+    public boolean hasLibraryRecord(LibraryBookRecord libraryItem) {
+        return this.bookRecords.contains(libraryItem);
     }
 }
