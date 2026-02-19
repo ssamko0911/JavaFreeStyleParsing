@@ -10,10 +10,8 @@ import java.io.File;
 public class StatusBarManager {
     private static final String WHITESPACE_PATTERN = "\\s+";
     private static final int FILENAME_LENGTH = 15;
-    // TODO: redundant with current layout, remove;
-    private static final String ELLIPSIS = "... ";
-    private static final String PLURAL_ITEMS_SENTENCE_END = "s.";
-    private static final String SINGULAR_ITEM_SENTENCE_END = ".";
+    private static final String PLURAL_ITEMS_SENTENCE_END = "s";
+    private static final String SINGULAR_ITEM_SENTENCE_END = "";
 
     private final JLabel statusBar;
 
@@ -52,22 +50,13 @@ public class StatusBarManager {
         this.statusBar.setText(error.getLabel());
     }
 
-    // TODO: have a check on resizing;
-    private String trimFileName(String fileName) {
-        if (fileName.length() > StatusBarManager.FILENAME_LENGTH) {
-            return fileName.substring(0, StatusBarManager.FILENAME_LENGTH) + StatusBarManager.ELLIPSIS;
-        }
-
-        return fileName;
-    }
-
     // TODO: add labels;
     public void setFound(int recordsFound) {
-        this.statusBar.setText(String.format("Search Result: %d book%s", recordsFound, recordsFound != 1 ? "s." : "."));
+        this.statusBar.setText(String.format("Search Result: %d item%s", recordsFound, recordsFound != 1 ? "s." : "."));
     }
 
     // TODO: add labels;
     public void setFiltered(int filtered, int total) {
-        this.statusBar.setText(String.format("Showing %d of %d books", filtered, total));
+        this.statusBar.setText(String.format("Showing %d of %d items", filtered, total));
     }
 }
