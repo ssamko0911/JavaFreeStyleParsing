@@ -1,4 +1,4 @@
-package managers.bookRecordManager;
+package managers.libraryRecordManager;
 
 import entities.libraryItems.LibraryItem;
 

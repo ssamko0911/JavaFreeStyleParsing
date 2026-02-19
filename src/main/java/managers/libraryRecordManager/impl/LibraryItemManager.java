@@ -1,7 +1,7 @@
-package managers.bookRecordManager.impl;
+package managers.libraryRecordManager.impl;
 
 import entities.libraryItems.LibraryItem;
-import managers.bookRecordManager.LibraryItemManageable;
+import managers.libraryRecordManager.LibraryItemManageable;
 
 import java.util.ArrayList;
 import java.util.Collection;

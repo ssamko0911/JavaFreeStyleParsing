@@ -7,13 +7,12 @@ import enums.AppConfig;
 import enums.FrameLabel;
 import enums.LogLabel;
 import managers.StatusBarManager;
-import managers.bookRecordManager.impl.LibraryItemManagerMapBased;
+import managers.libraryRecordManager.impl.LibraryItemManagerMapBased;
 import services.*;
 import services.parsers.*;
 import util.AppLogger;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;

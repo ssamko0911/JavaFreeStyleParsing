@@ -2,7 +2,7 @@ package services;
 
 import entities.libraryItems.LibraryItem;
 import enums.LogLabel;
-import managers.bookRecordManager.LibraryItemManageable;
+import managers.libraryRecordManager.LibraryItemManageable;
 import util.AppLogger;
 
 import java.io.*;

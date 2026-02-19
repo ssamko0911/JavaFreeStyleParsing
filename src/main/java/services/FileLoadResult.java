@@ -1,6 +1,6 @@
 package services;
 
-import managers.bookRecordManager.LibraryItemManageable;
+import managers.libraryRecordManager.LibraryItemManageable;
 
 public class FileLoadResult {
     private final String content;
