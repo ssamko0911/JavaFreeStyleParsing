@@ -27,7 +27,8 @@ public class FileChooserApp extends JFrame {
 
     private JPanel contentPane;
     private JToolBar toolBar;
-    private JButton chooseFileButton;
+    private JButton chooseBookFileButton;
+    private JButton chooseDvdFileButton;
     private JButton clearTextButton;
     private JButton validationReportButton;
     private JButton searchButton;
@@ -64,24 +65,35 @@ public class FileChooserApp extends JFrame {
 
     private void initController() {
         StatusBarManager statusBarManager = new StatusBarManager(this.statusBar);
-        FileLoadService fileLoadService = new FileLoadService(
-                //new LibraryBookRecordManager(),
-                new LibraryItemManagerMapBased(),
+        LibraryItemManagerMapBased sharedManager = new LibraryItemManagerMapBased();
+
+        TitleParser titleParser = new TitleParser();
+        IsbnParser isbnParser = new IsbnParser();
+
+        FileLoadService<?> bookLoadService = new FileLoadService<>(
+                sharedManager,
                 new LibraryBookRecordParser(
                         new AuthorParser(),
                         new PhysicalDescriptionParser(),
                         new PublisherParser(),
                         new PublicationYearParser(),
-                        new TitleParser(),
-                        new IsbnParser()
+                        titleParser,
+                        isbnParser
                 )
         );
+
+        FileLoadService<?> dvdLoadService = new FileLoadService<>(
+                sharedManager,
+                new LibraryDvdRecordParser(titleParser, isbnParser)
+        );
+
         BookSearchService bookSearchService = new BookSearchService();
         OclcReportByGenreService reportByGenreService = new OclcReportByGenreService();
         this.fileChooseController = new FileChooseController(
                 this,
                 statusBarManager,
-                fileLoadService,
+                bookLoadService,
+                dvdLoadService,
                 logger,
                 this.tableModel,
                 this.detailTextArea,
@@ -90,12 +102,12 @@ public class FileChooserApp extends JFrame {
                 reportByGenreService
         );
 
-        if (fileLoadService.getManager().supportsLookupByKey()) {
+        if (sharedManager.supportsLookupByKey()) {
             this.findBuOclcButton = new JButton("Find by OCLC");
             this.findBuOclcButton.addActionListener(_ -> this.fileChooseController.handleFindByOclc());
         }
 
-        if (fileLoadService.getManager().supportsReportByGenre()) {
+        if (sharedManager.supportsReportByGenre()) {
             this.reportOclcByGenreButton = new JButton("Report by OCLC");
             this.reportOclcByGenreButton.addActionListener(_ -> this.fileChooseController.handleReportOclcByGenre());
         }
@@ -107,7 +119,8 @@ public class FileChooserApp extends JFrame {
         this.toolBar = new JToolBar();
         this.toolBar.setFloatable(false);
 
-        this.chooseFileButton = new JButton(FrameLabel.CHOOSE_FILE.getLabel());
+        this.chooseBookFileButton = new JButton("Load Book File");
+        this.chooseDvdFileButton = new JButton("Load DVD File");
         this.clearTextButton = new JButton(FrameLabel.CLEAN_CONTENT.getLabel());
         this.validationReportButton = new JButton(FrameLabel.REPORT.getLabel());
         this.searchButton = new JButton(FrameLabel.SEARCH.getLabel());
@@ -137,7 +150,8 @@ public class FileChooserApp extends JFrame {
         this.setResizable(true);
         this.setMinimumSize(new Dimension(700, 450));
 
-        this.toolBar.add(this.chooseFileButton);
+        this.toolBar.add(this.chooseBookFileButton);
+        this.toolBar.add(this.chooseDvdFileButton);
         this.toolBar.add(this.clearTextButton);
         this.toolBar.add(this.searchButton);
         this.toolBar.add(this.showAllButton);
@@ -169,7 +183,8 @@ public class FileChooserApp extends JFrame {
     }
 
     private void attachListeners() {
-        this.chooseFileButton.addActionListener(_ -> this.fileChooseController.handleFileSelection());
+        this.chooseBookFileButton.addActionListener(_ -> this.fileChooseController.handleBookFileSelection());
+        this.chooseDvdFileButton.addActionListener(_ -> this.fileChooseController.handleDvdFileSelection());
         this.clearTextButton.addActionListener(_ -> this.fileChooseController.handleCleanContent());
         this.validationReportButton.addActionListener(_ -> this.fileChooseController.handleValidationReport());
         this.searchButton.addActionListener(_ -> this.fileChooseController.handleSearch());

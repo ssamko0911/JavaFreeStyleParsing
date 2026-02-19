@@ -25,7 +25,8 @@ import java.util.Vector;
 public class FileChooseController {
     private final JFrame parentFrame;
     private final StatusBarManager statusBarManager;
-    private final FileLoadService fileLoadService;
+    private final FileLoadService<?> bookLoadService;
+    private final FileLoadService<?> dvdLoadService;
     private final AppLogger logger;
     private final BookTableModel bookTableModel;
     private final JTextArea detailTextArea;
@@ -37,7 +38,8 @@ public class FileChooseController {
     public FileChooseController(
             JFrame parentFrame,
             StatusBarManager statusBarManager,
-            FileLoadService fileLoadService,
+            FileLoadService<?> bookLoadService,
+            FileLoadService<?> dvdLoadService,
             AppLogger logger,
             BookTableModel bookTableModel,
             JTextArea detailTextArea,
@@ -47,7 +49,8 @@ public class FileChooseController {
     ) {
         this.parentFrame = parentFrame;
         this.statusBarManager = statusBarManager;
-        this.fileLoadService = fileLoadService;
+        this.bookLoadService = bookLoadService;
+        this.dvdLoadService = dvdLoadService;
         this.logger = logger;
         this.bookTableModel = bookTableModel;
         this.detailTextArea = detailTextArea;
@@ -56,7 +59,15 @@ public class FileChooseController {
         this.reportByGenreService = reportByGenreService;
     }
 
-    public void handleFileSelection() {
+    public void handleBookFileSelection() {
+        this.selectAndLoadFile(this.bookLoadService);
+    }
+
+    public void handleDvdFileSelection() {
+        this.selectAndLoadFile(this.dvdLoadService);
+    }
+
+    private void selectAndLoadFile(FileLoadService<?> service) {
         JFileChooser fileChooser = new JFileChooser();
 
         if (fileChooser.showOpenDialog(this.parentFrame) == JFileChooser.APPROVE_OPTION) {
@@ -64,7 +75,7 @@ public class FileChooseController {
 
             if (file != null) {
                 this.logger.info(String.format(LogLabel.SELECT_FILE.getLabel(), fileChooser.getSelectedFile().getAbsolutePath()));
-                this.loadFile(file);
+                this.loadFile(file, service);
             }
         }
     }
@@ -73,19 +84,19 @@ public class FileChooseController {
         this.rawTextArea.setText("");
         this.detailTextArea.setText("");
         this.bookTableModel.clearRecords();
-        this.fileLoadService.getManager().clearRecords();
+        this.bookLoadService.getManager().clearRecords();
         this.statusBarManager.setReady();
         this.logger.info(FrameLabel.CLEAN_CONTENT.getLabel());
     }
 
-    private void loadFile(File file) {
+    private void loadFile(File file, FileLoadService<?> service) {
         this.statusBarManager.setLoading(file.getName());
         this.logger.info(String.format(LogLabel.LOAD_FILE.getLabel(), file.getAbsolutePath()));
 
         try {
-            FileLoadResult result = this.fileLoadService.loadFile(file);
+            FileLoadResult result = service.loadFile(file);
             this.rawTextArea.setText(result.getContent());
-            this.bookTableModel.setRecords(this.fileLoadService.getManager().getRecords().stream().toList());
+            this.bookTableModel.setRecords(service.getManager().getRecords().stream().toList());
             this.statusBarManager.setLoaded(file, result);
             this.logger.info(String.format(LogLabel.LOADED_FILE.getLabel(), file.getName()));
         } catch (FileNotFoundException e) {
@@ -111,7 +122,7 @@ public class FileChooseController {
     }
 
     public void handleShowAll() {
-        List<LibraryItem> allRecords = this.fileLoadService.getManager().getRecords().stream().toList();
+        List<LibraryItem> allRecords = this.bookLoadService.getManager().getRecords().stream().toList();
 
         if (allRecords.isEmpty()) {
             return;
@@ -133,7 +144,7 @@ public class FileChooseController {
     }
 
     public void handleValidationReport() {
-        List<LibraryBookRecord> records = this.fileLoadService.getManager().getRecords().stream()
+        List<LibraryBookRecord> records = this.bookLoadService.getManager().getRecords().stream()
                 .filter(LibraryBookRecord.class::isInstance)
                 .map(LibraryBookRecord.class::cast)
                 .toList();
@@ -200,7 +211,7 @@ public class FileChooseController {
             );
 
             List<LibraryBookRecord> results = this.bookSearchService.searchBooks(
-                    this.fileLoadService.getManager().getRecords().stream()
+                    this.bookLoadService.getManager().getRecords().stream()
                             .filter(LibraryBookRecord.class::isInstance)
                             .map(LibraryBookRecord.class::cast)
                             .toList(),
@@ -264,7 +275,7 @@ public class FileChooseController {
         int result = JOptionPane.showConfirmDialog(this.parentFrame, panel, FrameLabel.DIALOG_SEARCH.getLabel(), JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION && !queryField.getText().isEmpty()) {
-            LibraryItem record = this.fileLoadService.getManager().findByKey(queryField.getText());
+            LibraryItem record = this.bookLoadService.getManager().findByKey(queryField.getText());
 
             if (record != null) {
                 this.bookTableModel.setRecords(List.of(record));
@@ -278,7 +289,7 @@ public class FileChooseController {
     public void handleReportOclcByGenre() {
         Map<String, Vector<String>> genreMap = new HashMap<>();
 
-        for (LibraryItem record : this.fileLoadService.getManager().getRecords()) {
+        for (LibraryItem record : this.bookLoadService.getManager().getRecords()) {
             genreMap.computeIfAbsent(record.getGenre(), _ -> new Vector<>()).add(record.getOclcNumber());
         }
 
