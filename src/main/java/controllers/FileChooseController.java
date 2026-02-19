@@ -78,7 +78,6 @@ public class FileChooseController {
     }
 
     private void loadFile(File file) {
-        this.handleCleanContent();
         this.statusBarManager.setLoading(file.getName());
         this.logger.info(String.format(LogLabel.LOAD_FILE.getLabel(), file.getAbsolutePath()));
 
