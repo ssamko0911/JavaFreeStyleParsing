@@ -2,6 +2,7 @@ package entities.libraryItems;
 
 import entities.*;
 import enums.BookRecordFormat;
+import enums.RecordType;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,8 +19,12 @@ public class LibraryBookRecord extends LibraryItem {
         super();
     }
 
-    public LibraryBookRecord(String oclcNumber, Title title) {
-        super(oclcNumber, title);
+    public LibraryBookRecord(RecordType recordType) {
+        super(recordType);
+    }
+
+    public LibraryBookRecord(RecordType recordType, String oclcNumber, Title title) {
+        super(recordType, oclcNumber, title);
     }
 
     public List<Author> getAuthors() {

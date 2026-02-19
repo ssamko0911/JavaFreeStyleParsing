@@ -1,6 +1,7 @@
 package services.parsers;
 
 import entities.libraryItems.LibraryDvdRecord;
+import enums.RecordType;
 import services.LibraryItemParser;
 
 import java.util.Set;
@@ -42,7 +43,7 @@ public class LibraryDvdRecordParser implements LibraryItemParser<LibraryDvdRecor
 
     @Override
     public LibraryDvdRecord createRecord() {
-        return new LibraryDvdRecord();
+        return new LibraryDvdRecord(RecordType.DVD);
     }
 
     @Override

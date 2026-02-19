@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookTableModel extends AbstractTableModel {
-    private static final String[] COLUMN_NAMES = {"Title", "OCLC", "Genre", "ISBN"};
+    private static final String[] COLUMN_NAMES = {"Item type", "Title", "OCLC", "Genre", "ISBN"};
     private List<LibraryItem> records = new ArrayList<>();
 
     @Override
@@ -35,10 +35,11 @@ public class BookTableModel extends AbstractTableModel {
         LibraryItem record = this.records.get(rowIndex);
 
         return switch (columnIndex) {
-            case 0 -> record.getTitleAsString();
-            case 1 -> record.getOclcNumber();
-            case 2 -> record.getGenre();
-            case 3 -> record.getIsbnAsString();
+            case 0 -> record.getRecordTypeAsString();
+            case 1 -> record.getTitleAsString();
+            case 2 -> record.getOclcNumber();
+            case 3 -> record.getGenre();
+            case 4 -> record.getIsbnAsString();
             default -> null;
         };
     }

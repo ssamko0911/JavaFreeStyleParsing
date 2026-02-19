@@ -1,6 +1,7 @@
 package services.parsers;
 
 import entities.libraryItems.LibraryBookRecord;
+import enums.RecordType;
 import services.LibraryItemParser;
 
 import java.util.Set;
@@ -39,7 +40,7 @@ public class LibraryBookRecordParser implements LibraryItemParser<LibraryBookRec
 
     @Override
     public LibraryBookRecord createRecord() {
-        return new LibraryBookRecord();
+        return new LibraryBookRecord(RecordType.BOOK);
     }
 
     //TODO: Enhance PhysicalDescription parser;

@@ -2,8 +2,10 @@ package entities.libraryItems;
 
 import entities.IsbnNumber;
 import entities.Title;
+import enums.RecordType;
 
 public abstract class LibraryItem {
+    private RecordType recordType;
     private String oclcNumber;
     private Title title;
     private String genre;
@@ -12,9 +14,22 @@ public abstract class LibraryItem {
     public LibraryItem() {
     }
 
-    public LibraryItem(String oclcNumber, Title title) {
+    public LibraryItem(RecordType recordType) {
+        this.recordType = recordType;
+    }
+
+    public LibraryItem(RecordType recordType, String oclcNumber, Title title) {
+        this.recordType = recordType;
         this.oclcNumber = oclcNumber;
         this.title = title;
+    }
+
+    public RecordType getRecordType() {
+        return this.recordType;
+    }
+
+    public String getRecordTypeAsString() {
+        return this.recordType.toString();
     }
 
     public String getOclcNumber() {

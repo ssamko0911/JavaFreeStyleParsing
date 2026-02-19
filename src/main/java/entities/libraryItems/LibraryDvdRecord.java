@@ -1,6 +1,7 @@
 package entities.libraryItems;
 
 import enums.DvdRecordFormat;
+import enums.RecordType;
 
 public class LibraryDvdRecord extends LibraryItem{
     private String cast;
@@ -10,6 +11,10 @@ public class LibraryDvdRecord extends LibraryItem{
     private String language;
     private String publisher;
     private String physicalDescription;
+
+    public LibraryDvdRecord(RecordType recordType) {
+        super(recordType);
+    }
 
     public String getCast() {
         return cast;
