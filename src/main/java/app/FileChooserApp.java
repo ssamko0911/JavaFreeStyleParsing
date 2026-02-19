@@ -3,13 +3,11 @@ package app;
 import config.FileChooserAppConfig;
 import controllers.FileChooseController;
 import entities.BookTableModel;
-import entities.libraryItems.LibraryBookRecord;
 import enums.AppConfig;
 import enums.FrameLabel;
 import enums.LogLabel;
-import managers.bookRecordManager.impl.LibraryBookRecordManager;
 import managers.StatusBarManager;
-import managers.bookRecordManager.impl.LibraryBookRecordManagerMapBased;
+import managers.bookRecordManager.impl.LibraryItemManagerMapBased;
 import services.*;
 import services.parsers.*;
 import util.AppLogger;
@@ -68,7 +66,7 @@ public class FileChooserApp extends JFrame {
         StatusBarManager statusBarManager = new StatusBarManager(this.statusBar);
         FileLoadService fileLoadService = new FileLoadService(
                 //new LibraryBookRecordManager(),
-                new LibraryBookRecordManagerMapBased(),
+                new LibraryItemManagerMapBased(),
                 new LibraryBookRecordParser(
                         new AuthorParser(),
                         new PhysicalDescriptionParser(),
@@ -120,10 +118,6 @@ public class FileChooserApp extends JFrame {
         this.bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.bookTable.setAutoCreateRowSorter(true);
         this.bookTable.setForeground(Color.decode("#90EE90"));
-
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        this.bookTable.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
         this.detailTextArea = new JTextArea();
         this.detailTextArea.setForeground(Color.decode("#90EE90"));
