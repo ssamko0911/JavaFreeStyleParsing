@@ -1,10 +1,11 @@
 package services.parsers;
 
 import entities.libraryItems.LibraryBookRecord;
+import services.LibraryItemParser;
 
 import java.util.Set;
 
-public class LibraryBookRecordParser {
+public class LibraryBookRecordParser implements LibraryItemParser<LibraryBookRecord> {
     private final static String OCLC = "OCLC Number:";
     private final static String TITLE = "Title:";
     private final static String AUTHOR_PLURAL = "Authors:";
@@ -36,6 +37,11 @@ public class LibraryBookRecordParser {
     private final TitleParser titleParser;
     private final IsbnParser isbnParser;
 
+    @Override
+    public LibraryBookRecord createRecord() {
+        return new LibraryBookRecord();
+    }
+
     //TODO: Enhance PhysicalDescription parser;
     public LibraryBookRecordParser(
             AuthorParser authorParser,
@@ -44,7 +50,6 @@ public class LibraryBookRecordParser {
             PublicationYearParser publicationYearParser,
             TitleParser titleParser,
             IsbnParser isbnParser
-
     ) {
         this.authorParser = authorParser;
         this.physicalDescriptionParser = physicalDescriptionParser;

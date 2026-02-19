@@ -1,10 +1,8 @@
 package services;
 
-import entities.libraryItems.LibraryBookRecord;
+import entities.libraryItems.LibraryItem;
 import enums.LogLabel;
-import managers.bookRecordManager.LibraryBookRecordManageable;
-import managers.bookRecordManager.impl.LibraryBookRecordManager;
-import services.parsers.LibraryBookRecordParser;
+import managers.bookRecordManager.LibraryItemManageable;
 import util.AppLogger;
 
 import java.io.*;
@@ -12,37 +10,37 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileLoadService {
+public class FileLoadService<T extends LibraryItem> {
     private static final String OBJECT_SEPARATOR = "---------";
-    private final LibraryBookRecordManageable manager;
-    private final LibraryBookRecordParser parser;
+    private final LibraryItemManageable manager;
+    private final LibraryItemParser<T> parser;
 
     private static final AppLogger logger = AppLogger.getInstance();
 
-    public FileLoadService(LibraryBookRecordManageable manager, LibraryBookRecordParser parser) {
+    public FileLoadService(LibraryItemManageable manager, LibraryItemParser<T> parser) {
         this.manager = manager;
         this.parser = parser;
     }
 
-    public LibraryBookRecordManageable getManager() {
+    public LibraryItemManageable getManager() {
         return manager;
     }
 
     public FileLoadResult loadFile(File file) throws IOException {
         StringBuilder content = new StringBuilder();
-        List<LibraryBookRecord> records = this.parseRecords(file, content);
+        List<T> records = this.parseRecords(file, content);
 
-        records.forEach(this::addValidLibraryBookRecord);
-        FileLoadService.logger.info(String.format(LogLabel.TOTAL_RECORDS_LOG.getLabel(), this.manager.getBookRecordsCount()));
+        records.forEach(this::addValidRecord);
+        FileLoadService.logger.info(String.format(LogLabel.TOTAL_RECORDS_LOG.getLabel(), this.manager.getRecordsCount()));
 
         return new FileLoadResult(content.toString(), this.manager);
     }
 
-    private List<LibraryBookRecord> parseRecords(File file, StringBuilder content) throws IOException {
-        List<LibraryBookRecord> records = new ArrayList<>();
+    private List<T> parseRecords(File file, StringBuilder content) throws IOException {
+        List<T> records = new ArrayList<>();
 
         try (BufferedReader fileReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
-            LibraryBookRecord currentRecord = new LibraryBookRecord();
+            T currentRecord = parser.createRecord();
             String line;
 
             while ((line = fileReader.readLine()) != null) {
@@ -53,7 +51,7 @@ public class FileLoadService {
                         records.add(currentRecord);
                     }
 
-                    currentRecord = new LibraryBookRecord();
+                    currentRecord = parser.createRecord();
                 } else if (this.parser.isFieldLabel(line.trim())) {
                     String value = fileReader.readLine();
 
@@ -76,8 +74,8 @@ public class FileLoadService {
         }
     }
 
-    private void addValidLibraryBookRecord(LibraryBookRecord libraryBookRecord) {
-        this.manager.addRecord(libraryBookRecord);
-        FileLoadService.logger.info(LogLabel.NEW_RECORD_LOG.getLabel() + libraryBookRecord);
+    private void addValidRecord(T record) {
+        this.manager.addRecord(record);
+        FileLoadService.logger.info(LogLabel.NEW_RECORD_LOG.getLabel() + record);
     }
 }

@@ -1,13 +1,12 @@
 package services;
 
-import managers.bookRecordManager.LibraryBookRecordManageable;
-import managers.bookRecordManager.impl.LibraryBookRecordManager;
+import managers.bookRecordManager.LibraryItemManageable;
 
 public class FileLoadResult {
     private final String content;
-    private final LibraryBookRecordManageable libraryBookRecordManager;
+    private final LibraryItemManageable libraryBookRecordManager;
 
-    public FileLoadResult(String content, LibraryBookRecordManageable libraryBookRecordManager) {
+    public FileLoadResult(String content, LibraryItemManageable libraryBookRecordManager) {
         this.content = content;
         this.libraryBookRecordManager = libraryBookRecordManager;
     }
@@ -16,7 +15,7 @@ public class FileLoadResult {
         return content;
     }
 
-    public LibraryBookRecordManageable getLibraryBookRecordManager() {
+    public LibraryItemManageable getLibraryBookRecordManager() {
         return libraryBookRecordManager;
     }
 }

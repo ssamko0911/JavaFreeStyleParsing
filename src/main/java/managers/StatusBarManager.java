@@ -33,7 +33,7 @@ public class StatusBarManager {
         String content = result.getContent();
         long words = (content == null || content.isBlank()) ? 0 : content.split(StatusBarManager.WHITESPACE_PATTERN).length;
         long chars = content == null ? 0 : content.length();
-        long bookRecordsLoaded = result.getLibraryBookRecordManager().getBookRecordsCount();
+        long bookRecordsLoaded = result.getLibraryBookRecordManager().getRecordsCount();
 
         this.statusBar.setText(
                 String.format(

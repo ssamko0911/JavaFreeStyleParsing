@@ -85,7 +85,7 @@ public class FileChooseController {
         try {
             FileLoadResult result = this.fileLoadService.loadFile(file);
             this.rawTextArea.setText(result.getContent());
-            this.bookTableModel.setRecords(this.fileLoadService.getManager().getBookRecords().stream().toList());
+            this.bookTableModel.setRecords(this.fileLoadService.getManager().getRecords().stream().toList());
             this.statusBarManager.setLoaded(file, result);
             this.logger.info(String.format(LogLabel.LOADED_FILE.getLabel(), file.getName()));
         } catch (FileNotFoundException e) {
@@ -111,7 +111,7 @@ public class FileChooseController {
     }
 
     public void handleShowAll() {
-        List<LibraryBookRecord> allRecords = this.fileLoadService.getManager().getBookRecords().stream().toList();
+        List<LibraryItem> allRecords = this.fileLoadService.getManager().getRecords().stream().toList();
 
         if (allRecords.isEmpty()) {
             return;
@@ -133,7 +133,10 @@ public class FileChooseController {
     }
 
     public void handleValidationReport() {
-        List<LibraryBookRecord> records = this.fileLoadService.getManager().getBookRecords().stream().toList();
+        List<LibraryBookRecord> records = this.fileLoadService.getManager().getRecords().stream()
+                .filter(LibraryBookRecord.class::isInstance)
+                .map(LibraryBookRecord.class::cast)
+                .toList();
         BookRecordValidator validator = new BookRecordValidator();
         List<ValidationResult> issues = validator.validate(records);
 
@@ -197,7 +200,10 @@ public class FileChooseController {
             );
 
             List<LibraryBookRecord> results = this.bookSearchService.searchBooks(
-                    this.fileLoadService.getManager().getBookRecords().stream().toList(),
+                    this.fileLoadService.getManager().getRecords().stream()
+                            .filter(LibraryBookRecord.class::isInstance)
+                            .map(LibraryBookRecord.class::cast)
+                            .toList(),
                     criteria
             );
 
@@ -258,7 +264,7 @@ public class FileChooseController {
         int result = JOptionPane.showConfirmDialog(this.parentFrame, panel, FrameLabel.DIALOG_SEARCH.getLabel(), JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION && !queryField.getText().isEmpty()) {
-            LibraryBookRecord record = this.fileLoadService.getManager().findByKey(queryField.getText());
+            LibraryItem record = this.fileLoadService.getManager().findByKey(queryField.getText());
 
             if (record != null) {
                 this.bookTableModel.setRecords(List.of(record));
@@ -272,7 +278,7 @@ public class FileChooseController {
     public void handleReportOclcByGenre() {
         Map<String, Vector<String>> genreMap = new HashMap<>();
 
-        for (LibraryItem record : this.fileLoadService.getManager().getBookRecords()) {
+        for (LibraryItem record : this.fileLoadService.getManager().getRecords()) {
             genreMap.computeIfAbsent(record.getGenre(), _ -> new Vector<>()).add(record.getOclcNumber());
         }
 
