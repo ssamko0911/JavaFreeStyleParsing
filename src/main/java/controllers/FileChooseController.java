@@ -95,7 +95,7 @@ public class FileChooseController {
 
         try {
             FileLoadResult result = service.loadFile(file);
-            this.rawTextArea.setText(result.getContent());
+            this.rawTextArea.append(result.getContent());
             this.bookTableModel.setRecords(service.getManager().getRecords().stream().toList());
             this.statusBarManager.setLoaded(file, result);
             this.logger.info(String.format(LogLabel.LOADED_FILE.getLabel(), file.getName()));
