@@ -1,14 +1,14 @@
 package entities;
 
-import entities.libraryItems.LibraryBookRecord;
+import entities.libraryItems.LibraryItem;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookTableModel extends AbstractTableModel {
-    private static final String[] COLUMN_NAMES = {"Title", "Author(s)", "Publication Year", "Genre"};
-    private List<LibraryBookRecord> records = new ArrayList<>();
+    private static final String[] COLUMN_NAMES = {"Title", "OCLC", "Genre", "ISBN"};
+    private List<LibraryItem> records = new ArrayList<>();
 
     @Override
     public int getRowCount() {
@@ -27,33 +27,28 @@ public class BookTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int column) {
-        // Hardcoded publicationYear;
-        if (column == 2) {
-            return Integer.class;
-        }
-
         return String.class;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        LibraryBookRecord record = this.records.get(rowIndex);
+        LibraryItem record = this.records.get(rowIndex);
 
         return switch (columnIndex) {
             case 0 -> record.getTitleAsString();
-            case 1 -> record.getAuthorsAsString();
-            case 2 -> record.getPublicationYear();
-            case 3 -> record.getGenre();
+            case 1 -> record.getOclcNumber();
+            case 2 -> record.getGenre();
+            case 3 -> record.getIsbnAsString();
             default -> null;
         };
     }
 
-    public void setRecords(List<LibraryBookRecord> records) {
-        this.records = records;
+    public void setRecords(List<? extends LibraryItem> records) {
+        this.records = new ArrayList<>(records);
         fireTableDataChanged();
     }
 
-    public LibraryBookRecord getRecordAt(int row) {
+    public LibraryItem getRecordAt(int row) {
         return this.records.get(row);
     }
 

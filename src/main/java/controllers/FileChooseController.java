@@ -2,6 +2,7 @@ package controllers;
 
 import entities.BookTableModel;
 import entities.libraryItems.LibraryBookRecord;
+import entities.libraryItems.LibraryItem;
 import entities.search.SearchCriteria;
 import entities.validation.ValidationIssue;
 import entities.validation.ValidationResult;
@@ -104,7 +105,7 @@ public class FileChooseController {
             return;
         }
 
-        LibraryBookRecord record = this.bookTableModel.getRecordAt(modelRow);
+        LibraryItem record = this.bookTableModel.getRecordAt(modelRow);
         this.detailTextArea.setText(record.toString());
         this.detailTextArea.setCaretPosition(0);
     }
@@ -271,7 +272,7 @@ public class FileChooseController {
     public void handleReportOclcByGenre() {
         Map<String, Vector<String>> genreMap = new HashMap<>();
 
-        for (LibraryBookRecord record : this.fileLoadService.getManager().getBookRecords()) {
+        for (LibraryItem record : this.fileLoadService.getManager().getBookRecords()) {
             genreMap.computeIfAbsent(record.getGenre(), _ -> new Vector<>()).add(record.getOclcNumber());
         }
 
