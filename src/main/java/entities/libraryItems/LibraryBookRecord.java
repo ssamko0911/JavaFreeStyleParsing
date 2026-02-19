@@ -7,54 +7,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class LibraryBookRecord {
-    private String oclcNumber;
-    private Title title;
-    private String genre;
+public class LibraryBookRecord extends LibraryItem {
     private List<Author> authors;
     private String summary;
     private int publicationYear;
     private Publisher publisher;
     private PhysicalDescription physicalDescription;
-    private IsbnNumber isbn;
 
     public LibraryBookRecord() {
+        super();
     }
 
     public LibraryBookRecord(String oclcNumber, Title title) {
-        this.oclcNumber = oclcNumber;
-        this.title = title;
-    }
-
-    public String getOclcNumber() {
-        return oclcNumber;
-    }
-
-    public LibraryBookRecord setOclcNumber(String oclcNumber) {
-        this.oclcNumber = oclcNumber;
-        return this;
-    }
-
-    public Title getTitle() {
-        return title;
-    }
-
-    public String getTitleAsString() {
-        return this.title.toString();
-    }
-
-    public LibraryBookRecord setTitle(Title title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public LibraryBookRecord setGenre(String genre) {
-        this.genre = genre;
-        return this;
+        super(oclcNumber, title);
     }
 
     public List<Author> getAuthors() {
@@ -128,23 +93,6 @@ public class LibraryBookRecord {
         return this;
     }
 
-    public IsbnNumber getIsbn() {
-        return isbn;
-    }
-
-    public String getIsbnAsString() {
-        if (this.isbn == null) {
-            return "";
-        }
-
-        return this.isbn.toString();
-    }
-
-    public LibraryBookRecord setIsbn(IsbnNumber isbn) {
-        this.isbn = isbn;
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -153,30 +101,30 @@ public class LibraryBookRecord {
 
         LibraryBookRecord that = (LibraryBookRecord) o;
 
-        return Objects.equals(this.oclcNumber, that.oclcNumber) && Objects.equals(this.isbn, that.isbn);
+        return Objects.equals(this.getOclcNumber(), that.getOclcNumber()) && Objects.equals(this.getIsbn(), that.getIsbn());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.oclcNumber, this.isbn);
+        return Objects.hash(this.getOclcNumber(), this.getIsbn());
     }
 
     @Override
     public String toString() {
         return BookRecordFormat.TO_STRING.getLabel().formatted(
-                this.oclcNumber,
-                this.title,
+                this.getOclcNumber(),
+                this.getTitle(),
                 this.getAuthorsAsString(),
                 this.summary,
                 this.publicationYear,
                 this.getPublisherAsString(),
-                this.genre,
+                this.getGenre(),
                 this.getPhysicalDescriptionAsString(),
                 this.getIsbnAsString()
         );
     }
 
     public boolean isValid() {
-        return this.oclcNumber != null || this.isbn != null;
+        return this.getOclcNumber() != null || this.getIsbn() != null;
     }
 }
