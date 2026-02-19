@@ -1,27 +1,27 @@
 package managers.bookRecordManager.impl;
 
-import entities.libraryItems.LibraryBookRecord;
+import entities.libraryItems.LibraryItem;
 import managers.bookRecordManager.LibraryItemManageable;
 
 import java.util.*;
 
 public class LibraryItemManagerMapBased implements LibraryItemManageable {
-    private final Map<String, LibraryBookRecord> bookRecords = new HashMap<>();
+    private final Map<String, LibraryItem> records = new HashMap<>();
 
-    public void addRecord(LibraryBookRecord libraryBookRecord) {
-        bookRecords.put(libraryBookRecord.getOclcNumber(), libraryBookRecord);
+    public void addRecord(LibraryItem libraryItem) {
+        records.put(libraryItem.getOclcNumber(), libraryItem);
     }
 
-    public Collection<LibraryBookRecord> getBookRecords() {
-        return bookRecords.values();
+    public Collection<LibraryItem> getRecords() {
+        return records.values();
     }
 
-    public int getBookRecordsCount() {
-        return bookRecords.size();
+    public int getRecordsCount() {
+        return records.size();
     }
 
     public void clearRecords() {
-        bookRecords.clear();
+        records.clear();
     }
 
     public boolean supportsLookupByKey() {
@@ -33,12 +33,12 @@ public class LibraryItemManagerMapBased implements LibraryItemManageable {
         return true;
     }
 
-    public LibraryBookRecord findByKey(String key) {
-        return this.bookRecords.get(key);
+    public LibraryItem findByKey(String key) {
+        return this.records.get(key);
     }
 
     @Override
-    public boolean hasLibraryRecord(LibraryBookRecord libraryItem) {
-        return this.bookRecords.containsValue(libraryItem);
+    public boolean hasRecord(LibraryItem libraryItem) {
+        return this.records.containsKey(libraryItem.getOclcNumber());
     }
 }

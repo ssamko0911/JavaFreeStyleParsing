@@ -1,6 +1,5 @@
 package managers.bookRecordManager.impl;
 
-import entities.libraryItems.LibraryBookRecord;
 import entities.libraryItems.LibraryItem;
 import managers.bookRecordManager.LibraryItemManageable;
 
@@ -9,22 +8,22 @@ import java.util.Collection;
 import java.util.List;
 
 public class LibraryItemManager implements LibraryItemManageable {
-    private final List<LibraryBookRecord> bookRecords = new ArrayList<>();
+    private final List<LibraryItem> records = new ArrayList<>();
 
-    public void addRecord(LibraryBookRecord libraryBookRecord) {
-        bookRecords.add(libraryBookRecord);
+    public void addRecord(LibraryItem libraryItem) {
+        records.add(libraryItem);
     }
 
-    public Collection<LibraryBookRecord> getBookRecords() {
-        return bookRecords;
+    public Collection<LibraryItem> getRecords() {
+        return records;
     }
 
-    public int getBookRecordsCount() {
-        return bookRecords.size();
+    public int getRecordsCount() {
+        return records.size();
     }
 
     public void clearRecords() {
-        bookRecords.clear();
+        records.clear();
     }
 
     public boolean supportsLookupByKey() {
@@ -35,7 +34,7 @@ public class LibraryItemManager implements LibraryItemManageable {
         return false;
     }
 
-    public boolean hasLibraryRecord(LibraryBookRecord libraryItem) {
-        return this.bookRecords.contains(libraryItem);
+    public boolean hasRecord(LibraryItem libraryItem) {
+        return this.records.contains(libraryItem);
     }
 }

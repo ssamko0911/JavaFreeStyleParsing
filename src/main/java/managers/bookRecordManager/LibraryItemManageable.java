@@ -1,16 +1,15 @@
 package managers.bookRecordManager;
 
-import entities.libraryItems.LibraryBookRecord;
 import entities.libraryItems.LibraryItem;
 
 import java.util.Collection;
 
 public interface LibraryItemManageable {
-    void addRecord(LibraryBookRecord libraryBookRecord);
+    void addRecord(LibraryItem libraryItem);
 
-    Collection<LibraryBookRecord> getBookRecords();
+    Collection<LibraryItem> getRecords();
 
-    int getBookRecordsCount();
+    int getRecordsCount();
 
     void clearRecords();
 
@@ -18,9 +17,9 @@ public interface LibraryItemManageable {
 
     boolean supportsReportByGenre();
 
-    default LibraryBookRecord findByKey(String key){
+    default LibraryItem findByKey(String key) {
         return null;
     }
 
-    boolean hasLibraryRecord(LibraryBookRecord libraryItem);
+    boolean hasRecord(LibraryItem libraryItem);
 }
