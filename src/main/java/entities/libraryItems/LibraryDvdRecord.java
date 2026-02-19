@@ -1,6 +1,6 @@
 package entities.libraryItems;
 
-import enums.BookRecordFormat;
+import enums.DvdRecordFormat;
 
 public class LibraryDvdRecord extends LibraryItem{
     private String cast;
@@ -76,7 +76,7 @@ public class LibraryDvdRecord extends LibraryItem{
 
     @Override
     public String toString() {
-        return BookRecordFormat.TO_STRING.getLabel().formatted(
+        return DvdRecordFormat.TO_STRING.getLabel().formatted(
                 this.getOclcNumber(),
                 this.getTitle(),
                 this.getCast(),
