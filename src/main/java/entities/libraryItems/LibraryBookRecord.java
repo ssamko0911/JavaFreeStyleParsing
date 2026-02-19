@@ -124,7 +124,4 @@ public class LibraryBookRecord extends LibraryItem {
         );
     }
 
-    public boolean isValid() {
-        return this.getOclcNumber() != null || this.getIsbn() != null;
-    }
 }

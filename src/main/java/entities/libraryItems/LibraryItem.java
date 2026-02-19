@@ -62,4 +62,8 @@ public abstract class LibraryItem {
         this.isbn = isbn;
         return this;
     }
+
+    public boolean isValid() {
+        return this.oclcNumber != null || this.isbn != null;
+    }
 }
