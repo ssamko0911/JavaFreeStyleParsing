@@ -99,6 +99,8 @@ public class FileChooseController {
             this.bookTableModel.setRecords(service.getManager().getRecords().stream().toList());
             this.statusBarManager.setLoaded(file, result);
             this.logger.info(String.format(LogLabel.LOADED_FILE.getLabel(), file.getName()));
+        } catch (IllegalArgumentException e) {
+            this.showErrorDialog(ErrorLabel.WRONG_FILE);
         } catch (FileNotFoundException e) {
             this.statusBarManager.setError(ErrorLabel.FILE_NOT_FOUND);
             this.logger.severe(ErrorLabel.FILE_NOT_FOUND.getLabel(), e);

@@ -13,7 +13,8 @@ public enum ErrorLabel {
     PUBLICATION_YEAR_INVALID_VALUE("Invalid value for %s: %s"),
     IO_ERROR("Error reading file"),
     PARSE_ERROR("Error parsing file content"),
-    PARSE_ERROR_YEAR("Cannot parse the publisher: ");
+    PARSE_ERROR_YEAR("Cannot parse the publisher: "),
+    WRONG_FILE("Check the file you are trying to upload correspond to items: books or dvds.");
 
     private final String label;
 

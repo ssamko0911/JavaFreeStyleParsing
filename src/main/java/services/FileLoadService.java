@@ -1,19 +1,25 @@
 package services;
 
 import entities.libraryItems.LibraryItem;
+import enums.ErrorLabel;
 import enums.LogLabel;
 import managers.libraryRecordManager.LibraryItemManageable;
+import services.parsers.LibraryBookRecordParser;
+import services.parsers.LibraryDvdRecordParser;
 import util.AppLogger;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class FileLoadService<T extends LibraryItem> {
     private static final String OBJECT_SEPARATOR = "---------";
     private final LibraryItemManageable manager;
     private final LibraryItemParser<T> parser;
+    private static final String BOOK_KEY = "book";
+    private static final String DVD_KEY = "dvd";
 
     private static final AppLogger logger = AppLogger.getInstance();
 
@@ -27,6 +33,10 @@ public class FileLoadService<T extends LibraryItem> {
     }
 
     public FileLoadResult loadFile(File file) throws IOException {
+        if (!this.isValidFile(file)) {
+            throw new IllegalArgumentException();
+        }
+
         StringBuilder content = new StringBuilder();
         List<T> records = this.parseRecords(file, content);
 
@@ -77,5 +87,17 @@ public class FileLoadService<T extends LibraryItem> {
     private void addValidRecord(T record) {
         this.manager.addRecord(record);
         FileLoadService.logger.info(LogLabel.NEW_RECORD_LOG.getLabel() + record);
+    }
+
+    private boolean isValidFile(File file) {
+        if (file.getName().toLowerCase(Locale.ROOT).contains(FileLoadService.BOOK_KEY)) {
+            return this.parser.getClass().getName().equals(LibraryBookRecordParser.class.getName());
+        }
+
+        if (file.getName().toLowerCase(Locale.ROOT).contains(FileLoadService.DVD_KEY)) {
+            return this.parser.getClass().getName().equals(LibraryDvdRecordParser.class.getName());
+        }
+
+        return false;
     }
 }
